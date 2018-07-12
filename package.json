@@ -36,7 +36,13 @@
     "test": "npm run postinstall:web && ng test",
     "e2e": "npm run postinstall:web && ng e2e"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@fortawesome/angular-fontawesome": "^0.1.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.0",
+    "@fortawesome/free-solid-svg-icons": "^5.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^2.2.0",
+    "bootstrap": "^4.1.1"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",
     "@angular/cli": "6.0.5",

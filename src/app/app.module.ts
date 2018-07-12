@@ -13,22 +13,51 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+// Bootstrap
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 import { ElectronService } from './providers/electron.service';
 
 import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
+import { BrowserwindowComponent } from './components/home/components/browserwindow/browserwindow.component';
+import { QuickbarComponent } from './components/home/components/quickbar/quickbar.component';
+import { SidebarComponent } from './components/home/components/sidebar/sidebar.component';
+import { StatusbarComponent } from './components/home/components/statusbar/statusbar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+//Font Awesome
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlay, faPause, faCircle, faSquare, faArrowLeft, faArrowRight, faArrowAltCircleRight, faFastForward, faFastBackward, faStepForward, faStepBackward, faSync } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faPlay);
+library.add(faPause);
+library.add(faCircle);
+library.add(faSquare);
+library.add(faArrowLeft);
+library.add(faArrowRight);
+library.add(faSync);
+library.add(faFastForward);
+library.add(faFastBackward);
+library.add(faFastBackward);
+library.add(faStepForward);
+library.add(faStepBackward);
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    BrowserwindowComponent,
+    QuickbarComponent,
+    SidebarComponent,
+    StatusbarComponent,
     WebviewDirective
   ],
   imports: [
@@ -42,7 +71,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    })
+    }),
+    NgbModule.forRoot(),
+    FontAwesomeModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
