@@ -8,14 +8,15 @@ import { Component, ViewChild, AfterViewInit } from "@angular/core";
 export class BrowserwindowComponent implements AfterViewInit {
     @ViewChild('webview') webview: any;
 
-    url: String;
+    inputUrl: String;
+    webviewUrl: String;
 
-    constructor() { 
-        this.url = 'https://www.google.com'
+    constructor() {
+        this.webviewUrl = this.inputUrl = 'https://www.google.com';
     }
 
     ngAfterViewInit(): void {
-        this.webview = this.webview.nativeElement;
+        this.webview = this.webview.nativeElement;   
     }
 
     canGoBack(): boolean {
@@ -25,6 +26,8 @@ export class BrowserwindowComponent implements AfterViewInit {
     onBack(): void {
         if (this.canGoBack) {
             this.webview.goBack();
+            while (this.webview.isLoading()) { }
+            return this.inputUrl = this.webview.getURL();
         }
     }
 
@@ -35,22 +38,24 @@ export class BrowserwindowComponent implements AfterViewInit {
     onForward(): void {
         if (this.canGoForward) {
             this.webview.goForward();
+            while (this.webview.isLoading()) { }
+            return this.inputUrl = this.webview.getURL();
         }
     }
 
     onReload(): void {
         this.webview.reload();
+        this.inputUrl = this.webviewUrl;
     }
 
-    onUpdateWebView(): void {
-        let https: String = this.url.slice(0, 8).toLowerCase();
-        let http: String = this.url.slice(0, 7).toLowerCase();
-        if (https === 'https://') {
-            this.webview.loadURL(this.url);
-        } else if (http === 'http://') {
-            this.webview.loadURL(this.url);
-        } else {
-            this.webview.loadURL('https://' + this.url);
+    onUpdateWebviewUrl(): void {
+        let https: String = this.inputUrl.slice(0, 8).toLowerCase();
+        let http: String = this.inputUrl.slice(0, 7).toLowerCase();
+        if (https === 'https://' || http === 'http://') {
+            this.webviewUrl = this.inputUrl;
+        }
+        else {
+            this.webviewUrl = this.inputUrl = 'https://' + this.inputUrl;
         }
     }
 }

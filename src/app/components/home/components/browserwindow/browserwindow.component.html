@@ -12,12 +12,12 @@
                     <fa-icon icon="sync"></fa-icon>
                 </button>
             </div>
-            <input [(ngModel)]="url" type="text" class="form-control">
+            <input [(ngModel)]="inputUrl" (keyup.enter)="onUpdateWebviewUrl()" type="text" class="form-control">
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <webview #webview (keyup.enter)="onUpdateWebView()" [attr.src]="url"></webview>
+        <webview #webview [attr.src]="webviewUrl"></webview>
     </div>
 </div>
