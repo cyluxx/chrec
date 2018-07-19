@@ -1,9 +1,13 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
     selector: 'sidebar',
     templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent {
-    temp: String;
+    @Input() clickedElements: String[];
+
+    constructor(){
+
+    }
 }

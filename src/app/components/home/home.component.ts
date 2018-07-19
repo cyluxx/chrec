@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  clickedElements: String[];
+
+  constructor() { 
+    this.clickedElements = [];
+  }
 
   ngOnInit() {
   }
 
+  onClickedElement(selector: String){
+    this.clickedElements.push(selector);
+  }
 }
