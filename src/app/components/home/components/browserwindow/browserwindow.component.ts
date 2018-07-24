@@ -52,7 +52,9 @@ export class BrowserwindowComponent implements AfterViewInit {
     });
     this.webview.addEventListener('console-message', (e) => {
       console.log(e.message);
-      this.clickedElement.emit(e.message);
+      if (e.message.slice(0, 5) == 'html:') {
+        this.clickedElement.emit(e.message);
+      }
     })
   }
 

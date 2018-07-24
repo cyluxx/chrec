@@ -41,7 +41,9 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.0",
     "@fortawesome/free-solid-svg-icons": "^5.1.0",
     "@ng-bootstrap/ng-bootstrap": "^2.2.0",
-    "bootstrap-scss": "^4.1.1"
+    "@types/webdriverio": "^4.10.3",
+    "bootstrap-scss": "^4.1.1",
+    "webdriverio": "^4.13.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",
