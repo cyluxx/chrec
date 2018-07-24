@@ -1,12 +1,10 @@
-import * as WebdriverIO from 'webdriverio';
+import { remote, Options } from 'webdriverio';
 import { Injectable } from '../../../node_modules/@angular/core';
 
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class WebdriverService {
-    options: WebdriverIO.Options = {
+    options: Options = {
         desiredCapabilities: {
             browserName: 'chromium'
         }
@@ -15,8 +13,7 @@ export class WebdriverService {
     constructor() { }
 
     test(): void {
-        WebdriverIO
-            .remote(this.options)
+        remote(this.options)
             .init()
             .url('http://www.google.com')
             .getTitle().then(function (title) {
@@ -28,5 +25,3 @@ export class WebdriverService {
             });
     }
 }
-
-
