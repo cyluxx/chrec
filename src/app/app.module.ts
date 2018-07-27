@@ -18,9 +18,6 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ElectronService } from "./providers/electron.service";
 
-// Services
-import { WebdriverService } from "./service/webdriver.service";
-
 import { WebviewDirective } from "./directives/webview.directive";
 
 import { AppComponent } from "./app.component";
@@ -90,7 +87,7 @@ library.add(faStepBackward);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, WebdriverService],
+  providers: [ElectronService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
