@@ -1,30 +1,23 @@
 import { Component, OnInit } from "@angular/core";
-
-import * as cp from 'child_process';
+import { WebdriverioService } from "../../../../providers/webdriverio.service";
 
 @Component({
     selector: 'quickbar',
-    templateUrl: './quickbar.component.html'
+    templateUrl: './quickbar.component.html',
+    providers: [WebdriverioService],
 })
-export class QuickbarComponent implements OnInit{
-    
+export class QuickbarComponent implements OnInit {
+    webdriverioService: WebdriverioService;
+
+    constructor(webdriverioService: WebdriverioService){
+        this.webdriverioService = webdriverioService;
+    }
+
     ngOnInit(): void {
         this.onPlay();
     }
 
-    onPlay(){
-        let child = cp.spawn('node ' + './test.js');
-        child.stdout.on('data', function(data) {
-            console.log('stdout: ' + data);
-            //Here is where the output goes
-        });
-        child.stderr.on('data', function(data) {
-            console.log('stderr: ' + data);
-            //Here is where the error output goes
-        });
-        child.on('close', function(code) {
-            console.log('closing code: ' + code);
-            //Here you can get the exit code of the script
-        });
+    onPlay() {
+        
     }
 }

@@ -17,6 +17,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ElectronService } from "./providers/electron.service";
+import { WebdriverioService } from "./providers/webdriverio.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
@@ -87,7 +88,7 @@ library.add(faStepBackward);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService],
+  providers: [ElectronService, WebdriverioService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
