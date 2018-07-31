@@ -1,5 +1,6 @@
 import { Component, ViewChild, AfterViewInit, Output, EventEmitter } from "@angular/core";
 import { WebviewTag } from "electron";
+import { ContentScriptService } from "../../../../providers/content-script.service";
 
 @Component({
   selector: "browserwindow",
@@ -7,6 +8,9 @@ import { WebviewTag } from "electron";
   styleUrls: ["./browserwindow.component.scss"]
 })
 export class BrowserwindowComponent implements AfterViewInit {
+  contentScriptService: ContentScriptService;
+  contentScript: string;
+
   @ViewChild("webview") tag: any;
   webview: WebviewTag;
 
@@ -15,40 +19,16 @@ export class BrowserwindowComponent implements AfterViewInit {
 
   @Output() clickedElement = new EventEmitter<String>();
 
-  constructor() {
+  constructor(contentScriptService: ContentScriptService) {
     this.webviewUrl = this.inputUrl = "https://www.google.com";
+    this.contentScriptService = contentScriptService;
+    this.contentScript = this.contentScriptService.read();
   }
 
   ngAfterViewInit(): void {
     this.webview = (this.tag.nativeElement) as WebviewTag;
     this.webview.addEventListener("dom-ready", () => {
-      this.webview.executeJavaScript(
-        `
-        var cssPath = function(el) {
-          if (!(el instanceof Element)) return;
-          var path = [];
-          while (el.nodeType === Node.ELEMENT_NODE) {
-              var selector = el.nodeName.toLowerCase();
-              if (el.id) {
-                  selector += '#' + el.id;
-              } else {
-                  var sib = el, nth = 1;
-                  while (sib.nodeType === Node.ELEMENT_NODE && (sib = sib.previousSibling) && nth++);
-                  selector += ":nth-child("+nth+")";
-              }
-              path.unshift(selector);
-              el = el.parentNode;
-          }
-          return path.join(" > ");
-        }
-
-        document.addEventListener('click', function(e) {
-            e = e || window.event;
-            var target = e.target || e.srcElement;
-            console.log(cssPath(target).toString());
-        }, false);
-        `
-      );
+      this.webview.executeJavaScript(this.contentScript);
     });
     this.webview.addEventListener('console-message', (e) => {
       console.log(e.message);
