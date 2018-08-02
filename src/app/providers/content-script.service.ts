@@ -8,6 +8,6 @@ export class ContentScriptService {
     }
 
     read(): string{
-        return fs.readFileSync('./content-scripts/test.js','utf-8');
+        return fs.readFileSync('./content-scripts/content-scripts.js','utf-8');
     }
 }

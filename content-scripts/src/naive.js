@@ -1,3 +1,4 @@
+//naive method
 var cssPath = function (el) {
     if (!(el instanceof Element)) return;
     var path = [];
