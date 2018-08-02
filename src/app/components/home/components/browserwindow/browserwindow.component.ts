@@ -29,13 +29,16 @@ export class BrowserwindowComponent implements AfterViewInit {
     this.webview = (this.tag.nativeElement) as WebviewTag;
     this.webview.addEventListener("dom-ready", () => {
       this.webview.executeJavaScript(this.contentScript);
+      this.webview.addEventListener('ipc-message', (e) => {
+        console.log(e.channel);
+        if (e.channel.slice(0, 5) == 'html:') {
+          this.clickedElement.emit(e.channel);
+        }
+      })
+      console.log('sending ping...');
+      this.webview.send('ping');
+      this.webview.openDevTools();
     });
-    this.webview.addEventListener('console-message', (e) => {
-      console.log(e.message);
-      if (e.message.slice(0, 5) == 'html:') {
-        this.clickedElement.emit(e.message);
-      }
-    })
   }
 
   canGoBack(): boolean {
