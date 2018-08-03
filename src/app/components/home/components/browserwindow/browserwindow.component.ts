@@ -1,5 +1,5 @@
-import { Component, ViewChild, AfterViewInit, Output, EventEmitter } from "@angular/core";
-import { WebviewTag } from "electron";
+import { Component, ViewChild, AfterViewInit, Output, EventEmitter, OnDestroy } from "@angular/core";
+import { WebviewTag, IpcMessageEvent } from "electron";
 import * as path from 'path';
 
 @Component({
@@ -7,11 +7,12 @@ import * as path from 'path';
   templateUrl: "./browserwindow.component.html",
   styleUrls: ["./browserwindow.component.scss"]
 })
-export class BrowserwindowComponent implements AfterViewInit {
+export class BrowserwindowComponent implements AfterViewInit, OnDestroy {
   preloadScriptPath: string;
 
   @ViewChild("webview") tag: any;
   webview: WebviewTag;
+  ipcMessageEvent: (event: IpcMessageEvent) => void;
 
   inputUrl: String;
   webviewUrl: String;
@@ -21,15 +22,16 @@ export class BrowserwindowComponent implements AfterViewInit {
   constructor() {
     this.webviewUrl = this.inputUrl = "https://www.google.com";
     this.preloadScriptPath = path.resolve(__dirname, '../../../../../../webview-preload.js'); //TODO resolve path hell
+    this.ipcMessageEvent = (e) => {
+      console.log(e.channel);
+      this.clickedElement.emit(e.channel);
+    };
   }
 
   ngAfterViewInit(): void {
     this.webview = (this.tag.nativeElement) as WebviewTag;
-    this.webview.addEventListener("dom-ready", () => {
-      this.webview.addEventListener('ipc-message', (e) => {
-        console.log(e.channel);
-        this.clickedElement.emit(e.channel);
-      });
+    this.webview.addEventListener('dom-ready', () => {
+      this.webview.addEventListener('ipc-message', this.ipcMessageEvent);
       console.log('sending ping...');
       this.webview.send('ping');
       this.webview.openDevTools();
@@ -75,5 +77,9 @@ export class BrowserwindowComponent implements AfterViewInit {
     } else {
       this.webviewUrl = this.inputUrl = "https://" + this.inputUrl;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.webview.removeEventListener('ipc-message', this.ipcMessageEvent);
   }
 }
