@@ -1,6 +1,6 @@
 import { Component, ViewChild, AfterViewInit, Output, EventEmitter } from "@angular/core";
 import { WebviewTag } from "electron";
-import { ContentScriptService } from "../../../../providers/content-script.service";
+import * as path from 'path';
 
 @Component({
   selector: "browserwindow",
@@ -8,8 +8,7 @@ import { ContentScriptService } from "../../../../providers/content-script.servi
   styleUrls: ["./browserwindow.component.scss"]
 })
 export class BrowserwindowComponent implements AfterViewInit {
-  contentScriptService: ContentScriptService;
-  contentScript: string;
+  preloadScriptPath: string;
 
   @ViewChild("webview") tag: any;
   webview: WebviewTag;
@@ -19,22 +18,18 @@ export class BrowserwindowComponent implements AfterViewInit {
 
   @Output() clickedElement = new EventEmitter<String>();
 
-  constructor(contentScriptService: ContentScriptService) {
+  constructor() {
     this.webviewUrl = this.inputUrl = "https://www.google.com";
-    this.contentScriptService = contentScriptService;
-    this.contentScript = this.contentScriptService.read();
+    this.preloadScriptPath = path.resolve(__dirname, '../../../../../../webview-preload.js'); //TODO resolve path hell
   }
 
   ngAfterViewInit(): void {
     this.webview = (this.tag.nativeElement) as WebviewTag;
     this.webview.addEventListener("dom-ready", () => {
-      this.webview.executeJavaScript(this.contentScript);
       this.webview.addEventListener('ipc-message', (e) => {
         console.log(e.channel);
-        if (e.channel.slice(0, 5) == 'html:') {
-          this.clickedElement.emit(e.channel);
-        }
-      })
+        this.clickedElement.emit(e.channel);
+      });
       console.log('sending ping...');
       this.webview.send('ping');
       this.webview.openDevTools();

@@ -18,6 +18,6 @@
 </div>
 <div class="row">
     <div class="col">
-        <webview #webview [attr.src]="webviewUrl" preload="file://./webview-preload.js"></webview>
+        <webview #webview [attr.src]="webviewUrl" [attr.preload]="preloadScriptPath"></webview>
     </div>
 </div>
