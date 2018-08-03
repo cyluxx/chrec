@@ -12,7 +12,7 @@ export class BrowserwindowComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild("webview") tag: any;
   webview: WebviewTag;
-  ipcMessageEvent: (event: IpcMessageEvent) => void;
+  ipcMessageEventFunction: (ipcMessageEvent: IpcMessageEvent) => void;
 
   inputUrl: String;
   webviewUrl: String;
@@ -22,16 +22,16 @@ export class BrowserwindowComponent implements AfterViewInit, OnDestroy {
   constructor() {
     this.webviewUrl = this.inputUrl = "https://www.google.com";
     this.preloadScriptPath = path.resolve(__dirname, '../../../../../../webview-preload.js'); //TODO resolve path hell
-    this.ipcMessageEvent = (e) => {
-      console.log(e.channel);
-      this.clickedElement.emit(e.channel);
+    this.ipcMessageEventFunction = (ipcMessageEvent: IpcMessageEvent) => {
+      console.log(ipcMessageEvent.channel);
+      this.clickedElement.emit(ipcMessageEvent.channel);
     };
   }
 
   ngAfterViewInit(): void {
     this.webview = (this.tag.nativeElement) as WebviewTag;
     this.webview.addEventListener('dom-ready', () => {
-      this.webview.addEventListener('ipc-message', this.ipcMessageEvent);
+      this.webview.addEventListener('ipc-message', this.ipcMessageEventFunction);
       console.log('sending ping...');
       this.webview.send('ping');
       this.webview.openDevTools();
@@ -80,6 +80,6 @@ export class BrowserwindowComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.webview.removeEventListener('ipc-message', this.ipcMessageEvent);
+    this.webview.removeEventListener('ipc-message', this.ipcMessageEventFunction);
   }
 }
