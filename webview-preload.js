@@ -31,3 +31,9 @@ document.addEventListener('click', function (e) {
     var target = e.target || e.srcElement;
     ipcRenderer.sendToHost(cssPath(target).toString());
 }, false);
+
+document.addEventListener('keydown', function (e){
+    if(e.keyCode !== 9){
+        ipcRenderer.sendToHost(String.fromCharCode(e.keyCode));
+    }
+});
