@@ -1,16 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { WebdriverioService } from "../../../../providers/webdriverio.service";
+import { SeleniumService } from "../../../../providers/selenium.service";
 
 @Component({
     selector: 'quickbar',
     templateUrl: './quickbar.component.html',
-    providers: [WebdriverioService],
+    providers: [SeleniumService],
 })
 export class QuickbarComponent implements OnInit {
-    webdriverioService: WebdriverioService;
+    seleniumService: SeleniumService;
 
-    constructor(webdriverioService: WebdriverioService){
-        this.webdriverioService = webdriverioService;
+    constructor(seleniumService: SeleniumService){
+        this.seleniumService = seleniumService;
     }
 
     ngOnInit(): void {
@@ -18,6 +19,6 @@ export class QuickbarComponent implements OnInit {
     }
 
     onPlay() {
-        
+        this.seleniumService.test();
     }
 }
