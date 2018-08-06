@@ -12,12 +12,12 @@
                     <fa-icon icon="sync"></fa-icon>
                 </button>
             </div>
-            <input [(ngModel)]="inputUrl" (keyup.enter)="onUpdateWebviewUrl()" type="text" class="form-control">
+            <input [(ngModel)]="inputUrl" (keyup.enter)="onLoadUrl()" type="text" class="form-control">
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <webview #webview [attr.src]="webviewUrl" [attr.preload]="preloadScriptPath"></webview>
+        <webview #webview (actionEmitter)="onAction($event)" [attr.preload]="preloadScriptPath"></webview>
     </div>
 </div>

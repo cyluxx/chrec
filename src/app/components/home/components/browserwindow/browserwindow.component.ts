@@ -1,40 +1,34 @@
-import { Component, ViewChild, AfterViewInit, Output, EventEmitter, OnDestroy } from "@angular/core";
-import { WebviewTag, IpcMessageEvent } from "electron";
+import { Component, Output, EventEmitter, ViewChild, Input, AfterViewInit } from "@angular/core";
+import { Action, Type } from "../../../../model/action";
 import * as path from 'path';
+import { WebviewTag } from "electron";
+import { RecorderState } from "../../../../model/recorder-state";
 
 @Component({
   selector: "browserwindow",
   templateUrl: "./browserwindow.component.html",
   styleUrls: ["./browserwindow.component.scss"]
 })
-export class BrowserwindowComponent implements AfterViewInit, OnDestroy {
-  preloadScriptPath: string;
-
+export class BrowserwindowComponent implements AfterViewInit {
   @ViewChild("webview") tag: any;
   webview: WebviewTag;
-  ipcMessageEventFunction: (ipcMessageEvent: IpcMessageEvent) => void;
 
-  inputUrl: String;
-  webviewUrl: String;
+  preloadScriptPath: string;
+  inputUrl: string;
 
-  @Output() clickedElement = new EventEmitter<String>();
+  @Input() recorderState: RecorderState;
+
+  @Output() actionEmitter = new EventEmitter<Action>();
 
   constructor() {
-    this.webviewUrl = this.inputUrl = "https://www.google.com";
     this.preloadScriptPath = path.resolve(__dirname, '../../../../../../webview-preload.js'); //TODO resolve path hell
-    this.ipcMessageEventFunction = (ipcMessageEvent: IpcMessageEvent) => {
-      console.log(ipcMessageEvent.channel);
-      this.clickedElement.emit(ipcMessageEvent.channel);
-    };
+    this.inputUrl = "";
   }
 
   ngAfterViewInit(): void {
     this.webview = (this.tag.nativeElement) as WebviewTag;
-    this.webview.addEventListener('dom-ready', () => {
-      this.webview.addEventListener('ipc-message', this.ipcMessageEventFunction);
-      console.log('sending ping...');
-      this.webview.send('ping');
-      this.webview.openDevTools();
+    this.webview.addEventListener("dom-ready", () => {
+      this.inputUrl = this.webview.getURL();
     });
   }
 
@@ -45,9 +39,12 @@ export class BrowserwindowComponent implements AfterViewInit, OnDestroy {
   onBack(): void {
     if (this.canGoBack) {
       this.webview.goBack();
-      this.webview.addEventListener("dom-ready", () => {
-        this.inputUrl = this.webview.getURL();
-      });
+      if (this.recorderState == RecorderState.record) {
+        let action: Action = new Action();
+        action.type = Type.back;
+        action.url = this.webview.getURL();
+        this.actionEmitter.emit(action);
+      }
     }
   }
 
@@ -58,28 +55,47 @@ export class BrowserwindowComponent implements AfterViewInit, OnDestroy {
   onForward(): void {
     if (this.canGoForward) {
       this.webview.goForward();
-      this.webview.addEventListener("dom-ready", () => {
-        this.inputUrl = this.webview.getURL();
-      });
+      if (this.recorderState == RecorderState.record) {
+        let action: Action = new Action();
+        action.type = Type.forward;
+        action.url = this.webview.getURL();
+        this.actionEmitter.emit(action);
+      }
     }
   }
 
   onReload(): void {
     this.webview.reload();
-    this.inputUrl = this.webviewUrl;
-  }
-
-  onUpdateWebviewUrl(): void {
-    let https: String = this.inputUrl.slice(0, 8).toLowerCase();
-    let http: String = this.inputUrl.slice(0, 7).toLowerCase();
-    if (https === "https://" || http === "http://") {
-      this.webviewUrl = this.inputUrl;
-    } else {
-      this.webviewUrl = this.inputUrl = "https://" + this.inputUrl;
+    if (this.recorderState == RecorderState.record) {
+      let action: Action = new Action();
+      action.type = Type.refresh;
+      action.url = this.webview.getURL();
+      this.actionEmitter.emit(action);
     }
   }
 
-  ngOnDestroy(): void {
-    this.webview.removeEventListener('ipc-message', this.ipcMessageEventFunction);
+  onLoadUrl(): void {
+    this.webview.loadURL(this.inputUrl);
+    if (this.recorderState == RecorderState.record) {
+      let action: Action = new Action();
+      action.type = Type.goto;
+      action.url = this.webview.getURL();
+      this.actionEmitter.emit(action);
+    }
+  }
+
+  onAction(action: Action) {
+    if (this.recorderState == RecorderState.record) {
+      this.actionEmitter.emit(action);
+    }
+  }
+
+  _autocorrectInputUrl(): void {
+    let https: string = this.inputUrl.slice(0, 8).toLowerCase();
+    let http: string = this.inputUrl.slice(0, 7).toLowerCase();
+    let localhost: string = this.inputUrl.slice(0, 9).toLowerCase();
+    if (https == "https://" || http == "http://" || localhost == "localhost") {
+      this.inputUrl = "https://" + this.inputUrl;
+    }
   }
 }

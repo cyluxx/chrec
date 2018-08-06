@@ -1,6 +1,14 @@
 <ul class="list-group list-group-flush">
-    <li *ngFor="let clickedElement of clickedElements" class="list-group-item">
-        <h5 class="mb-1">Click:</h5>
-        <p>{{clickedElement}}</p>
+    <li *ngFor="let action of actions; let i = index" class="list-group-item">
+        <h5 class="mb-1">{{i}}: {{action.type}}</h5>
+        <small *ngIf="action.selector">
+            selector: {{action.selector}}
+        </small>
+        <small *ngIf="action.value">
+            value: {{action.value}}
+        </small>
+        <small *ngIf="action.url">
+            url: {{action.url}}
+        </small>
     </li>
 </ul>

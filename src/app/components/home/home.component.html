@@ -1,16 +1,15 @@
 <div class="container-fluid">
   <div class="row mt-3">
     <div class="col">
-      <quickbar></quickbar>
+      <quickbar (recorderStateEmitter)="onRecorderState($event)" [actions]="actions"></quickbar>
     </div>
   </div>
   <div class="row mt-3">
     <div class="col-3">
-      <sidebar [clickedElements]="clickedElements"></sidebar>
+      <sidebar [actions]="actions"></sidebar>
     </div>
-    <div class="col-9">
-      <browserwindow (clickedElement)="onClickedElement($event)"></browserwindow>
+    <div class="col-9" [class.recording]="isRecording()">
+      <browserwindow [recorderState]="recorderState" (actionEmitter)="onAction($event)"></browserwindow>
     </div>
   </div>
-  <statusbar></statusbar>
 </div>

@@ -1,39 +1,44 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer } = require('electron');
+const CssSelectorGenerator = require('css-selector-generator').CssSelectorGenerator;
 
-console.log('webview preload loaded');
-ipcRenderer.on('ping', () => {
-    console.log('ping');
-    console.log('sending pong...');
-    ipcRenderer.sendToHost('pong');
-})
-
-//naive method
-var cssPath = function (el) {
-    if (!(el instanceof Element)) return;
-    var path = [];
-    while (el.nodeType === Node.ELEMENT_NODE) {
-        var selector = el.nodeName.toLowerCase();
-        if (el.id) {
-            selector += '#' + el.id;
-        } else {
-            var sib = el, nth = 1;
-            while (sib.nodeType === Node.ELEMENT_NODE && (sib = sib.previousSibling) && nth++);
-            selector += ":nth-child(" + nth + ")";
-        }
-        path.unshift(selector);
-        el = el.parentNode;
-    }
-    return path.join(" > ");
+global.myapi = {
+    CssSelectorGenerator: CssSelectorGenerator
 }
 
-document.addEventListener('click', function (e) {
-    e = e || window.event;
-    var target = e.target || e.srcElement;
-    ipcRenderer.sendToHost(cssPath(target).toString());
-}, false);
+var cssSelectorGenerator = new myapi.CssSelectorGenerator;
 
-document.addEventListener('keydown', function (e){
-    if(e.keyCode !== 9){
-        ipcRenderer.sendToHost(String.fromCharCode(e.keyCode));
+function sendMessage(event) {
+    let send = {
+        selector: cssSelectorGenerator.getSelector(event.target),
+        value: event.target.value,
+        type: event.type,
+        keyCode: event.keyCode,
+    }
+    ipcRenderer.sendToHost(JSON.stringify(send));
+}
+
+// wait for document ready
+function ready(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
+ready(function () {
+    const typeableElements = document.querySelectorAll('input, textarea');
+    const clickableElements = document.querySelectorAll('a, button');
+
+    for (let element of typeableElements) {
+        element.addEventListener('focusout', function (event) {
+            sendMessage(event);
+        });
+    }
+
+    for (let element of clickableElements) {
+        element.addEventListener('click', function (event) {
+            sendMessage(event);
+        });
     }
 });
