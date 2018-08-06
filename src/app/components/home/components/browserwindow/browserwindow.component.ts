@@ -75,11 +75,12 @@ export class BrowserwindowComponent implements AfterViewInit {
   }
 
   onLoadUrl(): void {
+    this._autocorrectInputUrl();
     this.webview.loadURL(this.inputUrl);
     if (this.recorderState == RecorderState.record) {
       let action: Action = new Action();
       action.type = Type.goto;
-      action.url = this.webview.getURL();
+      action.url = this.inputUrl;
       this.actionEmitter.emit(action);
     }
   }
@@ -94,7 +95,7 @@ export class BrowserwindowComponent implements AfterViewInit {
     let https: string = this.inputUrl.slice(0, 8).toLowerCase();
     let http: string = this.inputUrl.slice(0, 7).toLowerCase();
     let localhost: string = this.inputUrl.slice(0, 9).toLowerCase();
-    if (https == "https://" || http == "http://" || localhost == "localhost") {
+    if (https !== "https://" && http !== "http://" && localhost !== "localhost") {
       this.inputUrl = "https://" + this.inputUrl;
     }
   }

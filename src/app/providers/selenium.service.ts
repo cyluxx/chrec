@@ -61,7 +61,7 @@ export class SeleniumService {
             else if(action.type == Type.back){
                 this.back();
             }
-            this.driver.sleep(1000);
+            this.driver.sleep(2000);
         }
         this.quit();
     }
