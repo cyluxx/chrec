@@ -4,6 +4,7 @@ export class Action {
     selector: string;
     value: string;
     keyCode: number;
+    filename: string;
 }
 
 export enum Type {
@@ -12,5 +13,6 @@ export enum Type {
     goto = 'goto',
     refresh = 'refresh',
     forward = 'forward',
-    back = 'back'
+    back = 'back',
+    screenshot = 'screenshot'
 }

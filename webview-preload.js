@@ -17,7 +17,7 @@ function sendMessage(event) {
     ipcRenderer.sendToHost(JSON.stringify(send));
 }
 
-// wait for document ready
+// wait for document ready (without jQuery)
 function ready(fn) {
     if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
         fn();
