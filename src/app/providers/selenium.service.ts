@@ -6,8 +6,6 @@ import { Action, Type } from '../model/action';
 export class SeleniumService {
     driver: WebDriver;
 
-    f: boolean = false;
-
     begin(): void {
         this.driver = new Builder().forBrowser('chrome').build();
     }
@@ -64,16 +62,5 @@ export class SeleniumService {
             this.driver.sleep(2000);
         }
         this.quit();
-    }
-
-    test(): void {
-        let driver = new Builder()
-            .forBrowser('chrome')
-            .build();
-
-        driver.get('http://www.google.com/ncr');
-        driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
-        driver.wait(until.titleIs('webdriver - Google Search'), 1000);
-        driver.quit();
     }
 }

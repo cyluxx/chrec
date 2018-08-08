@@ -9,8 +9,6 @@ export class WebviewDirective implements OnDestroy {
   webviewTag: WebviewTag;
   ipcMessageEventFunction: (ipcMessageEvent: IpcMessageEvent) => void;
 
-  @Input() currentUrl: string; //TODO implement
-
   @Output() actionEmitter = new EventEmitter<Action>();
 
   constructor(elementRef: ElementRef) {
