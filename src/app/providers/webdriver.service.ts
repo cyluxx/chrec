@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Builder, By, Key, until, WebDriver } from 'selenium-webdriver';
+import { Builder, By, Key, WebDriver } from 'selenium-webdriver';
 import { Action, Type } from '../model/action';
 import * as fs from 'fs';
 
 @Injectable()
-export class SeleniumService {
+export class WebdriverService {
     driver: WebDriver;
 
     begin(): void {
@@ -35,10 +35,24 @@ export class SeleniumService {
         this.driver.navigate().back();
     }
 
-    screenshot(action: Action): void {
+    customScreenshot(action: Action): void {
         this.driver.takeScreenshot().then((data) => {
             fs.writeFile(
-                action.filename,
+                './screenshots/custom/' + action.filename,
+                data.replace(/^data:image\/png;base64,/, ''),
+                'base64',
+                (error) => {
+                    if (error) {
+                        throw error;
+                    }
+                });
+        });
+    }
+
+    generatedScreenshot(action: Action): void {
+        this.driver.takeScreenshot().then((data) => {
+            fs.writeFile(
+                './screenshots/generated/' + action.filename,
                 data.replace(/^data:image\/png;base64,/, ''),
                 'base64',
                 (error) => {
@@ -76,7 +90,7 @@ export class SeleniumService {
             }
             else if (action.type == Type.screenshot) {
                 try {
-                    this.screenshot(action);
+                    this.customScreenshot(action);
                 }
                 catch (error) {
                     console.log(error);

@@ -17,7 +17,8 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ElectronService } from "./providers/electron.service";
-import { SeleniumService } from "./providers/selenium.service";
+import { WebdriverService } from "./providers/webdriver.service";
+import { DatabaseService } from "./providers/database.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
@@ -90,7 +91,7 @@ library.add(faCamera);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, SeleniumService],
+  providers: [ElectronService, WebdriverService, DatabaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

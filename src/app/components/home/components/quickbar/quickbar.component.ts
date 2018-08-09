@@ -1,15 +1,14 @@
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
-import { SeleniumService } from "../../../../providers/selenium.service";
+import { WebdriverService } from "../../../../providers/webdriver.service";
 import { Action, Type } from "../../../../model/action";
 import { RecorderState } from "../../../../model/recorder-state";
 
 @Component({
     selector: 'quickbar',
-    templateUrl: './quickbar.component.html',
-    providers: [SeleniumService],
+    templateUrl: './quickbar.component.html'
 })
 export class QuickbarComponent{
-    seleniumService: SeleniumService;
+    webdriverService: WebdriverService;
     recorderState: RecorderState;
 
     screenshotFilename: string;
@@ -19,8 +18,8 @@ export class QuickbarComponent{
 
     @Output() recorderStateEmitter = new EventEmitter<RecorderState>();
 
-    constructor(seleniumService: SeleniumService){
-        this.seleniumService = seleniumService;
+    constructor(webdriverService: WebdriverService){
+        this.webdriverService = webdriverService;
         this.recorderState = RecorderState.stop;
     }
 
@@ -32,7 +31,7 @@ export class QuickbarComponent{
     onPlay() {
         this.recorderState = RecorderState.play;
         this.recorderStateEmitter.emit(this.recorderState);
-        this.seleniumService.run(this.actions);
+        this.webdriverService.run(this.actions);
     }
 
     onStop() {

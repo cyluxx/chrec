@@ -63,7 +63,6 @@
     "@types/jasmine": "2.8.7",
     "@types/jasminewd2": "2.0.3",
     "@types/node": "8.9.4",
-    "@types/webdriverio": "^4.10.3",
     "codelyzer": "4.2.1",
     "core-js": "2.5.6",
     "electron": "2.0.3",
