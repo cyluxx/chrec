@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Action } from '../../model/action';
 import { RecorderState } from '../../model/recorder-state';
+import { DatabaseService } from '../../providers/database.service';
+import { Project } from '../../model/project';
+import { Sequence } from '../../model/sequence';
 
 @Component({
   selector: 'app-home',
@@ -8,25 +11,33 @@ import { RecorderState } from '../../model/recorder-state';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  actions: Action[];
+  private databaseService: DatabaseService;
+
+  project: Project;
+  currentSequence: Sequence;
   recorderState: RecorderState;
 
-  constructor() {
-    this.actions = [];
+  constructor(databaseService: DatabaseService) {
+    this.databaseService = databaseService;
+    this.project = new Project();
+    this.project.sequences = [];
+    this.currentSequence = new Sequence();
+    this.currentSequence.actions = [];
     this.recorderState = RecorderState.stop;
   }
 
   onAction(action: Action) {
     if (this.recorderState == RecorderState.record) {
-      this.actions.push(action);
+      this.currentSequence.actions.push(action);
     }
+  }
+
+  onCurrentSequence(sequence: Sequence){
+    this.currentSequence = sequence;
   }
 
   onRecorderState(recorderState: RecorderState) {
     this.recorderState = recorderState;
-    if (this.recorderState == RecorderState.stop) {
-      this.actions = [];
-    }
   }
 
   isRecording(){

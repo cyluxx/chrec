@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
+import { Component, Input, EventEmitter, Output } from "@angular/core";
 import { WebdriverService } from "../../../../providers/webdriver.service";
 import { Action, Type } from "../../../../model/action";
 import { RecorderState } from "../../../../model/recorder-state";
+import { Sequence } from "../../../../model/sequence";
 
 @Component({
     selector: 'quickbar',
@@ -14,7 +15,7 @@ export class QuickbarComponent{
     screenshotFilename: string;
 
     @Input()
-    actions: Action[];
+    sequence: Sequence;
 
     @Output() recorderStateEmitter = new EventEmitter<RecorderState>();
 
@@ -31,7 +32,7 @@ export class QuickbarComponent{
     onPlay() {
         this.recorderState = RecorderState.play;
         this.recorderStateEmitter.emit(this.recorderState);
-        this.webdriverService.run(this.actions);
+        this.webdriverService.run(this.sequence.actions);
     }
 
     onStop() {
@@ -50,7 +51,7 @@ export class QuickbarComponent{
             else{
                 screenshotAction.filename = 'screenshot';
             }
-            this.actions.push(screenshotAction);
+            this.sequence.actions.push(screenshotAction);
         }
     }
 

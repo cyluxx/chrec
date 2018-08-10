@@ -1,5 +1,6 @@
+<h4>{{sequence.name}}</h4>
 <ul class="list-group list-group-flush">
-    <li *ngFor="let action of actions; let i = index" class="list-group-item">
+    <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item">
         <h5 class="mb-1">{{i}}: {{action.type}}</h5>
         <small *ngIf="action.selector">
             selector: {{action.selector}}

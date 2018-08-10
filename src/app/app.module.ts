@@ -26,6 +26,7 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./components/home/home.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { QuickbarComponent } from "./components/home/components/quickbar/quickbar.component";
+import { SequenceTabsComponent } from "./components/home/components/sequence-tabs/sequence-tabs.component";
 import { SidebarComponent } from "./components/home/components/sidebar/sidebar.component";
 import { StatusbarComponent } from "./components/home/components/statusbar/statusbar.component";
 
@@ -49,7 +50,8 @@ import {
   faStepForward,
   faStepBackward,
   faSync,
-  faCamera
+  faCamera,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlay);
@@ -65,6 +67,7 @@ library.add(faFastBackward);
 library.add(faStepForward);
 library.add(faStepBackward);
 library.add(faCamera);
+library.add(faPlus);
 
 @NgModule({
   declarations: [
@@ -72,6 +75,7 @@ library.add(faCamera);
     HomeComponent,
     BrowserwindowComponent,
     QuickbarComponent,
+    SequenceTabsComponent,
     SidebarComponent,
     StatusbarComponent,
     WebviewDirective

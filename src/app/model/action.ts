@@ -1,4 +1,5 @@
 export class Action {
+    id: number;
     type: Type;
     url: string;
     selector: string;

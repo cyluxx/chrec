@@ -1,12 +1,17 @@
 <div class="container-fluid">
   <div class="row mt-3">
     <div class="col">
-      <quickbar (recorderStateEmitter)="onRecorderState($event)" [actions]="actions"></quickbar>
+      <quickbar [sequence]="currentSequence" (recorderStateEmitter)="onRecorderState($event)"></quickbar>
     </div>
   </div>
   <div class="row mt-3">
+      <div class="col">
+        <sequence-tabs [sequences]="project.sequences" (currentSequenceEmitter)="onCurrentSequence($event)"></sequence-tabs>
+      </div>
+    </div>
+  <div class="row mt-3">
     <div class="col-3">
-      <sidebar [actions]="actions"></sidebar>
+      <sidebar [sequence]="currentSequence"></sidebar>
     </div>
     <div class="col-9" [class.recording]="isRecording()">
       <browserwindow [recorderState]="recorderState" (actionEmitter)="onAction($event)"></browserwindow>
