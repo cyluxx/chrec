@@ -51,7 +51,9 @@ import {
   faStepBackward,
   faSync,
   faCamera,
-  faPlus
+  faPlus,
+  faSave,
+  faDatabase
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlay);
@@ -68,6 +70,8 @@ library.add(faStepForward);
 library.add(faStepBackward);
 library.add(faCamera);
 library.add(faPlus);
+library.add(faSave);
+library.add(faDatabase);
 
 @NgModule({
   declarations: [

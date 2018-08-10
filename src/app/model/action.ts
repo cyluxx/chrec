@@ -1,4 +1,4 @@
-export class Action {
+export class Action{
     id: number;
     type: Type;
     url: string;
@@ -8,7 +8,7 @@ export class Action {
     filename: string;
 }
 
-export enum Type {
+export enum Type{
     click = 'click',
     type = 'type',
     goto = 'goto',

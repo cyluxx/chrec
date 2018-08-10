@@ -15,9 +15,13 @@ export class QuickbarComponent{
     screenshotFilename: string;
 
     @Input()
-    sequence: Sequence;
+    currentSequence: Sequence;
 
     @Output() recorderStateEmitter = new EventEmitter<RecorderState>();
+
+    @Output() saveEmitter = new EventEmitter<boolean>();
+
+    @Output() clearDatabaseEmitter = new EventEmitter<boolean>();
 
     constructor(webdriverService: WebdriverService){
         this.webdriverService = webdriverService;
@@ -32,7 +36,11 @@ export class QuickbarComponent{
     onPlay() {
         this.recorderState = RecorderState.play;
         this.recorderStateEmitter.emit(this.recorderState);
-        this.webdriverService.run(this.sequence.actions);
+        this.webdriverService.run(this.currentSequence.actions);
+    }
+
+    onSave() {
+        this.saveEmitter.emit(true);
     }
 
     onStop() {
@@ -51,8 +59,12 @@ export class QuickbarComponent{
             else{
                 screenshotAction.filename = 'screenshot';
             }
-            this.sequence.actions.push(screenshotAction);
+            this.currentSequence.actions.push(screenshotAction);
         }
+    }
+
+    onClearDatabase(){
+        this.clearDatabaseEmitter.emit(true);
     }
 
     _autocorrectScreenshotFilename(): void {

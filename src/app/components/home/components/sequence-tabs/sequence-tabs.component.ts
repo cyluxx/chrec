@@ -24,6 +24,7 @@ export class SequenceTabsComponent {
             sequence.actions = [];
             this.sequences.push(sequence);
             this.currentSequenceEmitter.emit(sequence);
+            this.newSequenceName = '';
         }
     }
 }

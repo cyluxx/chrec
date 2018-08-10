@@ -6,9 +6,5 @@ import { Sequence } from "../../../../model/sequence";
     templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent {
-    @Input() sequence: Sequence;
-
-    constructor(){
-
-    }
+    @Input() currentSequence: Sequence;
 }
