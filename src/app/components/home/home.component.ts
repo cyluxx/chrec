@@ -10,8 +10,8 @@ import { Sequence } from '../../model/sequence';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit{
-  
+export class HomeComponent implements OnInit {
+
   private databaseService: DatabaseService;
 
   project: Project;
@@ -20,21 +20,23 @@ export class HomeComponent implements OnInit{
 
   constructor(databaseService: DatabaseService) {
     this.databaseService = databaseService;
-    
+
+    this.project = new Project();
+    this.project.name = 'default project'
+    this.project.sequences = [];
+
     this.currentSequence = new Sequence();
     this.currentSequence.actions = [];
     this.recorderState = RecorderState.stop;
   }
 
   ngOnInit(): void {
-    this.project = this.databaseService.getProject('default project');
-    console.log(this.project);
-    if(!this.project){
-      this.project = new Project();
-      this.project.name = 'default project'
-      this.project.sequences = [];
-    }
-    console.log(this.project);
+    this.databaseService.getProject('default project')
+      .then((project: Project) => {
+        console.log('on init');
+        console.log(project);
+        this.project = project;
+      });
   }
 
   onAction(action: Action) {
@@ -59,7 +61,7 @@ export class HomeComponent implements OnInit{
     return this.recorderState == RecorderState.record;
   }
 
-  onClearDatabase(){
+  onClearDatabase() {
     this.databaseService.clearProjects();
   }
 }
