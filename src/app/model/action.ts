@@ -1,11 +1,15 @@
 export class Action{
-    id: number;
+    id: string;
     type: Type;
     url: string;
     selector: string;
     value: string;
     keyCode: number;
     filename: string;
+
+    constructor(){
+        this.id = '_' + Math.random().toString(36).substr(2, 9);
+    }
 }
 
 export enum Type{

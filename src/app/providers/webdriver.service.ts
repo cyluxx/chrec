@@ -7,35 +7,35 @@ import * as fs from 'fs';
 export class WebdriverService {
     driver: WebDriver;
 
-    begin(): void {
+    private begin(): void {
         this.driver = new Builder().forBrowser('chrome').build();
     }
 
-    click(action: Action): void {
+    private click(action: Action): void {
         this.driver.findElement(By.css(action.selector)).click();
     }
 
-    goto(action: Action): void {
+    private goto(action: Action): void {
         this.driver.get(action.url);
     }
 
-    type(action: Action): void {
+    private type(action: Action): void {
         this.driver.findElement(By.css(action.selector)).sendKeys(action.value, Key.TAB);
     }
 
-    refresh(): void {
+    private refresh(): void {
         this.driver.navigate().refresh();
     }
 
-    forward(): void {
+    private forward(): void {
         this.driver.navigate().forward();
     }
 
-    back(): void {
+    private back(): void {
         this.driver.navigate().back();
     }
 
-    customScreenshot(action: Action): void {
+    private customScreenshot(action: Action): void {
         this.driver.takeScreenshot().then((data) => {
             fs.writeFile(
                 './screenshots/custom/' + action.filename,
@@ -49,7 +49,8 @@ export class WebdriverService {
         });
     }
 
-    generatedScreenshot(action: Action): void {
+    private generatedScreenshot(action: Action): void {
+        action.filename = action.id;
         this.driver.takeScreenshot().then((data) => {
             fs.writeFile(
                 './screenshots/generated/' + action.filename,
@@ -63,11 +64,11 @@ export class WebdriverService {
         });
     }
 
-    quit(): void {
+    private quit(): void {
         this.driver.quit();
     }
 
-    run(actions: Action[]): void {
+    public run(actions: Action[]): void {
         this.begin();
         for (let action of actions) {
             if (action.type == Type.click) {
@@ -96,7 +97,7 @@ export class WebdriverService {
                     console.log(error);
                 }
             }
-            this.driver.sleep(2000);
+            this.generatedScreenshot(action);
         }
         this.quit();
     }

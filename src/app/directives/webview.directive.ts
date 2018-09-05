@@ -31,7 +31,6 @@ export class WebviewDirective implements OnDestroy {
     }
     this.webviewTag.addEventListener('dom-ready', () => {
       this.webviewTag.addEventListener('ipc-message', this.ipcMessageEventFunction);
-      this.webviewTag.openDevTools();
     });
   }
 

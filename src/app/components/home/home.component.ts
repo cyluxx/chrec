@@ -33,14 +33,14 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.databaseService.getProject('default project')
       .then((project: Project) => {
-        console.log('on init');
-        console.log(project);
-        this.project = project;
+        if(project.name){
+          this.project = project;
+        }
       });
   }
 
   onAction(action: Action) {
-    if (this.recorderState == RecorderState.record) {
+    if (this.isRecording()) {
       this.currentSequence.actions.push(action);
     }
   }

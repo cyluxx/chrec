@@ -8,7 +8,7 @@ import { Sequence } from "../../../../model/sequence";
     selector: 'quickbar',
     templateUrl: './quickbar.component.html'
 })
-export class QuickbarComponent{
+export class QuickbarComponent {
     webdriverService: WebdriverService;
     recorderState: RecorderState;
 
@@ -23,14 +23,16 @@ export class QuickbarComponent{
 
     @Output() clearDatabaseEmitter = new EventEmitter<boolean>();
 
-    constructor(webdriverService: WebdriverService){
+    constructor(webdriverService: WebdriverService) {
         this.webdriverService = webdriverService;
         this.recorderState = RecorderState.stop;
     }
 
-    onRecord(){
-        this.recorderState = RecorderState.record;
-        this.recorderStateEmitter.emit(this.recorderState);
+    onRecord() {
+        if (this.currentSequence.name) {
+            this.recorderState = RecorderState.record;
+            this.recorderStateEmitter.emit(this.recorderState);
+        }
     }
 
     onPlay() {
@@ -49,26 +51,26 @@ export class QuickbarComponent{
     }
 
     onScreenshot() {
-        if(this.recorderState == RecorderState.record){
+        if (this.recorderState == RecorderState.record) {
             let screenshotAction: Action = new Action();
             screenshotAction.type = Type.screenshot;
-            if(this.screenshotFilename){
+            if (this.screenshotFilename) {
                 this._autocorrectScreenshotFilename();
                 screenshotAction.filename = this.screenshotFilename;
             }
-            else{
+            else {
                 screenshotAction.filename = 'screenshot';
             }
             this.currentSequence.actions.push(screenshotAction);
         }
     }
 
-    onClearDatabase(){
+    onClearDatabase() {
         this.clearDatabaseEmitter.emit(true);
     }
 
     _autocorrectScreenshotFilename(): void {
-        if(!this.screenshotFilename.endsWith('.png')){
+        if (!this.screenshotFilename.endsWith('.png')) {
             this.screenshotFilename += '.png';
         }
     }
