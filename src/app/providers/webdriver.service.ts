@@ -50,7 +50,7 @@ export class WebdriverService {
     }
 
     private generatedScreenshot(action: Action): void {
-        action.filename = action.id;
+        action.filename = action.id + '.png';
         this.driver.takeScreenshot().then((data) => {
             fs.writeFile(
                 './screenshots/generated/' + action.filename,

@@ -1,5 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Sequence } from "../../../../model/sequence";
+import { Action } from "../../../../model/action";
 
 @Component({
     selector: 'sidebar',
@@ -7,4 +8,10 @@ import { Sequence } from "../../../../model/sequence";
 })
 export class SidebarComponent {
     @Input() currentSequence: Sequence;
+
+    @Output() actionEmitter = new EventEmitter<Action>();
+
+    onAction(action: Action): void {
+        this.actionEmitter.emit(action);
+    }
 }

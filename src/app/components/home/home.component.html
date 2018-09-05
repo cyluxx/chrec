@@ -12,10 +12,13 @@
   </div>
   <div class="row mt-3">
     <div class="col-3">
-      <sidebar [currentSequence]="currentSequence"></sidebar>
+      <sidebar [currentSequence]="currentSequence" (actionEmitter)="onActionInfo($event)"></sidebar>
     </div>
-    <div class="col-9" [class.recording]="isRecording()">
-      <browserwindow [recorderState]="recorderState" (actionEmitter)="onAction($event)"></browserwindow>
+    <div *ngIf="!currentAction" class="col-9" [class.recording]="isRecording()">
+      <browserwindow [recorderState]="recorderState" (actionEmitter)="onRecordAction($event)"></browserwindow>
+    </div>
+    <div *ngIf="currentAction" class="col-9">
+      <action-info [action]="currentAction" (closeEmitter)="onCloseActionInfo()"></action-info>
     </div>
   </div>
 </div>

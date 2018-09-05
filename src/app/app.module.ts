@@ -23,6 +23,7 @@ import { DatabaseService } from "./providers/database.service";
 import { WebviewDirective } from "./directives/webview.directive";
 
 import { AppComponent } from "./app.component";
+import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
 import { HomeComponent } from "./components/home/home.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { QuickbarComponent } from "./components/home/components/quickbar/quickbar.component";
@@ -76,6 +77,7 @@ library.add(faDatabase);
 @NgModule({
   declarations: [
     AppComponent,
+    ActionInfoComponent,
     HomeComponent,
     BrowserwindowComponent,
     QuickbarComponent,

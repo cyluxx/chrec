@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
 
   project: Project;
   currentSequence: Sequence;
+  currentAction: Action;
   recorderState: RecorderState;
 
   constructor(databaseService: DatabaseService) {
@@ -33,13 +34,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.databaseService.getProject('default project')
       .then((project: Project) => {
-        if(project.name){
+        if (project.name) {
           this.project = project;
         }
       });
   }
 
-  onAction(action: Action) {
+  onRecordAction(action: Action) {
     if (this.isRecording()) {
       this.currentSequence.actions.push(action);
     }
@@ -63,5 +64,13 @@ export class HomeComponent implements OnInit {
 
   onClearDatabase() {
     this.databaseService.clearProjects();
+  }
+
+  onCloseActionInfo(): void {
+    this.currentAction = null;
+  }
+
+  onActionInfo(action: Action): void {
+    this.currentAction = action;
   }
 }
