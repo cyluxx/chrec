@@ -19,15 +19,15 @@ export class ActionInfoComponent implements OnInit{
     constructor(screenshotService: ScreenshotService) {
         this.screenshotService = screenshotService;
         this.action = new Action();
-        //this.imgUrl = require('../../../../assets/background.png');
+        this.imgUrl = '../../../../assets/background.jpg';
         //this.imgUrl = '../../../../../../screenshots/generated/' + this.action.id + '.png';
     }
 
     ngOnInit(): void {
-        this.screenshotService.getScreenshot('./screenshots/generated/' + this.action.id + '.png')
+        /* this.screenshotService.getScreenshot('./screenshots/generated/' + this.action.id + '.png')
           .then((data: string) => {
             this.imgUrl = data;
-          });
+          }); */
       }
 
     onClose(): void {

@@ -27,7 +27,7 @@
             bottom: {{action.boundingBox.bottom}},
             left: {{action.boundingBox.left}}
         </p>
-        <img *ngIf="imgUrl" src="C:\Users\aplewnia\Documents\projekte\bt\chrec\src\favicon.256x256.png">
+        <img *ngIf="imgUrl" [src]="imgUrl">
         <button class="btn btn-danger" (click)="onClose()">Close</button>
     </div>
 </div>
