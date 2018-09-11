@@ -6,6 +6,7 @@ export class Action{
     value: string;
     keyCode: number;
     filename: string;
+    boundingBox: DOMRect;
 
     constructor(){
         this.id = Math.random().toString(36).substr(2, 9);

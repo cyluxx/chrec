@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Output, EventEmitter, AfterViewInit, OnDestroy, Input } from '@angular/core';
+import { Directive, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { WebviewTag, IpcMessageEvent } from 'electron';
 import { Action, Type } from '../model/action';
 
@@ -23,14 +23,16 @@ export class WebviewDirective implements OnDestroy {
       else {
         action.type = Type[channelContent.type as string];
       }
-      action.selector = channelContent.selector;
+      action.selector = channelContent.selectors[0];
       action.value = channelContent.value;
       action.url = channelContent.url;
       action.keyCode = channelContent.keyCode;
+      action.boundingBox = channelContent.boundingBox;
       this.actionEmitter.emit(action);
     }
     this.webviewTag.addEventListener('dom-ready', () => {
       this.webviewTag.addEventListener('ipc-message', this.ipcMessageEventFunction);
+      this.webviewTag.openDevTools();
     });
   }
 
