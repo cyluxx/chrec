@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col">
         <h5 class="mb-1">{{action.id}}: {{action.type}}</h5>
-        <p *ngIf="action.selector">
-            selector: {{action.selector}}
+        <p *ngFor="let selector of action.selectors; let i = index">
+            selector {{i}}: {{selector}}
         </p>
         <p *ngIf="action.value">
             value: {{action.value}}
@@ -15,6 +15,17 @@
         </p>
         <p *ngIf="action.id">
             id: {{action.id}}
+        </p>
+        <p *ngIf="action.boundingBox">
+            boundingBox: 
+            x: {{action.boundingBox.x}},
+            y: {{action.boundingBox.y}},
+            width: {{action.boundingBox.width}},
+            height: {{action.boundingBox.height}},
+            top: {{action.boundingBox.top}},
+            right: {{action.boundingBox.right}},
+            bottom: {{action.boundingBox.bottom}},
+            left: {{action.boundingBox.left}}
         </p>
         <img *ngIf="imgUrl" src="C:\Users\aplewnia\Documents\projekte\bt\chrec\src\favicon.256x256.png">
         <button class="btn btn-danger" (click)="onClose()">Close</button>

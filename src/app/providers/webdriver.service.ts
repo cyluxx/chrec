@@ -8,11 +8,11 @@ export class WebdriverService {
     driver: WebDriver;
 
     private begin(): void {
-        this.driver = new Builder().forBrowser('chrome').build();
+        this.driver = new Builder().forBrowser('chrome').usingServer('http://localhost:4444/wd/hub').build();
     }
 
     private click(action: Action): void {
-        this.driver.findElement(By.css(action.selector)).click();
+        this.driver.findElement(By.css(action.selectors[0])).click();
     }
 
     private goto(action: Action): void {
@@ -20,7 +20,7 @@ export class WebdriverService {
     }
 
     private type(action: Action): void {
-        this.driver.findElement(By.css(action.selector)).sendKeys(action.value, Key.TAB);
+        this.driver.findElement(By.css(action.selectors[0])).sendKeys(action.value, Key.TAB);
     }
 
     private refresh(): void {

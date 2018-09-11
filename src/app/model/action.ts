@@ -2,7 +2,7 @@ export class Action{
     id: string;
     type: Type;
     url: string;
-    selector: string;
+    selectors: string[];
     value: string;
     keyCode: number;
     filename: string;
