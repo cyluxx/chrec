@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { WebviewTag, IpcMessageEvent } from 'electron';
+import { WebviewTag, IpcMessageEvent, NativeImage } from 'electron';
 import { Action, Type } from '../model/action';
 
 @Directive({
@@ -28,7 +28,11 @@ export class WebviewDirective implements OnDestroy {
       action.url = channelContent.url;
       action.keyCode = channelContent.keyCode;
       action.boundingBox = channelContent.boundingBox;
-      this.actionEmitter.emit(action);
+
+      this.webviewTag.capturePage((image: NativeImage) => {
+        action.image = image.toPNG();
+        this.actionEmitter.emit(action);
+      });
     }
     this.webviewTag.addEventListener('dom-ready', () => {
       this.webviewTag.addEventListener('ipc-message', this.ipcMessageEventFunction);

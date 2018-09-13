@@ -19,7 +19,6 @@ export class ActionInfoComponent implements OnInit{
     constructor(screenshotService: ScreenshotService) {
         this.screenshotService = screenshotService;
         this.action = new Action();
-        this.imgUrl = '../../../../assets/background.jpg';
         //this.imgUrl = '../../../../../../screenshots/generated/' + this.action.id + '.png';
     }
 

@@ -97,7 +97,6 @@ export class WebdriverService {
                     console.log(error);
                 }
             }
-            this.generatedScreenshot(action);
         }
         this.quit();
     }
