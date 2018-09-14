@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, ViewChild, Input, AfterViewInit } from "@angular/core";
 import { Action, Type } from "../../../../model/action";
 import * as path from 'path';
-import { WebviewTag } from "electron";
+import { WebviewTag, NativeImage } from "electron";
 import { RecorderState } from "../../../../model/recorder-state";
 
 @Component({
@@ -25,73 +25,89 @@ export class BrowserwindowComponent implements AfterViewInit {
     this.inputUrl = "";
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.webview = (this.tag.nativeElement) as WebviewTag;
     this.webview.addEventListener("dom-ready", () => {
       this.inputUrl = this.webview.getURL();
     });
   }
 
-  canGoBack(): boolean {
+  public canGoBack(): boolean {
     return this.webview.canGoBack();
   }
 
-  onBack(): void {
+  public onBack(): void {
     if (this.canGoBack) {
-      this.webview.goBack();
-      if (this.recorderState == RecorderState.record) {
-        let action: Action = new Action();
-        action.type = Type.back;
-        action.url = this.webview.getURL();
-        this.actionEmitter.emit(action);
+      if (this.isRecording()) {
+        this.webview.capturePage((image: NativeImage) => {
+          let action: Action = new Action();
+          action.image = image.toDataURL();
+          action.type = Type.back;
+          action.url = this.webview.getURL();
+          this.actionEmitter.emit(action);
+        });
       }
+      this.webview.goBack();
     }
   }
 
-  canGoForward(): boolean {
+  public canGoForward(): boolean {
     return this.webview.canGoForward();
   }
 
-  onForward(): void {
+  public onForward(): void {
     if (this.canGoForward) {
+      if (this.isRecording()) {
+        this.webview.capturePage((image: NativeImage) => {
+          let action: Action = new Action();
+          action.image = image.toDataURL();
+          action.type = Type.forward;
+          action.url = this.webview.getURL();
+          this.actionEmitter.emit(action);
+        });
+      }
       this.webview.goForward();
-      if (this.recorderState == RecorderState.record) {
+    }
+  }
+
+  public onReload(): void {
+    if (this.isRecording()) {
+      this.webview.capturePage((image: NativeImage) => {
         let action: Action = new Action();
-        action.type = Type.forward;
+        action.image = image.toDataURL();
+        action.type = Type.refresh;
         action.url = this.webview.getURL();
         this.actionEmitter.emit(action);
-      }
+      });
     }
-  }
-
-  onReload(): void {
     this.webview.reload();
-    if (this.recorderState == RecorderState.record) {
-      let action: Action = new Action();
-      action.type = Type.refresh;
-      action.url = this.webview.getURL();
-      this.actionEmitter.emit(action);
-    }
   }
 
-  onLoadUrl(): void {
-    this._autocorrectInputUrl();
+  public onLoadUrl(): void {
+    this.autocorrectInputUrl();
+    if (this.isRecording()) {
+      this.webview.capturePage((image: NativeImage) => {
+        let action: Action = new Action();
+        action.image = image.toDataURL();
+        action.type = Type.goto;
+        action.url = this.inputUrl;
+        this.actionEmitter.emit(action);
+      });
+    }
     this.webview.loadURL(this.inputUrl);
-    if (this.recorderState == RecorderState.record) {
-      let action: Action = new Action();
-      action.type = Type.goto;
-      action.url = this.inputUrl;
+  }
+
+  public onAction(action: Action) {
+    if (this.isRecording()) {
       this.actionEmitter.emit(action);
     }
   }
 
-  onAction(action: Action) {
-    if (this.recorderState == RecorderState.record) {
-      this.actionEmitter.emit(action);
-    }
+  private isRecording(): boolean {
+    return this.recorderState == RecorderState.record;
   }
 
-  _autocorrectInputUrl(): void {
+  private autocorrectInputUrl(): void {
     let https: string = this.inputUrl.slice(0, 8).toLowerCase();
     let http: string = this.inputUrl.slice(0, 7).toLowerCase();
     if (https !== "https://" && http !== "http://") {
