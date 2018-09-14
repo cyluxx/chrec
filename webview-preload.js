@@ -1,23 +1,39 @@
 const { ipcRenderer } = require('electron');
 const CssSelectorGenerator = require('css-selector-generator').CssSelectorGenerator;
+const finder = require('@medv/finder').default;
+const getQuerySelector = require('get-query-selector');
+const optimalSelect = require('optimal-select').select;
+const selectorQuery = require('selector-query');
 
 global.myapi = {
-    CssSelectorGenerator: CssSelectorGenerator
+    CssSelectorGenerator: CssSelectorGenerator,
+    finder: finder,
+    getQuerySelector: getQuerySelector,
+    select: optimalSelect,
+    selectorQuery: selectorQuery
 }
 
 var cssSelectorGenerator = new myapi.CssSelectorGenerator;
 
 function sendMessage(event) {
     let send = {
-        selector: cssSelectorGenerator.getSelector(event.target),
+        selectors: [
+            cssSelectorGenerator.getSelector(event.target),
+            myapi.finder(event.target),
+            myapi.getQuerySelector(event.target),
+            myapi.select(event.target),
+            myapi.selectorQuery(event.target)
+        ],
         value: event.target.value,
         type: event.type,
         keyCode: event.keyCode,
+        boundingBox: event.target.getBoundingClientRect()
     }
+    console.log(send);
     ipcRenderer.sendToHost(JSON.stringify(send));
 }
 
-// wait for document ready
+// wait for document ready (without jQuery)
 function ready(fn) {
     if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
         fn();

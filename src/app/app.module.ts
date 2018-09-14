@@ -17,14 +17,18 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ElectronService } from "./providers/electron.service";
-import { SeleniumService } from "./providers/selenium.service";
+import { WebdriverService } from "./providers/webdriver.service";
+import { DatabaseService } from "./providers/database.service";
+import { ScreenshotService } from "./providers/screenshot.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
 import { AppComponent } from "./app.component";
+import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
 import { HomeComponent } from "./components/home/home.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { QuickbarComponent } from "./components/home/components/quickbar/quickbar.component";
+import { SequenceTabsComponent } from "./components/home/components/sequence-tabs/sequence-tabs.component";
 import { SidebarComponent } from "./components/home/components/sidebar/sidebar.component";
 import { StatusbarComponent } from "./components/home/components/statusbar/statusbar.component";
 
@@ -47,7 +51,11 @@ import {
   faFastBackward,
   faStepForward,
   faStepBackward,
-  faSync
+  faSync,
+  faCamera,
+  faPlus,
+  faSave,
+  faDatabase
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlay);
@@ -62,13 +70,19 @@ library.add(faFastBackward);
 library.add(faFastBackward);
 library.add(faStepForward);
 library.add(faStepBackward);
+library.add(faCamera);
+library.add(faPlus);
+library.add(faSave);
+library.add(faDatabase);
 
 @NgModule({
   declarations: [
     AppComponent,
+    ActionInfoComponent,
     HomeComponent,
     BrowserwindowComponent,
     QuickbarComponent,
+    SequenceTabsComponent,
     SidebarComponent,
     StatusbarComponent,
     WebviewDirective
@@ -88,7 +102,7 @@ library.add(faStepBackward);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, SeleniumService],
+  providers: [ElectronService, WebdriverService, DatabaseService, ScreenshotService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

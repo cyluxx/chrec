@@ -9,6 +9,7 @@ Clone this repository:
 
 Navigate to installed location and install dependencies:
 > cd chrec
+
 > npm install
 
 To start the application in development mode, type:
