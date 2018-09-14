@@ -27,7 +27,7 @@
             bottom: {{action.boundingBox.bottom}},
             left: {{action.boundingBox.left}}
         </p>
-        <img *ngIf="action.image" [src]="'data:image/png;base64, ' + action.image">
+        <img *ngIf="action.image" [src]="action.image">
         <button class="btn btn-danger" (click)="onClose()">Close</button>
     </div>
 </div>

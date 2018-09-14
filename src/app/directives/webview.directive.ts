@@ -30,7 +30,7 @@ export class WebviewDirective implements OnDestroy {
       action.boundingBox = channelContent.boundingBox;
 
       this.webviewTag.capturePage((image: NativeImage) => {
-        action.image = image.toPNG();
+        action.image = image.toDataURL();
         this.actionEmitter.emit(action);
       });
     }

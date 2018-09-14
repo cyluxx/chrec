@@ -9,7 +9,7 @@ export class Action{
     keyCode: number;
     filename: string;
     boundingBox: DOMRect;
-    image: Buffer;
+    image: String;
 
     constructor(){
         this.id = Math.random().toString(36).substr(2, 9);
