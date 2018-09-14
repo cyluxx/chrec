@@ -47,14 +47,44 @@ ready(function () {
     const clickableElements = document.querySelectorAll('a, button');
 
     for (let element of typeableElements) {
+        let prevent = true;
         element.addEventListener('focusout', function (event) {
-            sendMessage(event);
-        });
+            if(prevent){
+                event.preventDefault();
+                if (element.style.outline == null || element.style.outline == '') {
+                    element.style.outline = '#f00 solid 2px';
+                    sendMessage(event);
+                    element.focusout();
+                }
+                else {
+                    ipcRenderer.on('ok', () => {
+                        element.style.outline = null;
+                        prevent = false;
+                        element.focusout();
+                    });
+                }
+            }
+        });  
     }
 
     for (let element of clickableElements) {
+        let prevent = true;
         element.addEventListener('click', function (event) {
-            sendMessage(event);
-        });
+            if(prevent){
+                event.preventDefault();
+                if (element.style.outline == null || element.style.outline == '') {
+                    element.style.outline = '#f00 solid 2px';
+                    sendMessage(event);
+                    element.click();
+                }
+                else {
+                    ipcRenderer.on('ok', () => {
+                        element.style.outline = null;
+                        prevent = false;
+                        element.click();
+                    });
+                }
+            }
+        });  
     }
 });
