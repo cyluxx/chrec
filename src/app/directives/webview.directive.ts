@@ -32,7 +32,6 @@ export class WebviewDirective implements OnDestroy {
       this.webviewTag.capturePage((image: NativeImage) => {
         action.image = image.toDataURL();
         this.actionEmitter.emit(action);
-        this.webviewTag.send('ok');
       });
     }
     this.webviewTag.addEventListener('dom-ready', () => {
