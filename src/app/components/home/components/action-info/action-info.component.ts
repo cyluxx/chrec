@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { Action } from "../../../../model/action";
 import { ScreenshotService } from "../../../../providers/screenshot.service";
+import * as opencv from 'opencv4nodejs';
 
 @Component({
     selector: 'action-info',
@@ -23,6 +24,10 @@ export class ActionInfoComponent implements OnInit{
     }
 
     ngOnInit(): void {
+        if(this.action.image){
+            opencv.imread(this.action.image);
+        }
+
         /* this.screenshotService.getScreenshot('./screenshots/generated/' + this.action.id + '.png')
           .then((data: string) => {
             this.imgUrl = data;
