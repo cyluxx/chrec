@@ -3,7 +3,7 @@ module.exports = {
         rules: [
             {
                 test: /\.node?$/,
-                use: 'electron-node-loader'
+                use: 'node-loader'
             }
         ]
     }

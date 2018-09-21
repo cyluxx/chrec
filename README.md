@@ -19,12 +19,13 @@ Clone this repository:
 git clone https://github.com/cyluxx/chrec.git
 ```
 
-Navigate to installed location and install dependencies (this might take a while). Then rebuild native modules.
+Navigate to installed location and install dependencies (this might take a while). Then let electron rebuild native modules.
 ```
 cd chrec
 npm install
 npm run electron-rebuild
 ```
+> **Note:** Use 'npm run electron-rebuild' after 'npm install' if you are adding or modifying native modules during development.
 
 To start the application in development mode, type:
 ```
