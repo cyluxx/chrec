@@ -23,14 +23,18 @@ import { ScreenshotService } from "./providers/screenshot.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
-import { AppComponent } from "./app.component";
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
-import { HomeComponent } from "./components/home/home.component";
+import { AppComponent } from "./app.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
+import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
+import { HomeComponent } from "./components/home/home.component";
 import { QuickbarComponent } from "./components/home/components/quickbar/quickbar.component";
 import { SequenceTabsComponent } from "./components/home/components/sequence-tabs/sequence-tabs.component";
+import { SettingsComponent } from "./components/settings/settings.component";
 import { SidebarComponent } from "./components/home/components/sidebar/sidebar.component";
+import { StabilitySettingsComponent } from "./components/settings/components/stability-settings/stability-settings.component";
 import { StatusbarComponent } from "./components/home/components/statusbar/statusbar.component";
+import { WebdriverSettingsComponent } from "./components/settings/components/webdriver-settings/webdriver-settings.component";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -77,14 +81,18 @@ library.add(faDatabase);
 
 @NgModule({
   declarations: [
-    AppComponent,
     ActionInfoComponent,
-    HomeComponent,
+    AppComponent,
     BrowserwindowComponent,
+    GeneralSettingsComponent,
+    HomeComponent,
     QuickbarComponent,
     SequenceTabsComponent,
+    SettingsComponent,
     SidebarComponent,
+    StabilitySettingsComponent,
     StatusbarComponent,
+    WebdriverSettingsComponent,
     WebviewDirective
   ],
   imports: [
