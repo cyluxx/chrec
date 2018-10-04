@@ -1,6 +1,11 @@
 <div class="row">
     <div class="col">
-        <h5 class="mb-1">{{action.id}}: {{action.type}}</h5>
+        <div class="d-flex justify-content-between">
+            <h5 class="mb-1">{{action.id}}: {{action.type}}</h5>
+            <button class="btn btn-danger" (click)="onClose()">
+                <fa-icon icon="times"></fa-icon>
+            </button>
+        </div>
         <p *ngFor="let selector of action.selectors; let i = index">
             selector {{i}}: {{selector}}
         </p>
@@ -17,7 +22,7 @@
             id: {{action.id}}
         </p>
         <p *ngIf="action.boundingBox">
-            boundingBox: 
+            boundingBox:
             x: {{action.boundingBox.x}},
             y: {{action.boundingBox.y}},
             width: {{action.boundingBox.width}},
@@ -28,6 +33,5 @@
             left: {{action.boundingBox.left}}
         </p>
         <img *ngIf="action.image" [src]="action.image">
-        <button class="btn btn-danger" (click)="onClose()">Close</button>
     </div>
 </div>
