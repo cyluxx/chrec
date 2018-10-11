@@ -4,7 +4,7 @@ import * as util from 'util';
 const storage = require('electron-json-storage');
 
 @Injectable()
-export class DatabaseService {
+export class ProjectService {
 
     private get: (projectName: String) => Promise<Project>;
 

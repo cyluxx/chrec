@@ -18,7 +18,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ElectronService } from "./providers/electron.service";
 import { WebdriverService } from "./providers/webdriver.service";
-import { DatabaseService } from "./providers/database.service";
+import { ProjectService } from "./providers/project.service";
 import { ScreenshotService } from "./providers/screenshot.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
@@ -114,7 +114,7 @@ library.add(faCog);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, WebdriverService, DatabaseService, ScreenshotService],
+  providers: [ElectronService, WebdriverService, ProjectService, ScreenshotService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

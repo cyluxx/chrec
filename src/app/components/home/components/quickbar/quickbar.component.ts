@@ -21,7 +21,7 @@ export class QuickbarComponent {
 
     @Output() saveEmitter = new EventEmitter<boolean>();
 
-    @Output() clearDatabaseEmitter = new EventEmitter<boolean>();
+    @Output() clearProjectsEmitter = new EventEmitter<boolean>();
 
     constructor(webdriverService: WebdriverService) {
         this.webdriverService = webdriverService;
@@ -65,8 +65,8 @@ export class QuickbarComponent {
         }
     }
 
-    onClearDatabase() {
-        this.clearDatabaseEmitter.emit(true);
+    onClearProjects() {
+        this.clearProjectsEmitter.emit(true);
     }
 
     _autocorrectScreenshotFilename(): void {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Action } from '../../model/action';
 import { RecorderState } from '../../model/recorder-state';
-import { DatabaseService } from '../../providers/database.service';
+import { ProjectService } from '../../providers/project.service';
 import { Project } from '../../model/project';
 import { Sequence } from '../../model/sequence';
 
@@ -12,15 +12,15 @@ import { Sequence } from '../../model/sequence';
 })
 export class HomeComponent implements OnInit {
 
-  private databaseService: DatabaseService;
+  private projectService: ProjectService;
 
   project: Project;
   currentSequence: Sequence;
   currentAction: Action;
   recorderState: RecorderState;
 
-  constructor(databaseService: DatabaseService) {
-    this.databaseService = databaseService;
+  constructor(projectService: ProjectService) {
+    this.projectService = projectService;
 
     this.project = new Project();
     this.project.name = 'default project'
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.databaseService.getProject('default project')
+    this.projectService.getProject('default project')
       .then((project: Project) => {
         if (project.name) {
           this.project = project;
@@ -55,15 +55,15 @@ export class HomeComponent implements OnInit {
   }
 
   onSave() {
-    this.databaseService.setProject(this.project);
+    this.projectService.setProject(this.project);
   }
 
   isRecording() {
     return this.recorderState == RecorderState.record;
   }
 
-  onClearDatabase() {
-    this.databaseService.clearProjects();
+  onClearProjects() {
+    this.projectService.clearProjects();
   }
 
   onCloseActionInfo(): void {
