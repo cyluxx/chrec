@@ -8,7 +8,7 @@ export class ProjectService {
 
     private get: (projectName: String) => Promise<Project>;
 
-    constructor(){
+    constructor() {
         this.get = util.promisify(storage.get);
     }
 
@@ -22,8 +22,8 @@ export class ProjectService {
         return await this.get(projectName);
     }
 
-    public clearProjects(): void {
-        storage.clear((error) => {
+    public removeProject(projectName: string): void {
+        storage.remove(projectName, (error) => {
             if (error) throw error;
         });
     }

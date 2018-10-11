@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Builder, By, Key, WebDriver } from 'selenium-webdriver';
-import { Action, Type } from '../model/action';
+import { Action, Type as ActionType } from '../model/action';
+import { Type as BrowserType } from '../model/browser';
 import * as fs from 'fs';
 
 @Injectable()
@@ -8,7 +9,7 @@ export class WebdriverService {
     driver: WebDriver;
 
     private begin(): void {
-        this.driver = new Builder().forBrowser('chrome').usingServer('http://localhost:4444/wd/hub').build();
+        this.driver = new Builder().forBrowser(BrowserType.chrome).usingServer('http://localhost:4444/wd/hub').build();
     }
 
     private click(action: Action): void {
@@ -71,25 +72,25 @@ export class WebdriverService {
     public run(actions: Action[]): void {
         this.begin();
         for (let action of actions) {
-            if (action.type == Type.click) {
+            if (action.type == ActionType.click) {
                 this.click(action);
             }
-            else if (action.type == Type.goto) {
+            else if (action.type == ActionType.goto) {
                 this.goto(action);
             }
-            else if (action.type == Type.type) {
+            else if (action.type == ActionType.type) {
                 this.type(action);
             }
-            else if (action.type == Type.refresh) {
+            else if (action.type == ActionType.refresh) {
                 this.refresh();
             }
-            else if (action.type == Type.forward) {
+            else if (action.type == ActionType.forward) {
                 this.forward();
             }
-            else if (action.type == Type.back) {
+            else if (action.type == ActionType.back) {
                 this.back();
             }
-            else if (action.type == Type.screenshot) {
+            else if (action.type == ActionType.screenshot) {
                 try {
                     this.customScreenshot(action);
                 }

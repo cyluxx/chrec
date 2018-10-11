@@ -5,6 +5,8 @@ import { ProjectService } from '../../providers/project.service';
 import { Project } from '../../model/project';
 import { Sequence } from '../../model/sequence';
 
+const DEFAULT_PROJECT = 'default project';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,7 +25,7 @@ export class HomeComponent implements OnInit {
     this.projectService = projectService;
 
     this.project = new Project();
-    this.project.name = 'default project'
+    this.project.name = DEFAULT_PROJECT;
     this.project.sequences = [];
 
     this.currentSequence = new Sequence();
@@ -32,7 +34,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.projectService.getProject('default project')
+    this.projectService.getProject(DEFAULT_PROJECT)
       .then((project: Project) => {
         if (project.name) {
           this.project = project;
@@ -63,7 +65,7 @@ export class HomeComponent implements OnInit {
   }
 
   onClearProjects() {
-    this.projectService.clearProjects();
+    this.projectService.removeProject(DEFAULT_PROJECT);
   }
 
   onCloseActionInfo(): void {
