@@ -2,8 +2,15 @@
 <form #form="ngForm" (ngSubmit)="onSubmit(form)">
     <div class="form-group">
         <label>Selenium Grid Url</label>
-        <input type="url" class="form-control" placeholder="Selenium Grid Url" name="seleniumGridUrl" [ngModel]="settings.seleniumGridUrl" #seleniumGridUrl="ngModel">
+        <input type="url" class="form-control" placeholder="Selenium Grid Url" name="seleniumGridUrl" [ngModel]="settings.seleniumGridUrl"
+            #seleniumGridUrl="ngModel">
         <small class="form-text text-muted">Defaults to localhost:4444</small>
+    </div>
+    <div class="form-group">
+        <label>Number of Iterations</label>
+        <input type="number" min="1" class="form-control" placeholder="Number of Iterations" name="numberIterations"
+            [ngModel]="settings.numberIterations" #numberIterations="ngModel">
+        <small class="form-text text-muted">Number of iterations the sequences are tested per browser.</small>
     </div>
     <button type="submit" class="btn btn-primary">
         <fa-icon icon="save"></fa-icon> Save

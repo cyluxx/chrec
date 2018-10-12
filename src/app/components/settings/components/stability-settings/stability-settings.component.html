@@ -1,1 +1,51 @@
 <h2>Stability Settings</h2>
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <h5>DOM-Based</h5>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useCssSelectorGenerator" [ngModel]="settings.useCssSelectorGenerator"
+            #useCssSelectorGenerator="ngModel">
+        <label class="form-check-label">CssSelectorGenerator</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useFinder" [ngModel]="settings.useFinder"
+        #useFinder="ngModel">
+        <label class="form-check-label">Finder</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useGetQuerySelector" [ngModel]="settings.useGetQuerySelector"
+        #useGetQuerySelector="ngModel">
+        <label class="form-check-label">GetQuerySelector</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useOptimalSelect" [ngModel]="settings.useOptimalSelect"
+        #useOptimalSelect="ngModel">
+        <label class="form-check-label">OptimalSelect</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useSelectorQuery" [ngModel]="settings.useSelectorQuery"
+        #useSelectorQuery="ngModel">
+        <label class="form-check-label">SelectorQuery</label>
+    </div>
+    <h5 class="mt-3">Coordinate-Based</h5>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useBoundingBox" [ngModel]="settings.useBoundingBox"
+        #useBoundingBox="ngModel">
+        <label class="form-check-label">BoundingBox</label>
+    </div>
+    <h5 class="mt-3">Visual-Based</h5>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useTemplateMatching" [ngModel]="settings.useTemplateMatching"
+        #useTemplateMatching="ngModel">
+        <label class="form-check-label">Template Matching</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useFeatureMatching" [ngModel]="settings.useFeatureMatching"
+        #useFeatureMatching="ngModel">
+        <label class="form-check-label">Feature Matching</label>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary mt-3">
+            <fa-icon icon="save"></fa-icon> Save
+        </button>
+    </div>
+</form>
