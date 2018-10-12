@@ -20,6 +20,7 @@ import { ElectronService } from "./providers/electron.service";
 import { WebdriverService } from "./providers/webdriver.service";
 import { ProjectService } from "./providers/project.service";
 import { ScreenshotService } from "./providers/screenshot.service";
+import { SettingsService } from "./providers/settings.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
@@ -61,7 +62,9 @@ import {
   faSave,
   faDatabase,
   faTimes,
-  faCog
+  faCog,
+  faTrash,
+  faExclamation
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlay);
@@ -81,7 +84,9 @@ library.add(faPlus);
 library.add(faSave);
 library.add(faDatabase);
 library.add(faTimes);
+library.add(faTrash);
 library.add(faCog);
+library.add(faExclamation);
 
 @NgModule({
   declarations: [
@@ -114,7 +119,7 @@ library.add(faCog);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, WebdriverService, ProjectService, ScreenshotService],
+  providers: [ElectronService, WebdriverService, ProjectService, SettingsService, ScreenshotService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

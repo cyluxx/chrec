@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { Settings } from "../../../../model/settings";
 
 @Component({
     selector: 'stability-settings',
@@ -6,5 +7,5 @@ import { Component } from "@angular/core";
 })
 export class StabilitySettingsComponent {
 
-    
+    @Input() settings: Settings;
 }

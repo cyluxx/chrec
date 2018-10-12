@@ -4,4 +4,8 @@ export class Settings {
     homeUrl: string;
     seleniumGridUrl: string;
     browsers: Browser[];
+
+    constructor(){
+        this.browsers = [];
+    }
 }

@@ -17,9 +17,9 @@
     </div>
     <div class="col-9">
         <div [ngSwitch]="currentComponent">
-            <stability-settings *ngSwitchCase="stabilitySettings"></stability-settings>
-            <webdriver-settings *ngSwitchCase="webdriverSettings"></webdriver-settings>
-            <general-settings *ngSwitchDefault></general-settings>
+            <stability-settings [settings]="settings" *ngSwitchCase="stabilitySettings"></stability-settings>
+            <webdriver-settings [settings]="settings" *ngSwitchCase="webdriverSettings"></webdriver-settings>
+            <general-settings [settings]="settings" *ngSwitchDefault></general-settings>
         </div>
     </div>
 </div>
