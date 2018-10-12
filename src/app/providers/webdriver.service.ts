@@ -50,21 +50,6 @@ export class WebdriverService {
         });
     }
 
-    private generatedScreenshot(action: Action): void {
-        action.filename = action.id + '.png';
-        this.driver.takeScreenshot().then((data) => {
-            fs.writeFile(
-                './screenshots/generated/' + action.filename,
-                data.replace(/^data:image\/png;base64,/, ''),
-                'base64',
-                (error) => {
-                    if (error) {
-                        throw error;
-                    }
-                });
-        });
-    }
-
     private quit(): void {
         this.driver.quit();
     }

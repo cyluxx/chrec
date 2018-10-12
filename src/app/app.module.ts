@@ -19,7 +19,6 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ElectronService } from "./providers/electron.service";
 import { WebdriverService } from "./providers/webdriver.service";
 import { ProjectService } from "./providers/project.service";
-import { ScreenshotService } from "./providers/screenshot.service";
 import { SettingsService } from "./providers/settings.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
@@ -119,7 +118,7 @@ library.add(faExclamation);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, WebdriverService, ProjectService, SettingsService, ScreenshotService],
+  providers: [ElectronService, WebdriverService, ProjectService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
