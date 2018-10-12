@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Settings } from "../model/settings";
 import * as util from 'util';
+import { Browser, Type } from "../model/browser";
 const storage = require('electron-json-storage');
 const SETTINGS = 'settings';
 
@@ -27,5 +28,31 @@ export class SettingsService {
         storage.remove(SETTINGS, (error) => {
             if (error) throw error;
         });
+    }
+
+    public resetSettings(): void {
+        let settings: Settings = new Settings();
+
+        settings.seleniumGridUrl = 'localhost:4444';
+
+        settings.browsers = [];
+        let browser: Browser = new Browser();
+        browser.type = Type.chrome;
+        browser.width = 1920;
+        browser.height = 1080;
+        settings.browsers.push(browser);
+
+        settings.numberIterations = 1;
+
+        settings.useCssSelectorGenerator = true;
+        settings.useFinder = true;
+        settings.useGetQuerySelector = true;
+        settings.useOptimalSelect = true;
+        settings.useSelectorQuery = true;
+        settings.useBoundingBox = true;
+        settings.useTemplateMatching = true;
+        settings.useFeatureMatching = true;
+
+        this.setSettings(settings);
     }
 }

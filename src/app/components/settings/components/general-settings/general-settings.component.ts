@@ -23,6 +23,6 @@ export class GeneralSettingsComponent {
     }
 
     public onReset(): void {
-        this.settingsService.removeSettings();
+        this.settingsService.resetSettings();
     }
 }

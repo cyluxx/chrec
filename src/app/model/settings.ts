@@ -1,4 +1,4 @@
-import { Browser } from "./browser";
+import { Browser, Type } from "./browser";
 
 export class Settings {
     homeUrl: string;
