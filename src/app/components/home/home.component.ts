@@ -4,6 +4,8 @@ import { RecorderState } from '../../model/recorder-state';
 import { ProjectService } from '../../providers/project.service';
 import { Project } from '../../model/project';
 import { Sequence } from '../../model/sequence';
+import { Settings } from '../../model/settings';
+import { SettingsService } from '../../providers/settings.service';
 
 const DEFAULT_PROJECT = 'default project';
 
@@ -15,14 +17,18 @@ const DEFAULT_PROJECT = 'default project';
 export class HomeComponent implements OnInit {
 
   private projectService: ProjectService;
+  private settingsService: SettingsService;
 
   project: Project;
   currentSequence: Sequence;
   currentAction: Action;
   recorderState: RecorderState;
 
-  constructor(projectService: ProjectService) {
+  settings: Settings;
+
+  constructor(projectService: ProjectService, settingsService: SettingsService) {
     this.projectService = projectService;
+    this.settingsService = settingsService;
 
     this.project = new Project();
     this.project.name = DEFAULT_PROJECT;
@@ -31,6 +37,8 @@ export class HomeComponent implements OnInit {
     this.currentSequence = new Sequence();
     this.currentSequence.actions = [];
     this.recorderState = RecorderState.stop;
+
+    this.settings = new Settings();
   }
 
   ngOnInit(): void {
@@ -38,6 +46,15 @@ export class HomeComponent implements OnInit {
       .then((project: Project) => {
         if (project.name) {
           this.project = project;
+        }
+      });
+    this.settingsService.getSettings()
+      .then((settings: Settings) => {
+        if (settings) {
+          this.settings = settings;
+          if (!settings.browsers) {
+            this.settings.browsers = [];
+          }
         }
       });
   }
