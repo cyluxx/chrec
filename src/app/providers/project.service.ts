@@ -4,11 +4,11 @@ import * as util from 'util';
 const storage = require('electron-json-storage');
 
 @Injectable()
-export class DatabaseService {
+export class ProjectService {
 
     private get: (projectName: String) => Promise<Project>;
 
-    constructor(){
+    constructor() {
         this.get = util.promisify(storage.get);
     }
 
@@ -22,8 +22,8 @@ export class DatabaseService {
         return await this.get(projectName);
     }
 
-    public clearProjects(): void {
-        storage.clear((error) => {
+    public removeProject(projectName: string): void {
+        storage.remove(projectName, (error) => {
             if (error) throw error;
         });
     }

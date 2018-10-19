@@ -3,6 +3,7 @@ import { WebdriverService } from "../../../../providers/webdriver.service";
 import { Action, Type } from "../../../../model/action";
 import { RecorderState } from "../../../../model/recorder-state";
 import { Sequence } from "../../../../model/sequence";
+import { Settings } from "../../../../model/settings";
 
 @Component({
     selector: 'quickbar',
@@ -17,11 +18,14 @@ export class QuickbarComponent {
     @Input()
     currentSequence: Sequence;
 
+    @Input()
+    settings: Settings;
+
     @Output() recorderStateEmitter = new EventEmitter<RecorderState>();
 
     @Output() saveEmitter = new EventEmitter<boolean>();
 
-    @Output() clearDatabaseEmitter = new EventEmitter<boolean>();
+    @Output() clearProjectsEmitter = new EventEmitter<boolean>();
 
     constructor(webdriverService: WebdriverService) {
         this.webdriverService = webdriverService;
@@ -38,7 +42,7 @@ export class QuickbarComponent {
     onPlay() {
         this.recorderState = RecorderState.play;
         this.recorderStateEmitter.emit(this.recorderState);
-        this.webdriverService.run(this.currentSequence.actions);
+        this.webdriverService.run(this.currentSequence, this.settings);
     }
 
     onSave() {
@@ -65,8 +69,8 @@ export class QuickbarComponent {
         }
     }
 
-    onClearDatabase() {
-        this.clearDatabaseEmitter.emit(true);
+    onClearProjects() {
+        this.clearProjectsEmitter.emit(true);
     }
 
     _autocorrectScreenshotFilename(): void {

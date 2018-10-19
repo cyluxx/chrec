@@ -3,6 +3,7 @@ import { Action, Type } from "../../../../model/action";
 import * as path from 'path';
 import { WebviewTag, NativeImage } from "electron";
 import { RecorderState } from "../../../../model/recorder-state";
+import { Settings } from "../../../../model/settings";
 
 @Component({
   selector: "browserwindow",
@@ -18,6 +19,8 @@ export class BrowserwindowComponent implements AfterViewInit {
 
   @Input() recorderState: RecorderState;
 
+  @Input() settings: Settings;
+
   @Output() actionEmitter = new EventEmitter<Action>();
 
   constructor() {
@@ -27,7 +30,7 @@ export class BrowserwindowComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.webview = (this.tag.nativeElement) as WebviewTag;
-    this.webview.addEventListener("dom-ready", () => {
+    this.webview.addEventListener('dom-ready', () => {
       this.inputUrl = this.webview.getURL();
     });
   }

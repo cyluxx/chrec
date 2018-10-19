@@ -18,19 +18,23 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ElectronService } from "./providers/electron.service";
 import { WebdriverService } from "./providers/webdriver.service";
-import { DatabaseService } from "./providers/database.service";
-import { ScreenshotService } from "./providers/screenshot.service";
+import { ProjectService } from "./providers/project.service";
+import { SettingsService } from "./providers/settings.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
-import { AppComponent } from "./app.component";
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
-import { HomeComponent } from "./components/home/home.component";
+import { AppComponent } from "./app.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
+import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
+import { HomeComponent } from "./components/home/home.component";
 import { QuickbarComponent } from "./components/home/components/quickbar/quickbar.component";
 import { SequenceTabsComponent } from "./components/home/components/sequence-tabs/sequence-tabs.component";
+import { SettingsComponent } from "./components/settings/settings.component";
 import { SidebarComponent } from "./components/home/components/sidebar/sidebar.component";
+import { StabilitySettingsComponent } from "./components/settings/components/stability-settings/stability-settings.component";
 import { StatusbarComponent } from "./components/home/components/statusbar/statusbar.component";
+import { WebdriverSettingsComponent } from "./components/settings/components/webdriver-settings/webdriver-settings.component";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -55,7 +59,11 @@ import {
   faCamera,
   faPlus,
   faSave,
-  faDatabase
+  faDatabase,
+  faTimes,
+  faCog,
+  faTrash,
+  faExclamation
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlay);
@@ -74,17 +82,25 @@ library.add(faCamera);
 library.add(faPlus);
 library.add(faSave);
 library.add(faDatabase);
+library.add(faTimes);
+library.add(faTrash);
+library.add(faCog);
+library.add(faExclamation);
 
 @NgModule({
   declarations: [
-    AppComponent,
     ActionInfoComponent,
-    HomeComponent,
+    AppComponent,
     BrowserwindowComponent,
+    GeneralSettingsComponent,
+    HomeComponent,
     QuickbarComponent,
     SequenceTabsComponent,
+    SettingsComponent,
     SidebarComponent,
+    StabilitySettingsComponent,
     StatusbarComponent,
+    WebdriverSettingsComponent,
     WebviewDirective
   ],
   imports: [
@@ -102,7 +118,7 @@ library.add(faDatabase);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, WebdriverService, DatabaseService, ScreenshotService],
+  providers: [ElectronService, WebdriverService, ProjectService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
