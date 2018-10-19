@@ -24,6 +24,7 @@ import { SettingsService } from "./providers/settings.service";
 import { WebviewDirective } from "./directives/webview.directive";
 
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
+import { AlexSettingsComponent } from "./components/settings/components/alex-settings/alex-settings.component";
 import { AppComponent } from "./app.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
@@ -90,6 +91,7 @@ library.add(faExclamation);
 @NgModule({
   declarations: [
     ActionInfoComponent,
+    AlexSettingsComponent,
     AppComponent,
     BrowserwindowComponent,
     GeneralSettingsComponent,

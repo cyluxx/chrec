@@ -53,6 +53,10 @@ export class SettingsService {
         settings.useTemplateMatching = true;
         settings.useFeatureMatching = true;
 
+        settings.alexUrl = 'localhost:8000';
+        settings.alexEmail = 'admin@alex.example';
+        settings.alexPassword = 'admin';
+
         this.setSettings(settings);
     }
 }

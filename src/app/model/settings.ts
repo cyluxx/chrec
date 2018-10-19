@@ -15,6 +15,10 @@ export class Settings {
     useTemplateMatching: boolean;
     useFeatureMatching: boolean;
 
+    alexUrl: string;
+    alexEmail: string;
+    alexPassword: string;
+
     constructor(){
         this.browsers = [];
     }
