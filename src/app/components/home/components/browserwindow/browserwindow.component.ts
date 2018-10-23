@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild, Input, AfterViewInit } from "@angular/core";
+import { Component, Output, EventEmitter, ViewChild, Input, AfterViewInit, ElementRef } from "@angular/core";
 import { Action, Type } from "../../../../model/action";
 import * as path from 'path';
 import { WebviewTag, NativeImage } from "electron";
@@ -11,7 +11,7 @@ import { Settings } from "../../../../model/settings";
   styleUrls: ["./browserwindow.component.scss"]
 })
 export class BrowserwindowComponent implements AfterViewInit {
-  @ViewChild("webview") tag: any;
+  @ViewChild("webview") webviewRef: ElementRef;
   webview: WebviewTag;
 
   preloadScriptPath: string;
@@ -29,7 +29,7 @@ export class BrowserwindowComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.webview = (this.tag.nativeElement) as WebviewTag;
+    this.webview = (this.webviewRef.nativeElement) as WebviewTag;
     this.webview.addEventListener('dom-ready', () => {
       this.inputUrl = this.webview.getURL();
     });
