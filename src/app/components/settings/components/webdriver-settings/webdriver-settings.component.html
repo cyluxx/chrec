@@ -1,0 +1,62 @@
+<h2>Webdriver Settings</h2>
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div class="form-group">
+        <label>Selenium Grid Url</label>
+        <input type="url" class="form-control" placeholder="Selenium Grid Url" name="seleniumGridUrl" [ngModel]="settings.seleniumGridUrl"
+            #seleniumGridUrl="ngModel">
+        <small class="form-text text-muted">Defaults to localhost:4444</small>
+    </div>
+    <div class="form-group">
+        <label>Number of Iterations</label>
+        <input type="number" min="1" class="form-control" placeholder="Number of Iterations" name="numberIterations"
+            [ngModel]="settings.numberIterations" #numberIterations="ngModel">
+        <small class="form-text text-muted">Number of iterations the sequences are tested per browser.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon> Save
+    </button>
+</form>
+<h5 class="mt-3">Browsers</h5>
+<div class="form-row align-items-end">
+    <div class="form-group col-5">
+        <label>Type</label>
+        <select class="form-control" [(ngModel)]="newBrowser.type">
+            <option *ngFor="let type of types" [value]="type">{{type}}</option>
+        </select>
+    </div>
+    <div class="form-group col-3">
+        <label>Width</label>
+        <input type="number" min="300" class="form-control" [(ngModel)]="newBrowser.width">
+    </div>
+    <div class="form-group col-3">
+        <label>Height</label>
+        <input type="number" min="300" class="form-control" [(ngModel)]="newBrowser.height">
+    </div>
+    <div class="form-group col-1">
+        <button class="btn btn-block btn-primary" (click)="onAddBrowser()">
+            <fa-icon icon="plus"></fa-icon>
+        </button>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Type</th>
+            <th scope="col">Resolution</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let browser of settings.browsers; let i = index">
+            <th scope="row">{{i}}</th>
+            <td>{{browser.type}}</td>
+            <td>{{browser.width}} <fa-icon icon="times"></fa-icon> {{browser.height}}</td>
+            <td>
+                <button class="btn btn-sm btn-danger" (click)="onDeleteBrowser(browser)">
+                    <fa-icon icon="trash"></fa-icon>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

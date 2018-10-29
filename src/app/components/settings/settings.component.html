@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-between mt-3">
+    <h1 class="ml-3">Settings</h1>
+    <div>
+        <a class="btn btn-lg btn-danger mr-3" routerLink="/"><fa-icon icon="times"></fa-icon></a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <ul class="list-group list-group-flush">
+            <li *ngFor="let component of components" class="list-group-item list-group-item-action" (click)="onNavItem(component)">
+                <h5>{{component}}</h5>
+            </li>
+        </ul>
+        <nav class="nav nav-pills nav-justified flex-column">
+            <a class="nav-item nav-link">{{component}}</a>
+        </nav>
+    </div>
+    <div class="col-9">
+        <div [ngSwitch]="currentComponent">
+            <alex-settings [settings]="settings" *ngSwitchCase="alexSettings"></alex-settings>
+            <stability-settings [settings]="settings" *ngSwitchCase="stabilitySettings"></stability-settings>
+            <webdriver-settings [settings]="settings" *ngSwitchCase="webdriverSettings"></webdriver-settings>
+            <general-settings [settings]="settings" *ngSwitchDefault></general-settings>
+        </div>
+    </div>
+</div>

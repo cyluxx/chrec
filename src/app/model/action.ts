@@ -1,6 +1,6 @@
 import { NativeImage } from "electron";
 
-export class Action{
+export class Action {
     id: string;
     type: Type;
     url: string;
@@ -9,14 +9,14 @@ export class Action{
     keyCode: number;
     filename: string;
     boundingBox: DOMRect;
-    image: String;
+    image: string;
 
-    constructor(){
+    constructor() {
         this.id = Math.random().toString(36).substr(2, 9);
     }
 }
 
-export enum Type{
+export enum Type {
     click = 'click',
     type = 'type',
     goto = 'goto',

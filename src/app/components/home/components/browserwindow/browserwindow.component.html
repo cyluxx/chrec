@@ -18,6 +18,6 @@
 </div>
 <div class="row">
     <div class="col">
-        <webview #webview (actionEmitter)="onAction($event)" [attr.preload]="preloadScriptPath"></webview>
+        <webview #webview (actionEmitter)="onAction($event)" [attr.src]="settings.homeUrl" [attr.preload]="preloadScriptPath"></webview>
     </div>
 </div>

@@ -1,14 +1,14 @@
-import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
 import { Action } from "../../../../model/action";
-import { ScreenshotService } from "../../../../providers/screenshot.service";
+import { nativeImage } from "electron";
+import { Mat } from "opencv4nodejs";
 
 @Component({
     selector: 'action-info',
     templateUrl: './action-info.component.html'
 })
-export class ActionInfoComponent implements OnInit{
-
-    screenshotService: ScreenshotService;
+export class ActionInfoComponent implements AfterViewInit{
+    @ViewChild("canvas") canvasRef: ElementRef;
 
     @Input() action: Action;
 
@@ -16,20 +16,21 @@ export class ActionInfoComponent implements OnInit{
 
     imgUrl: string;
 
-    constructor(screenshotService: ScreenshotService) {
-        this.screenshotService = screenshotService;
+    constructor() {
         this.action = new Action();
-        //this.imgUrl = '../../../../../../screenshots/generated/' + this.action.id + '.png';
     }
 
-    ngOnInit(): void {
-        /* this.screenshotService.getScreenshot('./screenshots/generated/' + this.action.id + '.png')
-          .then((data: string) => {
-            this.imgUrl = data;
-          }); */
-      }
+    public ngAfterViewInit(): void {
+        // if (this.action.image) {
+        //     console.log('test1');
+        //     let mat: Mat = opencv.imdecode(nativeImage.createFromDataURL(this.action.image).toBitmap());
+        //     console.log('test2');
+        //     opencv.imshow('canvas', mat);
+        //     console.log('test3');
+        // }
+    }
 
-    onClose(): void {
+    public onClose(): void {
         this.closeEmitter.emit(true);
     }
 }
