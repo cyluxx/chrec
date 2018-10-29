@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
 import { Action } from "../../../../model/action";
-import * as opencv from 'opencv4nodejs';
 import { nativeImage } from "electron";
+import { Mat } from "opencv4nodejs";
 
 @Component({
     selector: 'action-info',
@@ -21,9 +21,13 @@ export class ActionInfoComponent implements AfterViewInit{
     }
 
     public ngAfterViewInit(): void {
-        if (this.action.image) {
-            let mat = opencv.imdecode(nativeImage.createFromDataURL(this.action.image).toBitmap());
-        }
+        // if (this.action.image) {
+        //     console.log('test1');
+        //     let mat: Mat = opencv.imdecode(nativeImage.createFromDataURL(this.action.image).toBitmap());
+        //     console.log('test2');
+        //     opencv.imshow('canvas', mat);
+        //     console.log('test3');
+        // }
     }
 
     public onClose(): void {
