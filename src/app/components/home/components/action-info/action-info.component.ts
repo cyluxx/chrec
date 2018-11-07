@@ -14,8 +14,6 @@ export class ActionInfoComponent implements AfterViewInit{
 
     @Output() closeEmitter = new EventEmitter<boolean>();
 
-    imgUrl: string;
-
     constructor() {
         this.action = new Action();
     }

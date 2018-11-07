@@ -23,6 +23,7 @@ import { SettingsService } from "./providers/settings.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
+import { ActionComparisonComponent } from "./components/home/components/action-comparison/action-comparison.component";
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
 import { AlexSettingsComponent } from "./components/settings/components/alex-settings/alex-settings.component";
 import { AppComponent } from "./app.component";
@@ -90,6 +91,7 @@ library.add(faExclamation);
 
 @NgModule({
   declarations: [
+    ActionComparisonComponent,
     ActionInfoComponent,
     AlexSettingsComponent,
     AppComponent,

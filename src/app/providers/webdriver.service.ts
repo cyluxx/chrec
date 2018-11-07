@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Builder, By, Key, WebDriver } from 'selenium-webdriver';
+import { Builder, By, Key, WebDriver, WebElement } from 'selenium-webdriver';
 import { Action, Type as ActionType } from '../model/action';
 import { Browser } from '../model/browser';
 import * as fs from 'fs';
@@ -17,7 +17,16 @@ export class WebdriverService {
     }
 
     private click(action: Action): void {
-        this.driver.findElement(By.css(action.selectors[0])).click();
+        this.driver.findElement(By.css(action.selectors[0])).then(
+            (webElement: WebElement) => {
+                webElement.click();
+            },
+            (error: Error) => {
+                if (error.name === 'NoSuchElementError') {
+                    console.log('yoyoyo');
+                }
+            }
+        );
     }
 
     private goto(action: Action): void {
@@ -64,7 +73,7 @@ export class WebdriverService {
                 this.begin(browser, settings.seleniumGridUrl);
                 for (let action of sequence.actions) {
                     if (action.type == ActionType.click) {
-                        this.click(action);
+                    
                     }
                     else if (action.type == ActionType.goto) {
                         this.goto(action);
