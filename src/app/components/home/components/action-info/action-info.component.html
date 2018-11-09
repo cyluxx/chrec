@@ -1,11 +1,6 @@
 <div class="row">
     <div class="col">
-        <div class="d-flex justify-content-between">
-            <h5 class="mb-1">{{action.id}}: {{action.type}}</h5>
-            <button class="btn btn-danger" (click)="onClose()">
-                <fa-icon icon="times"></fa-icon>
-            </button>
-        </div>
+        <h5 class="mb-1">{{action.id}}: {{action.type}}</h5>
         <p *ngFor="let selector of action.selectors; let i = index">
             selector {{i}}: {{selector}}
         </p>

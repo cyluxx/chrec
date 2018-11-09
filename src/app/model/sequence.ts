@@ -7,6 +7,6 @@ export class Sequence{
 
     constructor(){
         this.actions = [];
-        this.executable = true;
+        this.executable = false;
     }
 }

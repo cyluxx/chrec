@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-3">
+        <h4>{{sequence.name}}</h4>
+        <ul class="list-group list-group-flush">
+            <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item list-group-item-action"
+                (click)="onAction(action)">
+                <h5 class="mb-1">{{i}}: {{action.type}}</h5>
+                <div>
+                    <small *ngIf="action.value">
+                        value: {{action.value}}
+                    </small>
+                </div>
+                <div>
+                    <small *ngIf="action.url">
+                        url: {{action.url}}
+                    </small>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-9">
+        <div class="row">
+            <div class="col">
+                <div class="d-flex justify-content-between">
+                    <h4 class="mb-1">{{sequence.name}}
+                        <span *ngIf="sequence.executable" class="badge badge-success">Executable <fa-icon icon="check"></fa-icon></span>
+                        <span *ngIf="sequence.executable" class="badge badge-danger">Not Executable <fa-icon icon="times"></fa-icon></span>
+                    </h4>
+                    <button class="btn btn-danger" (click)="onClose()">
+                        <fa-icon icon="times"></fa-icon>
+                    </button>
+                </div>
+                <div class="btn-group mr-1">
+                    <button type="button" class="btn btn-outline-secondary" (click)="onBackward()">
+                        <fa-icon icon="step-backward"></fa-icon>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="onForward()">
+                        <fa-icon icon="step-forward"></fa-icon>
+                    </button>
+                </div>
+                <button class="btn btn-primary" (click)="onRerecordSequence()">
+                    <fa-icon icon="sync"></fa-icon> Record Again
+                </button>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <action-info *ngIf="currentAction" [action]="currentAction"></action-info>
+            </div>
+        </div>
+    </div>
+</div>

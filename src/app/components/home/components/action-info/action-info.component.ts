@@ -12,8 +12,6 @@ export class ActionInfoComponent implements AfterViewInit{
 
     @Input() action: Action;
 
-    @Output() closeEmitter = new EventEmitter<boolean>();
-
     constructor() {
         this.action = new Action();
     }
@@ -26,9 +24,5 @@ export class ActionInfoComponent implements AfterViewInit{
         //     opencv.imshow('canvas', mat);
         //     console.log('test3');
         // }
-    }
-
-    public onClose(): void {
-        this.closeEmitter.emit(true);
     }
 }

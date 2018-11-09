@@ -1,10 +1,10 @@
 import { Component, Output, EventEmitter, Input } from "@angular/core";
 
 @Component({
-    selector: 'action-comparison',
-    templateUrl: './action-comparison.component.html'
+    selector: 'rerecord-sequence',
+    templateUrl: './rerecord-sequence.component.html'
 })
-export class ActionComparisonComponent{
+export class RerecordSequenceComponent{
     
     @Output() closeEmitter = new EventEmitter<boolean>();
 

@@ -23,17 +23,15 @@ import { SettingsService } from "./providers/settings.service";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
-import { ActionComparisonComponent } from "./components/home/components/action-comparison/action-comparison.component";
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
 import { AlexSettingsComponent } from "./components/settings/components/alex-settings/alex-settings.component";
 import { AppComponent } from "./app.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
 import { HomeComponent } from "./components/home/home.component";
-import { QuickbarComponent } from "./components/home/components/quickbar/quickbar.component";
-import { SequenceTabsComponent } from "./components/home/components/sequence-tabs/sequence-tabs.component";
+import { RerecordSequenceComponent } from "./components/home/components/rerecord-sequence.component.ts/rerecord-sequence.component";
+import { SequenceInfoComponent } from "./components/home/components/sequence-info/sequence-info.component";
 import { SettingsComponent } from "./components/settings/settings.component";
-import { SidebarComponent } from "./components/home/components/sidebar/sidebar.component";
 import { StabilitySettingsComponent } from "./components/settings/components/stability-settings/stability-settings.component";
 import { StatusbarComponent } from "./components/home/components/statusbar/statusbar.component";
 import { WebdriverSettingsComponent } from "./components/settings/components/webdriver-settings/webdriver-settings.component";
@@ -66,7 +64,8 @@ import {
   faCog,
   faTrash,
   faExclamation,
-  faForward
+  faForward,
+  faCheck
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlay);
@@ -90,20 +89,19 @@ library.add(faTrash);
 library.add(faCog);
 library.add(faExclamation);
 library.add(faForward);
+library.add(faCheck);
 
 @NgModule({
   declarations: [
-    ActionComparisonComponent,
     ActionInfoComponent,
     AlexSettingsComponent,
     AppComponent,
     BrowserwindowComponent,
     GeneralSettingsComponent,
     HomeComponent,
-    QuickbarComponent,
-    SequenceTabsComponent,
+    RerecordSequenceComponent,
+    SequenceInfoComponent,
     SettingsComponent,
-    SidebarComponent,
     StabilitySettingsComponent,
     StatusbarComponent,
     WebdriverSettingsComponent,

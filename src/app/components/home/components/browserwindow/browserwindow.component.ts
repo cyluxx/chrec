@@ -4,6 +4,7 @@ import * as path from 'path';
 import { WebviewTag, NativeImage } from "electron";
 import { RecorderState } from "../../../../model/recorder-state";
 import { Settings } from "../../../../model/settings";
+import { Sequence } from "../../../../model/sequence";
 
 @Component({
   selector: "browserwindow",
@@ -21,7 +22,9 @@ export class BrowserwindowComponent implements AfterViewInit {
 
   @Input() settings: Settings;
 
-  @Output() actionEmitter = new EventEmitter<Action>();
+  @Input() sequence: Sequence;
+
+  @Output() sequenceEmitter = new EventEmitter<Sequence>();
 
   constructor() {
     this.preloadScriptPath = path.resolve(__dirname, '../../../../../../webview-preload.js'); //TODO resolve path hell
@@ -47,7 +50,7 @@ export class BrowserwindowComponent implements AfterViewInit {
           action.image = image.toDataURL();
           action.type = Type.back;
           action.url = this.webview.getURL();
-          this.actionEmitter.emit(action);
+          this.sequence.actions.push(action);
         });
       }
       this.webview.goBack();
@@ -66,7 +69,7 @@ export class BrowserwindowComponent implements AfterViewInit {
           action.image = image.toDataURL();
           action.type = Type.forward;
           action.url = this.webview.getURL();
-          this.actionEmitter.emit(action);
+          this.sequence.actions.push(action);
         });
       }
       this.webview.goForward();
@@ -80,7 +83,7 @@ export class BrowserwindowComponent implements AfterViewInit {
         action.image = image.toDataURL();
         action.type = Type.refresh;
         action.url = this.webview.getURL();
-        this.actionEmitter.emit(action);
+        this.sequence.actions.push(action);
       });
     }
     this.webview.reload();
@@ -94,7 +97,7 @@ export class BrowserwindowComponent implements AfterViewInit {
         action.image = image.toDataURL();
         action.type = Type.goto;
         action.url = this.inputUrl;
-        this.actionEmitter.emit(action);
+        this.sequence.actions.push(action);
       });
     }
     this.webview.loadURL(this.inputUrl);
@@ -102,7 +105,7 @@ export class BrowserwindowComponent implements AfterViewInit {
 
   public onAction(action: Action) {
     if (this.isRecording()) {
-      this.actionEmitter.emit(action);
+      this.sequence.actions.push(action);
     }
   }
 
