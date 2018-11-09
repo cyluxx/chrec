@@ -48,16 +48,20 @@ export class QuickbarComponent {
         this.recorderState = RecorderState.play;
         this.recorderStateEmitter.emit(this.recorderState);
         await this.playSequence(this.currentSequence);
+        this.recorderState = RecorderState.stop;
+        this.recorderStateEmitter.emit(this.recorderState);
     }
-
+    
     public async onPlayAll(): Promise<void> {
         this.recorderState = RecorderState.play;
         this.recorderStateEmitter.emit(this.recorderState);
         for(let sequence of this.sequences){
             await this.playSequence(sequence);
         }
+        this.recorderState = RecorderState.stop;
+        this.recorderStateEmitter.emit(this.recorderState);
     }
-
+    
     private async playSequence(sequence: Sequence): Promise<void> {
         try {
             await this.webdriverService.run(sequence, this.settings);

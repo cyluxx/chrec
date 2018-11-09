@@ -1,9 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { RecorderState } from "../../../../model/recorder-state";
 
 @Component({
     selector: 'statusbar',
     templateUrl: './statusbar.component.html'
 })
 export class StatusbarComponent {
-    temp: String;
+    
+    @Input() recorderState: RecorderState;
 }
