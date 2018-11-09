@@ -16,6 +16,9 @@ export class QuickbarComponent {
     screenshotFilename: string;
 
     @Input()
+    sequences: Sequence[];
+
+    @Input()
     currentSequence: Sequence;
 
     @Input()
@@ -30,6 +33,8 @@ export class QuickbarComponent {
     constructor(webdriverService: WebdriverService) {
         this.webdriverService = webdriverService;
         this.recorderState = RecorderState.stop;
+
+        this.sequences = [];
     }
 
     onRecord() {
@@ -39,16 +44,28 @@ export class QuickbarComponent {
         }
     }
 
-    async onPlay() {
+    public async onPlay(): Promise<void> {
         this.recorderState = RecorderState.play;
         this.recorderStateEmitter.emit(this.recorderState);
-        try{
-            await this.webdriverService.run(this.currentSequence, this.settings);
+        await this.playSequence(this.currentSequence);
+    }
+
+    public async onPlayAll(): Promise<void> {
+        this.recorderState = RecorderState.play;
+        this.recorderStateEmitter.emit(this.recorderState);
+        for(let sequence of this.sequences){
+            await this.playSequence(sequence);
+        }
+    }
+
+    private async playSequence(sequence: Sequence): Promise<void> {
+        try {
+            await this.webdriverService.run(sequence, this.settings);
             this.currentSequence.executable = true;
         }
-        catch(error){
-            if(error.name === 'NoSuchElementError'){
-                this.currentSequence.executable = false;
+        catch (error) {
+            if (error.name === 'NoSuchElementError') {
+                sequence.executable = false;
             }
         }
     }

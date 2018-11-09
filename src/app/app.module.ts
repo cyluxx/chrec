@@ -65,7 +65,8 @@ import {
   faTimes,
   faCog,
   faTrash,
-  faExclamation
+  faExclamation,
+  faForward
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlay);
@@ -88,6 +89,7 @@ library.add(faTimes);
 library.add(faTrash);
 library.add(faCog);
 library.add(faExclamation);
+library.add(faForward);
 
 @NgModule({
   declarations: [
