@@ -10,6 +10,7 @@
         </div>
     </div>
     <div class="col-9">
-        <button *ngFor="let sequence of sequences" (click)="onSelectSequence(sequence)" class="btn btn-outline-primary mr-1">{{sequence.name}}</button>
+        <button *ngFor="let sequence of sequences" (click)="onSelectSequence(sequence)" [class.btn-outline-primary]="sequence.executable"
+            [class.btn-danger]="!sequence.executable" class="btn mr-1">{{sequence.name}}</button>
     </div>
 </div>

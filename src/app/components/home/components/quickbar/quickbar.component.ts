@@ -39,10 +39,18 @@ export class QuickbarComponent {
         }
     }
 
-    onPlay() {
+    async onPlay() {
         this.recorderState = RecorderState.play;
         this.recorderStateEmitter.emit(this.recorderState);
-        this.webdriverService.run(this.currentSequence, this.settings);
+        try{
+            await this.webdriverService.run(this.currentSequence, this.settings);
+            this.currentSequence.executable = true;
+        }
+        catch(error){
+            if(error.name === 'NoSuchElementError'){
+                this.currentSequence.executable = false;
+            }
+        }
     }
 
     onSave() {

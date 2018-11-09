@@ -2,7 +2,7 @@
   <div class="row mt-3">
     <div class="col">
       <quickbar [currentSequence]="currentSequence" [settings]="settings" (recorderStateEmitter)="onRecorderState($event)"
-        (saveEmitter)="onSave($event)" (clearProjectsEmitter)="onClearProjects($event)"></quickbar>
+        (saveEmitter)="onSave($event)" (clearProjectsEmitter)="onClearProjects($event)" (sequenceNotExecutableEmitter)="onSequenceNotExecutable($event)"></quickbar>
     </div>
   </div>
   <div class="row mt-3">

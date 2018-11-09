@@ -16,17 +16,15 @@ export class WebdriverService {
         this.driver.manage().window().setSize(browser.width, browser.height);
     }
 
-    private click(action: Action): void {
-        this.driver.findElement(By.css(action.selectors[0])).then(
-            (webElement: WebElement) => {
-                webElement.click();
-            },
-            (error: Error) => {
-                if (error.name === 'NoSuchElementError') {
-                    console.log('yoyoyo');
-                }
-            }
-        );
+    private async click(action: Action): Promise<void> {
+        try {
+            let webElement: WebElement = await this.findElement(action);
+            webElement.click();
+        }
+        catch (error) {
+            this.quit();
+            throw error;
+        }
     }
 
     private goto(action: Action): void {
@@ -63,17 +61,21 @@ export class WebdriverService {
         });
     }
 
+    private async findElement(action: Action): Promise<WebElement> {
+        return await this.driver.findElement(By.css(action.selectors[0]));
+    }
+
     private quit(): void {
         this.driver.quit();
     }
 
-    public run(sequence: Sequence, settings: Settings): void {
+    public async run(sequence: Sequence, settings: Settings): Promise<void> {
         for (let browser of settings.browsers) {
             for (let i: number = 0; i < settings.numberIterations; i++) {
                 this.begin(browser, settings.seleniumGridUrl);
                 for (let action of sequence.actions) {
                     if (action.type == ActionType.click) {
-                    
+                        await this.click(action);
                     }
                     else if (action.type == ActionType.goto) {
                         this.goto(action);

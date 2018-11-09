@@ -92,4 +92,8 @@ export class HomeComponent implements OnInit {
   onActionInfo(action: Action): void {
     this.currentAction = action;
   }
+
+  onSequenceNotExecutable(sequence: Sequence): void {
+    
+  }
 }
