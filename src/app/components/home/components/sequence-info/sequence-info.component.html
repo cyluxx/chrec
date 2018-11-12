@@ -24,7 +24,7 @@
                 <div class="d-flex justify-content-between">
                     <h4 class="mb-1">{{sequence.name}}
                         <span *ngIf="sequence.executable" class="badge badge-success">Executable <fa-icon icon="check"></fa-icon></span>
-                        <span *ngIf="sequence.executable" class="badge badge-danger">Not Executable <fa-icon icon="times"></fa-icon></span>
+                        <span *ngIf="!sequence.executable" class="badge badge-danger">Not Executable <fa-icon icon="times"></fa-icon></span>
                     </h4>
                     <button class="btn btn-danger" (click)="onClose()">
                         <fa-icon icon="times"></fa-icon>
