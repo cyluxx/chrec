@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Action, Type } from '../../model/action';
 import { RecorderState } from '../../model/recorder-state';
 import { ProjectService } from '../../providers/project.service';
 import { Project } from '../../model/project';
@@ -7,7 +6,6 @@ import { Sequence } from '../../model/sequence';
 import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
 import { WebdriverService } from '../../providers/webdriver.service';
-import { strictEqual } from 'assert';
 
 const DEFAULT_PROJECT = 'default project';
 
@@ -74,21 +72,6 @@ export class HomeComponent implements OnInit {
     this.projectService.removeProject(DEFAULT_PROJECT);
   }
 
-  public onScreenshot(): void {
-    if (this.recorderState == RecorderState.record) {
-      let screenshotAction: Action = new Action();
-      screenshotAction.type = Type.screenshot;
-      if (this.screenshotFilename) {
-        this.autocorrectScreenshotFilename();
-        screenshotAction.filename = this.screenshotFilename;
-      }
-      else {
-        screenshotAction.filename = 'screenshot';
-      }
-      this.currentSequence.actions.push(screenshotAction);
-    }
-  }
-
   onStop() {
     this.recorderState = RecorderState.stop;
   }
@@ -146,12 +129,6 @@ export class HomeComponent implements OnInit {
       if (error.name === 'NoSuchElementError') {
         sequence.executable = false;
       }
-    }
-  }
-
-  private autocorrectScreenshotFilename(): void {
-    if (!this.screenshotFilename.endsWith('.png')) {
-      this.screenshotFilename += '.png';
     }
   }
 }

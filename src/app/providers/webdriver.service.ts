@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Builder, By, Key, WebDriver, WebElement } from 'selenium-webdriver';
 import { Action, Type as ActionType } from '../model/action';
 import { Browser } from '../model/browser';
-import * as fs from 'fs';
 import { Sequence } from '../model/sequence';
 import { Settings } from '../model/settings';
 
@@ -47,20 +46,6 @@ export class WebdriverService {
         this.driver.navigate().back();
     }
 
-    private customScreenshot(action: Action): void {
-        this.driver.takeScreenshot().then((data) => {
-            fs.writeFile(
-                './screenshots/custom/' + action.filename,
-                data.replace(/^data:image\/png;base64,/, ''),
-                'base64',
-                (error) => {
-                    if (error) {
-                        throw error;
-                    }
-                });
-        });
-    }
-
     private async findElement(action: Action): Promise<WebElement> {
         return await this.driver.findElement(By.css(action.selectors[0]));
     }
@@ -91,14 +76,6 @@ export class WebdriverService {
                     }
                     else if (action.type == ActionType.back) {
                         this.back();
-                    }
-                    else if (action.type == ActionType.screenshot) {
-                        try {
-                            this.customScreenshot(action);
-                        }
-                        catch (error) {
-                            console.log(error);
-                        }
                     }
                 }
                 this.quit();

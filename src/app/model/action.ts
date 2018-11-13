@@ -22,6 +22,5 @@ export enum Type {
     goto = 'goto',
     refresh = 'refresh',
     forward = 'forward',
-    back = 'back',
-    screenshot = 'screenshot'
+    back = 'back'
 }
