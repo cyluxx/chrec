@@ -1,46 +1,23 @@
 <div class="row">
-    <div class="col-3">
-        <h4>{{sequence.name}}</h4>
-        <ul class="list-group list-group-flush">
-            <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item list-group-item-action"
-                (click)="onAction(action)">
-                <h5 class="mb-1">{{i}}: {{action.type}}</h5>
-                <div>
-                    <small *ngIf="action.value">
-                        value: {{action.value}}
-                    </small>
-                </div>
-                <div>
-                    <small *ngIf="action.url">
-                        url: {{action.url}}
-                    </small>
-                </div>
-            </li>
-        </ul>
+    <div class="col">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <button (click)="onBack()" class="btn btn-outline-secondary" type="button">
+                    <fa-icon icon="arrow-left"></fa-icon>
+                </button>
+                <button (click)="onForward()" class="btn btn-outline-secondary" type="button">
+                    <fa-icon icon="arrow-right"></fa-icon>
+                </button>
+                <button (click)="onReload()" class="btn btn-outline-secondary" type="button">
+                    <fa-icon icon="sync"></fa-icon>
+                </button>
+            </div>
+            <input [(ngModel)]="inputUrl" (keyup.enter)="onLoadUrl()" type="text" class="form-control">
+        </div>
     </div>
-    <div class="col-9">
-        <div class="row">
-            <div class="col">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <button (click)="onBack()" class="btn btn-outline-secondary" type="button">
-                            <fa-icon icon="arrow-left"></fa-icon>
-                        </button>
-                        <button (click)="onForward()" class="btn btn-outline-secondary" type="button">
-                            <fa-icon icon="arrow-right"></fa-icon>
-                        </button>
-                        <button (click)="onReload()" class="btn btn-outline-secondary" type="button">
-                            <fa-icon icon="sync"></fa-icon>
-                        </button>
-                    </div>
-                    <input [(ngModel)]="inputUrl" (keyup.enter)="onLoadUrl()" type="text" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <webview #webview (actionEmitter)="onAction($event)" [attr.src]="settings.homeUrl" [attr.preload]="preloadScriptPath"></webview>
-            </div>
-        </div>
+</div>
+<div class="row mt-1">
+    <div class="col">
+        <webview #webview (actionEmitter)="onAction($event)" [attr.src]="settings.homeUrl" [attr.preload]="preloadScriptPath"></webview>
     </div>
 </div>

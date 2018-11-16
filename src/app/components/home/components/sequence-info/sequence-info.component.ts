@@ -12,6 +12,8 @@ export class SequenceInfoComponent {
 
     @Output() closeEmitter = new EventEmitter<void>();
 
+    @Output() recordSequenceEmitter = new EventEmitter<Sequence>();
+
     @Output() rerecordSequenceEmitter = new EventEmitter<Sequence>();
 
     currentAction: Action;
@@ -38,11 +40,11 @@ export class SequenceInfoComponent {
         }
     }
 
-    public onRerecordSequence(): void {
-        this.rerecordSequenceEmitter.emit(this.sequence);
+    public onRecordSequence(): void {
+        this.recordSequenceEmitter.emit(this.sequence);
     }
 
-    public onClose(): void {
-        this.closeEmitter.emit();
+    public onRerecordSequence(): void {
+        this.rerecordSequenceEmitter.emit(this.sequence);
     }
 }

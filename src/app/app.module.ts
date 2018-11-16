@@ -29,11 +29,11 @@ import { AppComponent } from "./app.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
 import { HomeComponent } from "./components/home/home.component";
+import { RecordSequenceComponent } from "./components/home/components/record-sequence/record-sequence.component";
 import { RerecordSequenceComponent } from "./components/home/components/rerecord-sequence/rerecord-sequence.component";
 import { SequenceInfoComponent } from "./components/home/components/sequence-info/sequence-info.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { StabilitySettingsComponent } from "./components/settings/components/stability-settings/stability-settings.component";
-import { StatusbarComponent } from "./components/home/components/statusbar/statusbar.component";
 import { WebdriverSettingsComponent } from "./components/settings/components/webdriver-settings/webdriver-settings.component";
 
 // AoT requires an exported function for factories
@@ -99,11 +99,11 @@ library.add(faCheck);
     BrowserwindowComponent,
     GeneralSettingsComponent,
     HomeComponent,
+    RecordSequenceComponent,
     RerecordSequenceComponent,
     SequenceInfoComponent,
     SettingsComponent,
     StabilitySettingsComponent,
-    StatusbarComponent,
     WebdriverSettingsComponent,
     WebviewDirective
   ],
