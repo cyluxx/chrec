@@ -4,7 +4,6 @@ import { Project } from '../../model/project';
 import { Sequence } from '../../model/sequence';
 import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
-import { WebdriverService } from '../../providers/webdriver.service';
 
 const DEFAULT_PROJECT = 'default project';
 
@@ -17,7 +16,6 @@ export class HomeComponent implements OnInit {
 
   private projectService: ProjectService;
   private settingsService: SettingsService;
-  private webdriverService: WebdriverService;
 
   project: Project;
   settings: Settings;
@@ -29,10 +27,9 @@ export class HomeComponent implements OnInit {
 
   recording: boolean;
 
-  constructor(projectService: ProjectService, settingsService: SettingsService, webdriverService: WebdriverService) {
+  constructor(projectService: ProjectService, settingsService: SettingsService) {
     this.projectService = projectService;
     this.settingsService = settingsService;
-    this.webdriverService = webdriverService;
 
     this.project = new Project();
     this.project.name = DEFAULT_PROJECT;
@@ -67,15 +64,7 @@ export class HomeComponent implements OnInit {
     this.projectService.removeProject(DEFAULT_PROJECT);
   }
 
-  public async onPlay(): Promise<void> {
-    await this.playSequence(this.currentSequence);
-  }
-
-  public async onPlayAll(): Promise<void> {
-    for (let sequence of this.project.sequences) {
-      await this.playSequence(sequence);
-    }
-  }
+  
 
   public onNewSequence(): void {
     if (this.newSequenceName) {
@@ -90,18 +79,6 @@ export class HomeComponent implements OnInit {
 
   public onSelectSequence(sequence: Sequence): void {
     this.currentSequence = sequence;
-  }
-
-  private async playSequence(sequence: Sequence): Promise<void> {
-    try {
-      await this.webdriverService.run(sequence, this.settings);
-      this.currentSequence.executable = true;
-    }
-    catch (error) {
-      if (error.name === 'NoSuchElementError') {
-        sequence.executable = false;
-      }
-    }
   }
 
   public onRecordSequence(): void {
