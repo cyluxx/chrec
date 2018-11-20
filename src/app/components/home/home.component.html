@@ -27,7 +27,7 @@
         </div>
         <div class="col-9">
             <button *ngFor="let sequence of project.sequences" (click)="onSelectSequence(sequence)"
-                [class.btn-outline-primary]="sequence.executable" [class.btn-danger]="!sequence.executable" class="btn mr-1">{{sequence.name}}</button>
+                [class.btn-outline-success]="sequence.executable" [class.btn-danger]="!sequence.executable" class="btn mr-1">{{sequence.name}}</button>
         </div>
     </div>
     <div class="row mt-1">

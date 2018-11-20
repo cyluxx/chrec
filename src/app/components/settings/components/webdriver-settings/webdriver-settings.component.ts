@@ -40,11 +40,18 @@ export class WebdriverSettingsComponent {
     public onDeleteBrowser(browser: Browser): void {
         let browsers: Browser[] = [];
         for(let thisBrowser of this.settings.browsers){
-            if(thisBrowser.type !== browser.type || thisBrowser.width !== browser.width || thisBrowser.height !== browser.height){
+            if(thisBrowser.type !== browser.type 
+                || thisBrowser.width !== browser.width 
+                || thisBrowser.height !== browser.height
+                || thisBrowser.headless !== browser.headless){
                 browsers.push(thisBrowser);
             }
         }
         this.settings.browsers = browsers;
         this.settingsService.setSettings(this.settings);
+    }
+
+    public shouldDisplayHeadlessCheckbox(): boolean{
+        return this.newBrowser.type && this.newBrowser.type === Type.chrome;
     }
 }

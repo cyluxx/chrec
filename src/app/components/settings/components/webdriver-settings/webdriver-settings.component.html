@@ -24,13 +24,19 @@
             <option *ngFor="let type of types" [value]="type">{{type}}</option>
         </select>
     </div>
-    <div class="form-group col-3">
+    <div class="form-group col-2">
         <label>Width</label>
         <input type="number" min="300" class="form-control" [(ngModel)]="newBrowser.width">
     </div>
-    <div class="form-group col-3">
+    <div class="form-group col-2">
         <label>Height</label>
         <input type="number" min="300" class="form-control" [(ngModel)]="newBrowser.height">
+    </div>
+    <div class="col-2 mb-2">
+        <div *ngIf="shouldDisplayHeadlessCheckbox()" class="form-group form-check">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="newBrowser.headless">
+            <label class="form-check-label">Headless</label>
+        </div>
     </div>
     <div class="form-group col-1">
         <button class="btn btn-block btn-primary" (click)="onAddBrowser()">
@@ -45,6 +51,7 @@
             <th scope="col">Type</th>
             <th scope="col">Resolution</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -52,6 +59,7 @@
             <th scope="row">{{i}}</th>
             <td>{{browser.type}}</td>
             <td>{{browser.width}} <fa-icon icon="times"></fa-icon> {{browser.height}}</td>
+            <td><span *ngIf="browser.headless" class="badge badge-primary">Headless</span></td>
             <td>
                 <button class="btn btn-sm btn-danger" (click)="onDeleteBrowser(browser)">
                     <fa-icon icon="trash"></fa-icon>

@@ -75,6 +75,7 @@ export class BrowserwindowComponent implements AfterViewInit {
             action.url = this.webview.getURL();
             this.sequence.actions.push(action);
         });
+        this.webview.reloadIgnoringCache();
     }
 
     public onLoadUrl(): void {
