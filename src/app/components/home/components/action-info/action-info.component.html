@@ -1,20 +1,26 @@
 <div class="row">
     <div class="col">
-        <h5 class="mb-1">{{action.id}}: {{action.type}}</h5>
+        <div class="d-flex justify-content-between">
+            <h5 class="mb-1">{{action.id}}: {{action.type}}</h5>
+            <button *ngIf="!edit" class="btn btn-sm btn-outline-primary" (click)="onToggleEdit()">
+                <fa-icon icon="pen"></fa-icon> Edit
+            </button>
+            <button *ngIf="edit" class="btn btn-sm btn-primary" (click)="onToggleEdit()">
+                <fa-icon icon="check"></fa-icon> Done
+            </button>
+        </div>
+        <p *ngIf="!edit">url: {{action.url}}</p>
+        <div *ngIf="edit" class="form-group">
+            <label>url:</label>
+            <input type="url" class="form-control" placeholder="url" [(ngModel)]="action.url">
+        </div>
+        <p *ngIf="!edit">value: {{action.value}}</p>
+        <div *ngIf="edit" class="form-group">
+            <label>value:</label>
+            <input type="text" class="form-control" placeholder="value" [(ngModel)]="action.value">
+        </div>
         <p *ngFor="let selector of action.selectors; let i = index">
             selector {{i}}: {{selector}}
-        </p>
-        <p *ngIf="action.value">
-            value: {{action.value}}
-        </p>
-        <p *ngIf="action.url">
-            url: {{action.url}}
-        </p>
-        <p *ngIf="action.filename">
-            filename: {{action.filename}}
-        </p>
-        <p *ngIf="action.id">
-            id: {{action.id}}
         </p>
         <p *ngIf="action.boundingBox">
             boundingBox:
@@ -28,6 +34,5 @@
             left: {{action.boundingBox.left}}
         </p>
         <img *ngIf="action.image" [src]="action.image">
-        <canvas #canvas id="canvas"></canvas>
     </div>
 </div>

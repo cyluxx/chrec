@@ -7,7 +7,6 @@ export class Action {
     selectors: string[];
     value: string;
     keyCode: number;
-    filename: string;
     boundingBox: DOMRect;
     image: string;
 
