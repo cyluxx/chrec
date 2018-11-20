@@ -6,18 +6,15 @@ import { Sequence } from '../model/sequence';
 import { Settings } from '../model/settings';
 
 import * as chrome from 'selenium-webdriver/chrome';
-import * as firefox from 'selenium-webdriver/firefox';
 
 @Injectable()
 export class WebdriverService {
     driver: WebDriver;
 
     private begin(browser: Browser, seleniumGridUrl: string): void {
-        if(browser.headless){
-            if(browser.type == BrowserType.chrome){
-                this.driver = new Builder().forBrowser(browser.type)
+        if (browser.headless && browser.type == BrowserType.chrome) {
+            this.driver = new Builder().forBrowser(browser.type)
                 .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
-            }
         }
         else {
             this.driver = new Builder().forBrowser(browser.type).usingServer(`http://${seleniumGridUrl}/wd/hub`).build();

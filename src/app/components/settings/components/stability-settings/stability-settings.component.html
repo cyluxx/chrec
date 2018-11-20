@@ -32,6 +32,11 @@
         #useBoundingBox="ngModel">
         <label class="form-check-label">BoundingBox</label>
     </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="option1" name="useBoundingBoxTransposition" [ngModel]="settings.useBoundingBoxTransposition"
+        #useBoundingBoxTransposition="ngModel">
+        <label class="form-check-label">BoundingBox Transposition</label>
+    </div>
     <h5 class="mt-3">Visual-Based</h5>
     <div class="form-check form-check-inline">
         <input class="form-check-input" type="checkbox" value="option1" name="useTemplateMatching" [ngModel]="settings.useTemplateMatching"

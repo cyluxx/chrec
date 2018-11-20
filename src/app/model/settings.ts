@@ -12,6 +12,7 @@ export class Settings {
     useOptimalSelect: boolean;
     useSelectorQuery: boolean;
     useBoundingBox: boolean;
+    useBoundingBoxTransposition: boolean;
     useTemplateMatching: boolean;
     useFeatureMatching: boolean;
 
