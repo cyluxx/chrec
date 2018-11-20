@@ -19,6 +19,8 @@ export class GeneralSettingsComponent {
 
     public onSubmit(form: NgForm): void {
         this.settings.homeUrl = form.value.homeUrl;
+        this.settings.webviewWidth = form.value.webviewWidth;
+        this.settings.webviewHeight = form.value.webviewHeight;
         this.settingsService.setSettings(this.settings);
     }
 

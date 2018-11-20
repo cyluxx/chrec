@@ -33,26 +33,32 @@ export class SettingsService {
     public resetSettings(): void {
         let settings: Settings = new Settings();
 
+        //General Settings
         settings.seleniumGridUrl = 'localhost:4444';
+        settings.webviewWidth = 800;
+        settings.webviewHeight = 600;
 
+        //Webdriver Settings
         settings.browsers = [];
         let browser: Browser = new Browser();
         browser.type = Type.chrome;
-        browser.width = 1920;
-        browser.height = 1080;
+        browser.width = 800;
+        browser.height = 600;
         settings.browsers.push(browser);
-
         settings.numberIterations = 1;
 
+        //Stability Settings
         settings.useCssSelectorGenerator = true;
         settings.useFinder = true;
         settings.useGetQuerySelector = true;
         settings.useOptimalSelect = true;
         settings.useSelectorQuery = true;
         settings.useBoundingBox = true;
+        settings.useBoundingBoxTransposition = true;
         settings.useTemplateMatching = true;
         settings.useFeatureMatching = true;
 
+        //Alex Settings
         settings.alexUrl = 'localhost:8000';
         settings.alexEmail = 'admin@alex.example';
         settings.alexPassword = 'admin';

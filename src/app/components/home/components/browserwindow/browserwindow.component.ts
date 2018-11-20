@@ -7,8 +7,7 @@ import { Sequence } from "../../../../model/sequence";
 
 @Component({
     selector: "browserwindow",
-    templateUrl: "./browserwindow.component.html",
-    styleUrls: ["./browserwindow.component.scss"]
+    templateUrl: "./browserwindow.component.html"
 })
 export class BrowserwindowComponent implements AfterViewInit {
     @ViewChild("webview") webviewRef: ElementRef;
@@ -28,6 +27,7 @@ export class BrowserwindowComponent implements AfterViewInit {
 
     public ngAfterViewInit(): void {
         this.webview = (this.webviewRef.nativeElement) as WebviewTag;
+        this.webview.setAttribute('style', `width:${this.settings.webviewWidth}px; height:${this.settings.webviewHeight}px`);
         this.webview.addEventListener('dom-ready', () => {
             this.inputUrl = this.webview.getURL();
         });
