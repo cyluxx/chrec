@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, AfterViewInit, ElementRef } from "@angular/core";
+import { Component, ViewChild, Input, AfterViewInit, ElementRef, Output, EventEmitter} from "@angular/core";
 import { Action, Type } from "../../../../model/action";
 import * as path from 'path';
 import { WebviewTag, NativeImage } from "electron";
@@ -19,6 +19,8 @@ export class BrowserwindowComponent implements AfterViewInit {
     @Input() settings: Settings;
 
     @Input() sequence: Sequence;
+
+    @Output() actionEmitter: EventEmitter<Action> = new EventEmitter<Action>();
 
     constructor() {
         this.preloadScriptPath = path.resolve(__dirname, '../../../../../../webview-preload.js'); //TODO resolve path hell
@@ -45,6 +47,7 @@ export class BrowserwindowComponent implements AfterViewInit {
                 action.type = Type.back;
                 action.url = this.webview.getURL();
                 this.sequence.actions.push(action);
+                this.actionEmitter.emit(action);
             });
             this.webview.goBack();
         }
@@ -62,6 +65,7 @@ export class BrowserwindowComponent implements AfterViewInit {
                 action.type = Type.forward;
                 action.url = this.webview.getURL();
                 this.sequence.actions.push(action);
+                this.actionEmitter.emit(action);
             });
             this.webview.goForward();
         }
@@ -74,6 +78,7 @@ export class BrowserwindowComponent implements AfterViewInit {
             action.type = Type.refresh;
             action.url = this.webview.getURL();
             this.sequence.actions.push(action);
+            this.actionEmitter.emit(action);
         });
         this.webview.reloadIgnoringCache();
     }
@@ -86,12 +91,14 @@ export class BrowserwindowComponent implements AfterViewInit {
             action.type = Type.goto;
             action.url = this.inputUrl;
             this.sequence.actions.push(action);
+            this.actionEmitter.emit(action);
         });
         this.webview.loadURL(this.inputUrl);
     }
 
     public onAction(action: Action) {
         this.sequence.actions.push(action);
+        this.actionEmitter.emit(action);
     }
 
     private autocorrectInputUrl(): void {

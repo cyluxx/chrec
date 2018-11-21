@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   newSequenceName: string;
 
   recording: boolean;
+  rerecording: boolean;
 
   constructor(projectService: ProjectService, settingsService: SettingsService) {
     this.projectService = projectService;
@@ -85,7 +86,19 @@ export class HomeComponent implements OnInit {
     this.recording = true;
   }
 
-  public onStopRecording(): void {
+  public onSubmitRecording(): void {
     this.recording = false;
+  }
+
+  public onRerecordSequence(): void {
+    this.rerecording = true;
+  }
+
+  public onCancleRerecording(): void {
+    this.rerecording = false;
+  }
+
+  public onSubmitRerecording(): void {
+    this.rerecording = false;
   }
 }

@@ -12,13 +12,9 @@ export class RecordSequenceComponent{
 
     @Input() settings: Settings;
 
-    @Output() stopRecordingEmitter: EventEmitter<void>;
+    @Output() submitEmitter: EventEmitter<void> = new EventEmitter<void>();
 
-    constructor() {
-        this.stopRecordingEmitter = new EventEmitter<void>();
-    }
-
-    public onStopRecording(): void {
-        this.stopRecordingEmitter.emit();
+    public onSubmit(): void {
+        this.submitEmitter.emit();
     }
 }
