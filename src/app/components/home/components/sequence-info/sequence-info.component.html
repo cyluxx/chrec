@@ -31,6 +31,8 @@
             <div class="col">
                 <div class="d-flex justify-content-between">
                     <h4 class="mb-1">{{sequence.name}}
+                        <span *ngIf="sequence.tested" class="badge badge-info mr-1">Tested</span>
+                        <span *ngIf="!sequence.tested" class="badge badge-warning mr-1">Not Tested</span>
                         <span *ngIf="sequence.executable" class="badge badge-success">Executable <fa-icon icon="check"></fa-icon></span>
                         <span *ngIf="!sequence.executable" class="badge badge-danger">Not Executable <fa-icon icon="times"></fa-icon></span>
                     </h4>

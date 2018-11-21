@@ -63,6 +63,7 @@ export class SequenceInfoComponent {
     }
 
     public async onPlay(): Promise<void> {
+        this.sequence.tested = true;
         try {
             await this.webdriverService.run(this.sequence, this.settings);
             this.sequence.executable = true;

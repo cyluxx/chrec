@@ -27,17 +27,18 @@
         </div>
         <div class="col-9">
             <button *ngFor="let sequence of project.sequences" (click)="onSelectSequence(sequence)"
-                [class.btn-outline-success]="sequence.executable" [class.btn-danger]="!sequence.executable" class="btn mr-1">{{sequence.name}}</button>
+                [class.btn-outline-success]="sequence.executable" [class.btn-danger]="sequence.tested && !sequence.executable"
+                [class.btn-warning]="!sequence.tested" class="btn mr-1">{{sequence.name}}</button>
         </div>
     </div>
     <div class="row mt-1">
         <div class="col">
-            <sequence-info *ngIf="!recording && !rerecording && currentSequence" [sequence]="currentSequence" [currentAction]="getCurrentAction()" [settings]="settings"
-                (recordSequenceEmitter)="onRecordSequence()" (rerecordSequenceEmitter)="onRerecordSequence()"></sequence-info>
-            <record-sequence *ngIf="recording" [sequence]="currentSequence" [settings]="settings"
-                (submitEmitter)="onSubmitRecording()"></record-sequence>
-            <rerecord-sequence *ngIf="rerecording" [sequence]="currentSequence" [settings]="settings"
-                (cancleEmitter)="onCancleRerecording()" (submitEmitter)="onSubmitRerecording()"></rerecord-sequence>
+            <sequence-info *ngIf="!recording && !rerecording && currentSequence" [sequence]="currentSequence"
+                [currentAction]="getCurrentAction()" [settings]="settings" (recordSequenceEmitter)="onRecordSequence()"
+                (rerecordSequenceEmitter)="onRerecordSequence()"></sequence-info>
+            <record-sequence *ngIf="recording" [sequence]="currentSequence" [settings]="settings" (submitEmitter)="onSubmitRecording()"></record-sequence>
+            <rerecord-sequence *ngIf="rerecording" [sequence]="currentSequence" [settings]="settings" (cancleEmitter)="onCancleRerecording()"
+                (submitEmitter)="onSubmitRerecording()"></rerecord-sequence>
         </div>
     </div>
 </div>

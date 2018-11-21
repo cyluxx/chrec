@@ -1,11 +1,12 @@
 import { Action } from "./action";
 
-export class Sequence{
+export class Sequence {
     name: string;
+    tested: boolean;
     executable: boolean;
     actions: Action[];
 
-    constructor(){
+    constructor() {
         this.actions = [];
         this.executable = false;
     }
