@@ -4,6 +4,7 @@ import { Project } from '../../model/project';
 import { Sequence } from '../../model/sequence';
 import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
+import { Action } from '../../model/action';
 
 const DEFAULT_PROJECT = 'default project';
 
@@ -65,8 +66,6 @@ export class HomeComponent implements OnInit {
     this.projectService.removeProject(DEFAULT_PROJECT);
   }
 
-  
-
   public onNewSequence(): void {
     if (this.newSequenceName) {
       let sequence: Sequence = new Sequence();
@@ -80,6 +79,12 @@ export class HomeComponent implements OnInit {
 
   public onSelectSequence(sequence: Sequence): void {
     this.currentSequence = sequence;
+  }
+
+  public getCurrentAction(): Action {
+    if (this.currentSequence.actions && this.currentSequence.actions.length > 0) {
+      return this.currentSequence.actions[0];
+    }
   }
 
   public onRecordSequence(): void {

@@ -6,10 +6,12 @@
         <button *ngIf="sequence.actions.length > 0" (click)="onRerecordSequence()" class="btn btn-block btn-outline-danger">
             Record Again <fa-icon icon="circle"></fa-icon>
         </button>
-        <h4>{{sequence.name}}</h4>
+        <div class="form-group">
+            <input type="text" class="form-control mt-1" placeholder="Sequence Name" [(ngModel)]="sequence.name">
+        </div>
         <ul class="list-group list-group-flush">
-            <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item list-group-item-action" [class.active]="action === currentAction"
-                (click)="onAction(action)">
+            <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item list-group-item-action"
+                [class.active]="action === currentAction" (click)="onAction(action)">
                 <h5 class="mb-1">{{i}}: {{action.type}}</h5>
                 <div>
                     <small *ngIf="action.value">

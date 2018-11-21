@@ -32,7 +32,7 @@
     </div>
     <div class="row mt-1">
         <div class="col">
-            <sequence-info *ngIf="!recording && !rerecording && currentSequence" [sequence]="currentSequence" [settings]="settings"
+            <sequence-info *ngIf="!recording && !rerecording && currentSequence" [sequence]="currentSequence" [currentAction]="getCurrentAction()" [settings]="settings"
                 (recordSequenceEmitter)="onRecordSequence()" (rerecordSequenceEmitter)="onRerecordSequence()"></sequence-info>
             <record-sequence *ngIf="recording" [sequence]="currentSequence" [settings]="settings"
                 (submitEmitter)="onSubmitRecording()"></record-sequence>

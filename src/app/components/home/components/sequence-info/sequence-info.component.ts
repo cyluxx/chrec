@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { Sequence } from "../../../../model/sequence";
 import { Action } from "../../../../model/action";
 import { WebdriverService } from "../../../../providers/webdriver.service";
@@ -16,15 +16,13 @@ export class SequenceInfoComponent {
 
     @Input() settings: Settings;
 
-    @Output() closeEmitter = new EventEmitter<void>();
+    @Input() currentAction: Action;
 
     @Output() recordSequenceEmitter = new EventEmitter<Sequence>();
 
     @Output() rerecordSequenceEmitter = new EventEmitter<Sequence>();
 
-    currentAction: Action;
-
-    currentActionIndex: number;
+    currentActionIndex: number = 0;
 
     constructor(webdriverService: WebdriverService) {
         this.webdriverService = webdriverService;
@@ -39,31 +37,27 @@ export class SequenceInfoComponent {
     }
 
     public onAction(action: Action): void {
+        for(let i = 0; i < this.sequence.actions.length; i++){
+            if(this.sequence.actions[i] === action){
+                this.currentActionIndex = i;
+                break;
+            }
+        }
         this.currentAction = action;
     }
 
     public onForward(): void {
-        if (this.currentAction == null && this.sequence.actions.length > 0) {
+        this.currentActionIndex++;
+        if (this.currentActionIndex > this.sequence.actions.length - 1) {
             this.currentActionIndex = 0;
-        }
-        else {
-            this.currentActionIndex++;
-            if (this.currentActionIndex > this.sequence.actions.length - 1) {
-                this.currentActionIndex = 0;
-            }
         }
         this.currentAction = this.sequence.actions[this.currentActionIndex];
     }
 
     public onBackward(): void {
-        if (this.currentAction == null && this.sequence.actions.length > 0) {
+        this.currentActionIndex--;
+        if (this.currentActionIndex < 0) {
             this.currentActionIndex = this.sequence.actions.length - 1;
-        }
-        else {
-            this.currentActionIndex--;
-            if (this.currentActionIndex < 0) {
-                this.currentActionIndex = this.sequence.actions.length - 1;
-            }
         }
         this.currentAction = this.sequence.actions[this.currentActionIndex];
     }
