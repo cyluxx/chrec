@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row mt-1">
+    <div *ngIf="!recording && !rerecording" class="row mt-1">
         <div class="col">
             <div class="d-flex">
                 <a class="btn btn-sm btn-primary mr-1" routerLink="/settings">
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-1">
+    <div *ngIf="!recording && !rerecording" class="row mt-1">
         <div class="col-3">
             <div class="input-group">
                 <div class="input-group-prepend">

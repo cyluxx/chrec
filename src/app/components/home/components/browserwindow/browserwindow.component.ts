@@ -23,7 +23,7 @@ export class BrowserwindowComponent implements AfterViewInit {
     @Output() actionEmitter: EventEmitter<Action> = new EventEmitter<Action>();
 
     constructor() {
-        this.preloadScriptPath = path.resolve(__dirname, '../../../../../../webview-preload.js'); //TODO resolve path hell
+        this.preloadScriptPath = path.resolve(__dirname, '../../../../../../preload-scripts/preload.js'); //TODO resolve path hell
         this.inputUrl = "";
     }
 
