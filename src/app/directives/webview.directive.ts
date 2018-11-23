@@ -17,8 +17,11 @@ export class WebviewDirective implements OnDestroy {
     this.ipcMessageEventFunction = (ipcMessageEvent: IpcMessageEvent) => {
       let channelContent = JSON.parse(ipcMessageEvent.channel);
       let action: Action = new Action();
-      if(channelContent.type == 'focusout'){
+      if (channelContent.type == 'focusout') {
         action.type = Type.type;
+      }
+      else if (channelContent.type == 'selectionchange') {
+        action.type = Type.read;
       }
       else {
         action.type = Type[channelContent.type as string];

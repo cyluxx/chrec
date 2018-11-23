@@ -21,5 +21,6 @@ export enum Type {
     goto = 'goto',
     refresh = 'refresh',
     forward = 'forward',
-    back = 'back'
+    back = 'back',
+    read = 'read'
 }

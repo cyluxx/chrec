@@ -57,4 +57,8 @@ ready(function () {
             sendMessage(event);
         });
     }
+
+    document.addEventListener("selectionchange", function(event){
+        sendMessage(event);
+    });
 });
