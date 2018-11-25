@@ -15,24 +15,6 @@ global.myapi = {
 
 var cssSelectorGenerator = new myapi.CssSelectorGenerator;
 
-function sendMessage(event) {
-    let send = {
-        selectors: [
-            cssSelectorGenerator.getSelector(event.target),
-            myapi.finder(event.target),
-            myapi.getQuerySelector(event.target),
-            myapi.select(event.target),
-            myapi.selectorQuery(event.target)
-        ],
-        value: event.target.value,
-        type: event.type,
-        keyCode: event.keyCode,
-        boundingBox: event.target.getBoundingClientRect()
-    }
-    console.log(send);
-    ipcRenderer.sendToHost(JSON.stringify(send));
-}
-
 // wait for document ready (without jQuery)
 function ready(fn) {
     if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
@@ -42,23 +24,58 @@ function ready(fn) {
     }
 }
 
+function generateSelectors(event) {
+    return [
+        cssSelectorGenerator.getSelector(event.target),
+        myapi.finder(event.target),
+        myapi.getQuerySelector(event.target),
+        myapi.select(event.target),
+        myapi.selectorQuery(event.target)
+    ];
+}
+
 ready(function () {
     const typeableElements = document.querySelectorAll('input, textarea');
     const clickableElements = document.querySelectorAll('a, button');
 
-    for (let element of typeableElements) {
-        element.addEventListener('focusout', function (event) {
-            sendMessage(event);
-        });
-    }
-
+    // click
     for (let element of clickableElements) {
         element.addEventListener('click', function (event) {
-            sendMessage(event);
+            let send = {
+                action: 'click',
+                selectors: generateSelectors(event),
+                boundingBox: event.target.getBoundingClientRect()
+            }
+            ipcRenderer.sendToHost(JSON.stringify(send));
         });
     }
 
-    document.addEventListener("selectionchange", function(event){
-        sendMessage(event);
+    // read
+    document.addEventListener("mouseup", function (event) {
+        let value = window.getSelection().toString();
+        if (value) {
+            let send = {
+                action: 'read',
+                selectors: generateSelectors(event),
+                value: value,
+                boundingBox: event.target.getBoundingClientRect()
+            }
+            ipcRenderer.sendToHost(JSON.stringify(send));
+        }
     });
+
+    // type
+    for (let element of typeableElements) {
+        element.addEventListener('focusout', function (event) {
+            let send = {
+                action: 'type',
+                selectors: generateSelectors(event),
+                value: event.target.value,
+                type: event.type,
+                keyCode: event.keyCode,
+                boundingBox: event.target.getBoundingClientRect()
+            }
+            ipcRenderer.sendToHost(JSON.stringify(send));
+        });
+    }
 });

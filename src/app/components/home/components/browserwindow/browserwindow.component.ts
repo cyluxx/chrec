@@ -1,5 +1,5 @@
 import { Component, ViewChild, Input, AfterViewInit, ElementRef, Output, EventEmitter} from "@angular/core";
-import { Action, Type } from "../../../../model/action";
+import { Action, Type, Back, Forward, Refresh, GoTo } from "../../../../model/action";
 import * as path from 'path';
 import { WebviewTag, NativeImage } from "electron";
 import { Settings } from "../../../../model/settings";
@@ -41,11 +41,9 @@ export class BrowserwindowComponent implements AfterViewInit {
 
     public onBack(): void {
         if (this.canGoBack) {
-            this.webview.capturePage((image: NativeImage) => {
-                let action: Action = new Action();
-                action.image = image.toDataURL();
-                action.type = Type.back;
-                action.url = this.webview.getURL();
+            this.webview.capturePage((nativeImage: NativeImage) => {
+                let image: string = nativeImage.toDataURL();
+                let action: Action = new Back(image);
                 this.sequence.actions.push(action);
                 this.actionEmitter.emit(action);
             });
@@ -59,11 +57,9 @@ export class BrowserwindowComponent implements AfterViewInit {
 
     public onForward(): void {
         if (this.canGoForward) {
-            this.webview.capturePage((image: NativeImage) => {
-                let action: Action = new Action();
-                action.image = image.toDataURL();
-                action.type = Type.forward;
-                action.url = this.webview.getURL();
+            this.webview.capturePage((nativeImage: NativeImage) => {
+                let image: string = nativeImage.toDataURL();
+                let action: Action = new Forward(image);
                 this.sequence.actions.push(action);
                 this.actionEmitter.emit(action);
             });
@@ -72,11 +68,9 @@ export class BrowserwindowComponent implements AfterViewInit {
     }
 
     public onReload(): void {
-        this.webview.capturePage((image: NativeImage) => {
-            let action: Action = new Action();
-            action.image = image.toDataURL();
-            action.type = Type.refresh;
-            action.url = this.webview.getURL();
+        this.webview.capturePage((nativeImage: NativeImage) => {
+            let image: string = nativeImage.toDataURL();
+            let action: Action = new Refresh(image);
             this.sequence.actions.push(action);
             this.actionEmitter.emit(action);
         });
@@ -85,11 +79,9 @@ export class BrowserwindowComponent implements AfterViewInit {
 
     public onLoadUrl(): void {
         this.autocorrectInputUrl();
-        this.webview.capturePage((image: NativeImage) => {
-            let action: Action = new Action();
-            action.image = image.toDataURL();
-            action.type = Type.goto;
-            action.url = this.inputUrl;
+        this.webview.capturePage((nativeImage: NativeImage) => {
+            let image: string = nativeImage.toDataURL();
+            let action: Action = new GoTo(image, this.inputUrl);
             this.sequence.actions.push(action);
             this.actionEmitter.emit(action);
         });

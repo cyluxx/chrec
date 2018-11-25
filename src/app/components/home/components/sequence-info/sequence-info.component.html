@@ -12,17 +12,7 @@
         <ul class="list-group list-group-flush">
             <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item list-group-item-action"
                 [class.active]="action === currentAction" (click)="onAction(action)">
-                <h5 class="mb-1">{{i}}: {{action.type}}</h5>
-                <div>
-                    <small *ngIf="action.value">
-                        value: {{action.value}}
-                    </small>
-                </div>
-                <div>
-                    <small *ngIf="action.url">
-                        url: {{action.url}}
-                    </small>
-                </div>
+                <h5 class="mb-1">{{i}}: {{action.name}}</h5>
             </li>
         </ul>
     </div>

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Builder, By, Key, WebDriver, WebElement } from 'selenium-webdriver';
-import { Action, Type as ActionType } from '../model/action';
+import { Builder, WebDriver } from 'selenium-webdriver';
 import { Browser, Type as BrowserType } from '../model/browser';
 import { Sequence } from '../model/sequence';
 import { Settings } from '../model/settings';
@@ -23,41 +22,6 @@ export class WebdriverService {
         this.driver.manage().window().setSize(browser.width, browser.height);
     }
 
-    private async click(action: Action): Promise<void> {
-        try {
-            let webElement: WebElement = await this.findElement(action);
-            webElement.click();
-        }
-        catch (error) {
-            this.quit();
-            throw error;
-        }
-    }
-
-    private goto(action: Action): void {
-        this.driver.get(action.url);
-    }
-
-    private type(action: Action): void {
-        this.driver.findElement(By.css(action.selectors[0])).sendKeys(action.value, Key.TAB);
-    }
-
-    private refresh(): void {
-        this.driver.navigate().refresh();
-    }
-
-    private forward(): void {
-        this.driver.navigate().forward();
-    }
-
-    private back(): void {
-        this.driver.navigate().back();
-    }
-
-    private async findElement(action: Action): Promise<WebElement> {
-        return await this.driver.findElement(By.css(action.selectors[0]));
-    }
-
     private quit(): void {
         this.driver.quit();
     }
@@ -67,24 +31,7 @@ export class WebdriverService {
             for (let i: number = 0; i < settings.numberIterations; i++) {
                 this.begin(browser, settings.seleniumGridUrl);
                 for (let action of sequence.actions) {
-                    if (action.type == ActionType.click) {
-                        await this.click(action);
-                    }
-                    else if (action.type == ActionType.goto) {
-                        this.goto(action);
-                    }
-                    else if (action.type == ActionType.type) {
-                        this.type(action);
-                    }
-                    else if (action.type == ActionType.refresh) {
-                        this.refresh();
-                    }
-                    else if (action.type == ActionType.forward) {
-                        this.forward();
-                    }
-                    else if (action.type == ActionType.back) {
-                        this.back();
-                    }
+                    await action.run(this.driver);
                 }
                 this.quit();
             }
