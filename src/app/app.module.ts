@@ -21,6 +21,8 @@ import { WebdriverService } from "./providers/webdriver.service";
 import { ProjectService } from "./providers/project.service";
 import { SettingsService } from "./providers/settings.service";
 
+import { ProjectDao } from "./dao/project.dao";
+
 import { WebviewDirective } from "./directives/webview.directive";
 
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
@@ -124,7 +126,7 @@ library.add(faPen);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, WebdriverService, ProjectService, SettingsService],
+  providers: [ElectronService, WebdriverService, ProjectService, SettingsService, ProjectDao],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,0 +1,120 @@
+{
+  "version": "1.6.0",
+  "type": "symbolGroups",
+  "symbolGroups": [
+    {
+      "name": "Default group",
+      "parent": null,
+      "symbols": [
+        {
+          "name": "Chapverse Symbol Name",
+          "description": "Chapverse Symbol Description",
+          "expectedResult": "Chapverse Symbol Expected Result",
+          "successOutput": null,
+          "inputs": [],
+          "outputs": [],
+          "steps": [ 
+            {
+              "type": "action",
+              "disabled": false,
+              "ignoreFailure": false,
+              "negated": false,
+              "errorOutput": null,
+              "action": {
+                "type": "web_click",
+                "node": {
+                  "selector": "#login-dropdown-nav-link",
+                  "type": "CSS"
+                },
+                "doubleClick": false
+              },
+              "position": 0
+            },
+            {
+              "type": "action",
+              "disabled": false,
+              "ignoreFailure": false,
+              "negated": false,
+              "errorOutput": null,
+              "action": {
+                "type": "web_fill",
+                "node": {
+                  "selector": "#login-email-desktop",
+                  "type": "CSS"
+                },
+                "value": "acplewnia@gmail.com"
+              },
+              "position": 1
+            },
+            {
+              "type": "action",
+              "disabled": false,
+              "ignoreFailure": false,
+              "negated": false,
+              "errorOutput": null,
+              "action": {
+                "type": "web_fill",
+                "node": {
+                  "selector": "#login-password-desktop",
+                  "type": "CSS"
+                },
+                "value": "shakes23"
+              },
+              "position": 2
+            },
+            {
+              "type": "action",
+              "disabled": false,
+              "ignoreFailure": false,
+              "negated": false,
+              "errorOutput": null,
+              "action": {
+                "type": "web_click",
+                "node": {
+                  "selector": "#desktop-form > button",
+                  "type": "CSS"
+                },
+                "doubleClick": false
+              },
+              "position": 3
+            },
+            {
+              "type": "action",
+              "disabled": false,
+              "ignoreFailure": false,
+              "negated": false,
+              "errorOutput": null,
+              "action": {
+                "type": "web_checkForText",
+                "value": "All Stories",
+                "regexp": false,
+                "node": {
+                  "selector": "#main > div > div > div.col-xl-6.col-lg-8 > div:nth-child(2) > div > div > div > ul > li:nth-child(1) > a",
+                  "type": "CSS"
+                }
+              },
+              "position": 4
+            },
+            {
+              "type": "action",
+              "disabled": false,
+              "ignoreFailure": false,
+              "negated": false,
+              "errorOutput": null,
+              "action": {
+                "type": "web_click",
+                "node": {
+                  "selector": "#navbarSupportedContent > ul:nth-child(2) > li:nth-child(3) > a > i",
+                  "type": "CSS"
+                },
+                "doubleClick": false
+              },
+              "position": 5
+            }
+          ]
+        }
+      ],
+      "groups": []
+    }
+  ]
+}

@@ -1,9 +1,11 @@
-import { Builder, By, Key, WebDriver, WebElement } from 'selenium-webdriver';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
+import { By, Key, WebDriver, WebElement } from 'selenium-webdriver';
 
 export abstract class Action {
     id: string;
+    
+    //The name of the Class (for JSON storage). 
     name: string;
+
     image: string;
 
     constructor(image: string) {
@@ -35,7 +37,7 @@ export abstract class HtmlElementAction extends Action{
 export class Back extends Action {
     constructor(image: string) {
         super(image);
-        this.name = 'Back';
+        this.name = Name.Back;
     }
 
     public run(driver: WebDriver): void {
@@ -46,7 +48,7 @@ export class Back extends Action {
 export class Forward extends Action {
     constructor(image: string) {
         super(image);
-        this.name = 'Forward';
+        this.name = Name.Forward;
     }
     
     public run(driver: WebDriver): void {
@@ -59,7 +61,7 @@ export class GoTo extends Action {
     
     constructor(image: string, url: string) {
         super(image);
-        this.name = 'GoTo';
+        this.name = Name.GoTo;
         this.url = url;
     }
     
@@ -71,7 +73,7 @@ export class GoTo extends Action {
 export class Refresh extends Action {
     constructor(image: string) {
         super(image);
-        this.name = 'Refresh';
+        this.name = Name.Refresh;
     }
 
     public run(driver: WebDriver): void {
@@ -83,7 +85,7 @@ export class Refresh extends Action {
 export class Click extends HtmlElementAction {
     constructor(image: string, selectors: string[], boundingBox: DOMRect) {
         super(image, selectors, boundingBox);
-        this.name = 'Click';
+        this.name = Name.Click;
     }
 
     public async run(driver: WebDriver): Promise<void> {
@@ -104,7 +106,7 @@ export class Read extends HtmlElementAction {
     constructor(image: string, selectors: string[], boundingBox: DOMRect, value: string) {
         super(image, selectors, boundingBox);
         this.value = value;
-        this.name = 'Read';
+        this.name = Name.Read;
     }
 
     public async run(driver: WebDriver): Promise<void> {
@@ -131,7 +133,7 @@ export class Type extends HtmlElementAction {
         super(image, selectors, boundingBox);
         this.value = value;
         this.keyCode = keyCode;
-        this.name = 'Type';
+        this.name = Name.Type;
     }
 
     public async run(driver: WebDriver): Promise<void> {
@@ -144,4 +146,17 @@ export class Type extends HtmlElementAction {
             console.log(error);
         }
     }
+}
+
+export enum Name {
+    //Actions
+    Back = 'Back',
+    Forward = 'Forward',
+    GoTo = 'GoTo',
+    Refresh = 'Refresh',
+
+    //HtmlElementActions
+    Click = 'Click',
+    Read = 'Read',
+    Type = 'Type'
 }

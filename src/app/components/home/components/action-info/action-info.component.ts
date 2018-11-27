@@ -11,6 +11,7 @@ export class ActionInfoComponent{
     edit: boolean;
 
     public isGoTo(action: Action): boolean {
+        console.log('isGoTo: ' + action.constructor.name);
         return action instanceof GoTo;
     }
 

@@ -6,8 +6,6 @@ import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
 import { Action } from '../../model/action';
 
-const DEFAULT_PROJECT = 'default project';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -34,19 +32,13 @@ export class HomeComponent implements OnInit {
     this.settingsService = settingsService;
 
     this.project = new Project();
-    this.project.name = DEFAULT_PROJECT;
     this.project.sequences = [];
 
     this.settings = new Settings();
   }
 
-  ngOnInit(): void {
-    this.projectService.getProject(DEFAULT_PROJECT)
-      .then((project: Project) => {
-        if (project.name) {
-          this.project = project;
-        }
-      });
+  async ngOnInit(): Promise<void> {
+    this.project = await this.projectService.getDefaultProject();
     this.settingsService.getSettings()
       .then((settings: Settings) => {
         if (settings) {
@@ -59,11 +51,11 @@ export class HomeComponent implements OnInit {
   }
 
   public onSave(): void {
-    this.projectService.setProject(this.project);
+    this.projectService.setDefaultProject(this.project);
   }
 
   public onClearProject(): void {
-    this.projectService.removeProject(DEFAULT_PROJECT);
+    this.projectService.removeDefaultProject();
   }
 
   public onNewSequence(): void {
