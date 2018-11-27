@@ -74,56 +74,6 @@ export class ProjectDao implements Dao<Project>{
             }
         }
 
-
-
-        // let newProject = new Project();
-        // newProject.name = project.name;
-
-        // let newSequences: Sequence[] = [];
-        // for(let sequence of project.sequences){
-        //     let newSequence: Sequence;
-        //     newSequence.name = sequence.name;
-        //     newSequence.executable = sequence.executable;
-        //     newSequence.tested = sequence.tested;
-
-        //     let newActions: Action[] = [];
-        //     for(let action of sequence.actions){
-        //         switch(action.name){
-        //             case ActionName.Back: {
-        //                 action = action as Back;
-        //                 break;
-        //             }
-        //             case ActionName.Forward: {
-        //                 action = action as Forward;
-        //                 break;
-        //             }
-        //             case ActionName.GoTo: {
-        //                 action = action as GoTo;
-        //                 break;
-        //             }
-        //             case ActionName.Refresh: {
-        //                 action = action as Refresh;
-        //                 break;
-        //             }
-        //             case ActionName.Click: {
-        //                 action = action as Click;
-        //                 break;
-        //             }
-        //             case ActionName.Read: {
-        //                 action = action as Read;
-        //                 break;
-        //             }
-        //             case ActionName.Type: {
-        //                 action = action as Type;
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     newSequence.actions = newActions;
-        //     newSequences.push(newSequence);
-        // }
-        // newProject.sequences = newSequences;
-
         console.log('%c Read ' + fileName, 'font-weight:bold; color:#42ff42');
         console.log(project);
 
@@ -152,5 +102,9 @@ export class ProjectDao implements Dao<Project>{
             return await this.keys({ dataPath: path });
         }
         return await this.keys();
+    }
+
+    private constructAction(action: any) {
+
     }
 }
