@@ -11,6 +11,7 @@ export class WebdriverService {
     driver: WebDriver;
 
     private begin(browser: Browser, seleniumGridUrl: string): void {
+        console.log('%c Starting Webdriver', 'color: #733CA3; font-weight: bold');
         if (browser.headless && browser.type == BrowserType.chrome) {
             this.driver = new Builder().forBrowser(browser.type)
                 .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
@@ -18,7 +19,6 @@ export class WebdriverService {
         else {
             this.driver = new Builder().forBrowser(browser.type).usingServer(`http://${seleniumGridUrl}/wd/hub`).build();
         }
-        this.driver.manage().deleteAllCookies();
         this.driver.manage().window().setSize(browser.width, browser.height);
     }
 
@@ -33,6 +33,7 @@ export class WebdriverService {
                 for (let action of sequence.actions) {
                     await action.run(this.driver);
                 }
+                console.log('%c Closing Session', 'color: #733CA3; font-weight: bold');
                 this.quit();
             }
         }

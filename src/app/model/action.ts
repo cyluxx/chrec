@@ -42,6 +42,7 @@ export class Back extends Action {
 
     public run(driver: WebDriver): void {
         driver.navigate().back();
+        console.log('%c' + this.name, 'color: #42ff42; font-weight: bold');
     }
 }
 
@@ -53,6 +54,7 @@ export class Forward extends Action {
 
     public run(driver: WebDriver): void {
         driver.navigate().forward();
+        console.log('%c' + this.name, 'color: #42ff42; font-weight: bold');
     }
 }
 
@@ -67,6 +69,7 @@ export class GoTo extends Action {
 
     public run(driver: WebDriver): void {
         driver.get(this.url);
+        console.log('%c' + this.name, 'color: #42ff42; font-weight: bold');
     }
 }
 
@@ -78,6 +81,7 @@ export class Refresh extends Action {
 
     public run(driver: WebDriver): void {
         driver.navigate().refresh();
+        console.log('%c' + this.name, 'color: #42ff42; font-weight: bold');
     }
 }
 
@@ -92,9 +96,10 @@ export class Click extends HtmlElementAction {
         try {
             let webElement: WebElement = await this.findElement(driver);
             webElement.click();
+            console.log('%c' + this.name, 'color: #42ff42; font-weight: bold');
         }
         catch (error) {
-            console.log('%c Model Click Error!', 'color: #36f9c2; font-weight: bold');
+            console.log('%c Model Click Error!', 'color: #ff4242; font-weight: bold');
             console.log(error);
         }
     }
@@ -117,9 +122,10 @@ export class Read extends HtmlElementAction {
                 console.log('%c Element does not contain selected String.', 'color: #36f9c2; font-weight: bold');
                 throw new Error('Element does not contain selected String.');
             }
+            console.log('%c' + this.name, 'color: #42ff42; font-weight: bold');
         }
         catch (error) {
-            console.log('%c Model Read Error!', 'color: #36f9c2; font-weight: bold');
+            console.log('%c Model Read Error!', 'color: #ff4242; font-weight: bold');
             console.log(error);
         }
     }
@@ -140,9 +146,10 @@ export class Type extends HtmlElementAction {
         try {
             let webElement: WebElement = await this.findElement(driver);
             webElement.sendKeys(this.value, Key.TAB);
+            console.log('%c' + this.name, 'color: #42ff42; font-weight: bold');
         }
         catch (error) {
-            console.log('%c Model Type Error!', 'color: #36f9c2; font-weight: bold');
+            console.log('%c Model Type Error!', 'color: #ff4242; font-weight: bold');
             console.log(error);
         }
     }
