@@ -14,6 +14,12 @@ export class SettingsService {
         this.settingsDao = settingsDao;
     }
 
+    public newDefaultSettings(): Settings {
+        let settings: Settings = new Settings();
+        settings = this.buildDefaultSettings(settings);
+        return settings;
+    }
+
     public async getDefaultSettings(): Promise<Settings> {
         return this.settingsDao.read(DEFAULT_SETTINGS);
     }
@@ -24,7 +30,11 @@ export class SettingsService {
 
     public resetDefaultSettings(): void {
         let settings: Settings = new Settings();
+        settings = this.buildDefaultSettings(settings);
+        this.setDefaultSettings(settings);
+    }
 
+    private buildDefaultSettings(settings: Settings): Settings {
         //General Settings
         settings.seleniumGridUrl = 'localhost:4444';
         settings.webviewWidth = 800;
@@ -55,6 +65,6 @@ export class SettingsService {
         settings.alexEmail = 'admin@alex.example';
         settings.alexPassword = 'admin';
 
-        this.setDefaultSettings(settings);
+        return settings;
     }
 }

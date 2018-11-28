@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Settings } from "../model/settings";
+import { Browser } from "../model/browser";
 import * as util from 'util';
 import * as storage from 'electron-json-storage';
 

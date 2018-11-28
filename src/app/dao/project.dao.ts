@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Project } from "../model/project";
+import { Sequence } from "../model/sequence";
 import { Name as ActionName, Back, Action, Forward, GoTo, Refresh, Click, Read, Type } from "../model/action";
 import * as util from 'util';
 import * as storage from 'electron-json-storage';
@@ -36,11 +37,17 @@ export class ProjectDao implements Dao<Project>{
             project = await this.get(fileName);
         }
 
-        let newProject = project as Project;
-
-        for (let i = 0; i < project.sequences.length; i++) {
-            for (let j = 0; j < project.sequences[i].actions.length; j++) {
-                project.sequences[i].actions[j] = this.buildConcreteActionFromAny(project.sequences[i].actions[j]);
+        let newProject: Project = this.buildConcreteProjectFromAny(project);
+        if (project.sequences) {
+            for (let sequence of project.sequences) {
+                let newSequence: Sequence = this.buildConcreteSequenceFromAny(sequence);
+                if (sequence.actions) {
+                    for (let action of sequence.actions) {
+                        let newAction: Action = this.buildConcreteActionFromAny(action);
+                        newSequence.actions.push(newAction);
+                    }
+                }
+                newProject.sequences.push(newSequence);
             }
         }
 
@@ -71,6 +78,30 @@ export class ProjectDao implements Dao<Project>{
             return await this.keys({ dataPath: path });
         }
         return await this.keys();
+    }
+
+    private buildConcreteProjectFromAny(project: any): Project {
+        let newProject: Project = new Project(project.name);
+
+        if (project.sequences && project.sequences.length > 0) {
+            newProject.sequences = project.sequences;
+        }
+        return newProject;
+    }
+
+    private buildConcreteSequenceFromAny(sequence: any): Sequence {
+        let newSequence: Sequence = new Sequence(sequence.name);
+
+        if (sequence.executable) {
+            newSequence.executable = sequence.executable;
+        }
+        if (sequence.tested) {
+            newSequence.tested = sequence.tested;
+        }
+        if (sequence.actions && sequence.actions.length > 0) {
+            newSequence.actions = sequence.actions;
+        }
+        return newSequence;
     }
 
     private buildConcreteActionFromAny(action: any): Action {

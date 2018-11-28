@@ -6,8 +6,8 @@ export class Sequence {
     executable: boolean;
     actions: Action[];
 
-    constructor() {
+    constructor(name: string) {
         this.actions = [];
-        this.executable = false;
+        this.name = name;
     }
 }

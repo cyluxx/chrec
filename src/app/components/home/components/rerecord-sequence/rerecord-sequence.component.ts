@@ -22,10 +22,7 @@ export class RerecordSequenceComponent implements OnInit {
     newSequence: Sequence;
 
     public ngOnInit(): void {
-        this.newSequence = new Sequence();
-        this.newSequence.name = this.sequence.name;
-        this.newSequence.actions = [];
-
+        this.newSequence = new Sequence(this.sequence.name);
         this.currentAction = this.sequence.actions[0];
     }
 

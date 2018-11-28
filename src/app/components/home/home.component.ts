@@ -31,10 +31,8 @@ export class HomeComponent implements OnInit {
     this.projectService = projectService;
     this.settingsService = settingsService;
 
-    this.project = new Project();
-    this.project.sequences = [];
-
-    this.settings = new Settings();
+    this.project = projectService.newDefaultProject();
+    this.settings = settingsService.newDefaultSettings();
   }
 
   async ngOnInit(): Promise<void> {
@@ -52,9 +50,7 @@ export class HomeComponent implements OnInit {
 
   public onNewSequence(): void {
     if (this.newSequenceName) {
-      let sequence: Sequence = new Sequence();
-      sequence.name = this.newSequenceName;
-      sequence.actions = [];
+      let sequence: Sequence = new Sequence(this.newSequenceName);
       this.project.sequences.push(sequence);
       this.currentSequence = sequence;
       this.newSequenceName = '';
