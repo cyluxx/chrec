@@ -1,5 +1,5 @@
 import { Component, ViewChild, Input, AfterViewInit, ElementRef, Output, EventEmitter} from "@angular/core";
-import { Action, Type, Back, Forward, Refresh, GoTo } from "../../../../model/action";
+import { Action, Back, Forward, Refresh, GoTo } from "../../../../model/action";
 import * as path from 'path';
 import { WebviewTag, NativeImage } from "electron";
 import { Settings } from "../../../../model/settings";
@@ -33,6 +33,10 @@ export class BrowserwindowComponent implements AfterViewInit {
         this.webview.addEventListener('dom-ready', () => {
             this.inputUrl = this.webview.getURL();
         });
+
+        if(this.sequence.actions.length === 0 && this.settings.homeUrl){
+            this.sequence.actions.push(new GoTo(null, this.settings.homeUrl));
+        }
     }
 
     public canGoBack(): boolean {
