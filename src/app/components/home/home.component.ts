@@ -39,15 +39,7 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.project = await this.projectService.getDefaultProject();
-    this.settingsService.getSettings()
-      .then((settings: Settings) => {
-        if (settings) {
-          this.settings = settings;
-          if (!settings.browsers) {
-            this.settings.browsers = [];
-          }
-        }
-      });
+    this.settings = await this.settingsService.getDefaultSettings();
   }
 
   public onSave(): void {

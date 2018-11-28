@@ -3,7 +3,6 @@ import { Project } from "../model/project";
 import { Name as ActionName, Back, Action, Forward, GoTo, Refresh, Click, Read, Type } from "../model/action";
 import * as util from 'util';
 import * as storage from 'electron-json-storage';
-import { Sequence } from "../model/sequence";
 
 @Injectable()
 export class ProjectDao implements Dao<Project>{
@@ -19,7 +18,7 @@ export class ProjectDao implements Dao<Project>{
         this.remove = util.promisify(storage.remove);
         this.keys = util.promisify(storage.keys);
 
-        console.log('%c Default Storage Data Path: ' + storage.getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
+        console.log('%c Default Project Storage Data Path: ' + storage.getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
     }
 
     public async create(fileName: string, project: Project, path?: string): Promise<void> {
@@ -41,42 +40,12 @@ export class ProjectDao implements Dao<Project>{
 
         for (let i = 0; i < project.sequences.length; i++) {
             for (let j = 0; j < project.sequences[i].actions.length; j++) {
-                switch (project.sequences[i].actions[j].name) {
-                    case ActionName.Back: {
-                        newProject.sequences[i].actions[j] = new Back(project.sequences[i].actions[j].image);
-                        break;
-                    }
-                    case ActionName.Forward: {
-                        newProject.sequences[i].actions[j] = new Forward(project.sequences[i].actions[j].image);
-                        break;
-                    }
-                    case ActionName.GoTo: {
-                        newProject.sequences[i].actions[j] = new GoTo(project.sequences[i].actions[j].image, project.sequences[i].actions[j].url);
-                        break;
-                    }
-                    case ActionName.Refresh: {
-                        newProject.sequences[i].actions[j] = new Refresh(project.sequences[i].actions[j].image);
-                        break;
-                    }
-                    case ActionName.Click: {
-                        newProject.sequences[i].actions[j] = new Click(project.sequences[i].actions[j].image, project.sequences[i].actions[j].selectors, project.sequences[i].actions[j].boundingBox);
-                        break;
-                    }
-                    case ActionName.Read: {
-                        newProject.sequences[i].actions[j] = new Read(project.sequences[i].actions[j].image, project.sequences[i].actions[j].selectors, project.sequences[i].actions[j].boundingBox, project.sequences[i].actions[j].value);
-                        break;
-                    }
-                    case ActionName.Type: {
-                        newProject.sequences[i].actions[j] = new Type(project.sequences[i].actions[j].image, project.sequences[i].actions[j].selectors, project.sequences[i].actions[j].boundingBox, project.sequences[i].actions[j].value, project.sequences[i].actions[j].keyCode);
-                        break;
-                    }
-                }
+                project.sequences[i].actions[j] = this.buildConcreteActionFromAny(project.sequences[i].actions[j]);
             }
         }
 
         console.log('%c Read ' + fileName, 'font-weight:bold; color:#42ff42');
         console.log(project);
-
         return newProject;
     }
 
@@ -104,7 +73,29 @@ export class ProjectDao implements Dao<Project>{
         return await this.keys();
     }
 
-    private constructAction(action: any) {
-
+    private buildConcreteActionFromAny(action: any): Action {
+        switch (action.name) {
+            case ActionName.Back: {
+                return new Back(action.image);
+            }
+            case ActionName.Forward: {
+                return new Forward(action.image);
+            }
+            case ActionName.GoTo: {
+                return new GoTo(action.image, action.url);
+            }
+            case ActionName.Refresh: {
+                return new Refresh(action.image);
+            }
+            case ActionName.Click: {
+                return new Click(action.image, action.selectors, action.boundingBox);
+            }
+            case ActionName.Read: {
+                return new Read(action.image, action.selectors, action.boundingBox, action.value);
+            }
+            case ActionName.Type: {
+                return new Type(action.image, action.selectors, action.boundingBox, action.value, action.keyCode);
+            }
+        }
     }
 }

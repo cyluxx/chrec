@@ -1,36 +1,28 @@
 import { Injectable } from "@angular/core";
 import { Settings } from "../model/settings";
-import * as util from 'util';
 import { Browser, Type } from "../model/browser";
-const storage = require('electron-json-storage');
-const SETTINGS = 'settings';
+import { SettingsDao } from "../dao/settings.dao";
+
+const DEFAULT_SETTINGS = 'settings';
 
 @Injectable()
 export class SettingsService {
 
-    private get: (key: String) => Promise<Settings>;
+    private settingsDao: SettingsDao;
 
-    constructor() {
-        this.get = util.promisify(storage.get);
+    constructor(settingsDao: SettingsDao) {
+        this.settingsDao = settingsDao;
     }
 
-    public setSettings(settings: Settings): void {
-        storage.set(SETTINGS, settings, (error) => {
-            if (error) throw error;
-        });
+    public async getDefaultSettings(): Promise<Settings> {
+        return this.settingsDao.read(DEFAULT_SETTINGS);
     }
 
-    public async getSettings(): Promise<Settings> {
-        return await this.get(SETTINGS);
+    public setDefaultSettings(settings: Settings): void {
+        this.settingsDao.create(DEFAULT_SETTINGS, settings);
     }
 
-    public removeSettings(): void {
-        storage.remove(SETTINGS, (error) => {
-            if (error) throw error;
-        });
-    }
-
-    public resetSettings(): void {
+    public resetDefaultSettings(): void {
         let settings: Settings = new Settings();
 
         //General Settings
@@ -63,6 +55,6 @@ export class SettingsService {
         settings.alexEmail = 'admin@alex.example';
         settings.alexPassword = 'admin';
 
-        this.setSettings(settings);
+        this.setDefaultSettings(settings);
     }
 }

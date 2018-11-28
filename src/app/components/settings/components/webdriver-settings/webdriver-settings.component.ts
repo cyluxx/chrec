@@ -26,14 +26,14 @@ export class WebdriverSettingsComponent {
     public onSubmit(form: NgForm): void {
         this.settings.seleniumGridUrl = form.value.seleniumGridUrl;
         this.settings.numberIterations = form.value.numberIterations;
-        this.settingsService.setSettings(this.settings);
+        this.settingsService.setDefaultSettings(this.settings);
     }
 
     public onAddBrowser(): void {
         if (this.newBrowser.type && this.newBrowser.width >= 300 && this.newBrowser.height >= 300) {
             this.settings.browsers.push(this.newBrowser);
             this.newBrowser = new Browser();
-            this.settingsService.setSettings(this.settings);
+            this.settingsService.setDefaultSettings(this.settings);
         }
     }
 
@@ -48,7 +48,7 @@ export class WebdriverSettingsComponent {
             }
         }
         this.settings.browsers = browsers;
-        this.settingsService.setSettings(this.settings);
+        this.settingsService.setDefaultSettings(this.settings);
     }
 
     public shouldDisplayHeadlessCheckbox(): boolean{

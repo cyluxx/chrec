@@ -1,4 +1,4 @@
-import { Browser, Type } from "./browser";
+import { Browser } from "./browser";
 
 export class Settings {
     //General Settings

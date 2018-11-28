@@ -21,10 +21,10 @@ export class GeneralSettingsComponent {
         this.settings.homeUrl = form.value.homeUrl;
         this.settings.webviewWidth = form.value.webviewWidth;
         this.settings.webviewHeight = form.value.webviewHeight;
-        this.settingsService.setSettings(this.settings);
+        this.settingsService.setDefaultSettings(this.settings);
     }
 
     public onReset(): void {
-        this.settingsService.resetSettings();
+        this.settingsService.resetDefaultSettings();
     }
 }

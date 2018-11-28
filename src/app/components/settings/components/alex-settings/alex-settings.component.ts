@@ -21,6 +21,6 @@ export class AlexSettingsComponent {
         this.settings.alexUrl = form.value.alexUrl;
         this.settings.alexEmail = form.value.alexEmail;
         this.settings.alexPassword = form.value.alexPassword;
-        this.settingsService.setSettings(this.settings);
+        this.settingsService.setDefaultSettings(this.settings);
     }
 }

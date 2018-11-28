@@ -2,7 +2,7 @@ import { By, Key, WebDriver, WebElement } from 'selenium-webdriver';
 
 export abstract class Action {
     id: string;
-    
+
     //The name of the Class (for JSON storage). 
     name: string;
 
@@ -16,7 +16,7 @@ export abstract class Action {
     public abstract run(driver: WebDriver): void;
 }
 
-export abstract class HtmlElementAction extends Action{
+export abstract class HtmlElementAction extends Action {
     selectors: string[];
     boundingBox: DOMRect;
 
@@ -50,7 +50,7 @@ export class Forward extends Action {
         super(image);
         this.name = Name.Forward;
     }
-    
+
     public run(driver: WebDriver): void {
         driver.navigate().forward();
     }
@@ -58,13 +58,13 @@ export class Forward extends Action {
 
 export class GoTo extends Action {
     url: string;
-    
+
     constructor(image: string, url: string) {
         super(image);
         this.name = Name.GoTo;
         this.url = url;
     }
-    
+
     public run(driver: WebDriver): void {
         driver.get(this.url);
     }
@@ -102,7 +102,7 @@ export class Click extends HtmlElementAction {
 
 export class Read extends HtmlElementAction {
     value: string;
-    
+
     constructor(image: string, selectors: string[], boundingBox: DOMRect, value: string) {
         super(image, selectors, boundingBox);
         this.value = value;
@@ -113,7 +113,7 @@ export class Read extends HtmlElementAction {
         try {
             let webElement: WebElement = await this.findElement(driver);
             let text: string = await webElement.getText();
-            if(!text.includes(this.value)){
+            if (!text.includes(this.value)) {
                 console.log('%c Element does not contain selected String.', 'color: #36f9c2; font-weight: bold');
                 throw new Error('Element does not contain selected String.');
             }

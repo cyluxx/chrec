@@ -25,16 +25,8 @@ export class SettingsComponent implements OnInit {
         this.settings = new Settings();
     }
 
-    public ngOnInit(): void {
-        this.settingsService.getSettings()
-            .then((settings: Settings) => {
-                if (settings) {
-                    this.settings = settings;
-                    if(!settings.browsers){
-                        this.settings.browsers = [];
-                    }
-                }
-            });
+    public async ngOnInit(): Promise<void> {
+        this.settings = await this.settingsService.getDefaultSettings();
     }
 
     public onNavItem(component: string): void {
