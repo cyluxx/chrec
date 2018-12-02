@@ -41,6 +41,7 @@ ready(function () {
     // click
     for (let element of clickableElements) {
         element.addEventListener('click', function (event) {
+            console.log('Preload: click event triggered');
             let send = {
                 action: 'click',
                 selectors: generateSelectors(event),
@@ -52,6 +53,7 @@ ready(function () {
 
     // read
     document.addEventListener("mouseup", function (event) {
+        console.log('Preload: read event triggered');
         let value = window.getSelection().toString();
         if (value) {
             let send = {
@@ -67,6 +69,7 @@ ready(function () {
     // type
     for (let element of typeableElements) {
         element.addEventListener('focusout', function (event) {
+            console.log('Preload: type event triggered');
             let send = {
                 action: 'type',
                 selectors: generateSelectors(event),

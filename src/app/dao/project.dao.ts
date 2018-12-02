@@ -40,11 +40,9 @@ export class ProjectDao implements Dao<Project>{
         let newProject: Project = this.buildConcreteProjectFromAny(project);
         if (project.sequences) {
             for (let sequence of project.sequences) {
-                console.log('sequence');
                 let newSequence: Sequence = this.buildConcreteSequenceFromAny(sequence);
                 if (sequence.actions) {
                     for (let action of sequence.actions) {
-                        console.log('action');
                         let newAction: Action = this.buildConcreteActionFromAny(action);
                         newSequence.actions.push(newAction);
                     }

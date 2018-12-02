@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { WebviewTag, IpcMessageEvent, NativeImage } from 'electron';
+import { WebviewTag, IpcMessageEvent, NativeImage, ConsoleMessageEvent } from 'electron';
 import { HtmlElementAction, Click, Read, Type } from '../model/action';
 
 @Directive({
@@ -8,6 +8,7 @@ import { HtmlElementAction, Click, Read, Type } from '../model/action';
 export class WebviewDirective implements OnDestroy {
   webviewTag: WebviewTag;
   ipcMessageEventFunction: (ipcMessageEvent: IpcMessageEvent) => void;
+  consoleMessageEventFunction: (consoleMessageEvent: ConsoleMessageEvent) => void;
 
   @Output() actionEmitter = new EventEmitter<HtmlElementAction>();
 
@@ -16,6 +17,7 @@ export class WebviewDirective implements OnDestroy {
 
     this.ipcMessageEventFunction = (ipcMessageEvent: IpcMessageEvent) => {
       let channelContent = JSON.parse(ipcMessageEvent.channel);
+      console.log('%c Webview: Recieved Action of Type ' + channelContent.action, 'color: #4242ff; font-weight: bold');
 
       this.webviewTag.capturePage((nativeImage: NativeImage) => {
         let image: string = nativeImage.toDataURL();
@@ -49,14 +51,23 @@ export class WebviewDirective implements OnDestroy {
         }
         this.actionEmitter.emit(action);
       });
+
+      this.consoleMessageEventFunction = (consoleMessageEvent: ConsoleMessageEvent) => {
+        console.log('%c ---Webview---', 'color: #ff4242; font-weight: bold');
+        console.log(consoleMessageEvent.message);
+        console.log('%c -------------' , 'color: #ff4242; font-weight: bold')
+      }
     }
+
     this.webviewTag.addEventListener('dom-ready', () => {
       this.webviewTag.addEventListener('ipc-message', this.ipcMessageEventFunction);
+      this.webviewTag.addEventListener('console-message', this.consoleMessageEventFunction);
       this.webviewTag.openDevTools();
     });
   }
 
   ngOnDestroy(): void {
     this.webviewTag.removeEventListener('ipc-message', this.ipcMessageEventFunction);
+    this.webviewTag.removeEventListener('console-message', this.consoleMessageEventFunction);
   }
 }
