@@ -40,9 +40,11 @@ export class ProjectDao implements Dao<Project>{
         let newProject: Project = this.buildConcreteProjectFromAny(project);
         if (project.sequences) {
             for (let sequence of project.sequences) {
+                console.log('sequence');
                 let newSequence: Sequence = this.buildConcreteSequenceFromAny(sequence);
                 if (sequence.actions) {
                     for (let action of sequence.actions) {
+                        console.log('action');
                         let newAction: Action = this.buildConcreteActionFromAny(action);
                         newSequence.actions.push(newAction);
                     }
@@ -83,9 +85,6 @@ export class ProjectDao implements Dao<Project>{
     private buildConcreteProjectFromAny(project: any): Project {
         let newProject: Project = new Project(project.name);
 
-        if (project.sequences && project.sequences.length > 0) {
-            newProject.sequences = project.sequences;
-        }
         return newProject;
     }
 
@@ -97,9 +96,6 @@ export class ProjectDao implements Dao<Project>{
         }
         if (sequence.tested) {
             newSequence.tested = sequence.tested;
-        }
-        if (sequence.actions && sequence.actions.length > 0) {
-            newSequence.actions = sequence.actions;
         }
         return newSequence;
     }
@@ -126,6 +122,9 @@ export class ProjectDao implements Dao<Project>{
             }
             case ActionName.Type: {
                 return new Type(action.image, action.selectors, action.boundingBox, action.value, action.keyCode);
+            }
+            default: {
+                throw new Error('DB Read Error: Could not instantiate ' + action.name);
             }
         }
     }
