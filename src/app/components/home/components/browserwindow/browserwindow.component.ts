@@ -7,7 +7,8 @@ import { Sequence } from "../../../../model/sequence";
 
 @Component({
     selector: "browserwindow",
-    templateUrl: "./browserwindow.component.html"
+    templateUrl: "./browserwindow.component.html",
+    styleUrls: ['./browserwindow.component.scss']
 })
 export class BrowserwindowComponent implements AfterViewInit {
     @ViewChild("webview") webviewRef: ElementRef;
@@ -15,6 +16,7 @@ export class BrowserwindowComponent implements AfterViewInit {
 
     preloadScriptPath: string;
     inputUrl: string;
+    info: string;
 
     @Input() settings: Settings;
 
@@ -95,6 +97,11 @@ export class BrowserwindowComponent implements AfterViewInit {
     public onAction(action: Action) {
         this.sequence.actions.push(action);
         this.actionEmitter.emit(action);
+        this.info = null;
+    }
+
+    public onInfo(info: string){
+        this.info = info;
     }
 
     private autocorrectInputUrl(): void {

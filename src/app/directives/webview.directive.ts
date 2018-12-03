@@ -12,50 +12,58 @@ export class WebviewDirective implements OnDestroy {
 
   @Output() actionEmitter = new EventEmitter<HtmlElementAction>();
 
+  @Output() infoEmitter = new EventEmitter<string>();
+
   constructor(elementRef: ElementRef) {
     this.webviewTag = elementRef.nativeElement as WebviewTag;
 
     this.ipcMessageEventFunction = (ipcMessageEvent: IpcMessageEvent) => {
       let channelContent = JSON.parse(ipcMessageEvent.channel);
-      console.log('%c Webview: Recieved Action of Type ' + channelContent.action, 'color: #4242ff; font-weight: bold');
 
-      this.webviewTag.capturePage((nativeImage: NativeImage) => {
-        let image: string = nativeImage.toDataURL();
+      if (channelContent.info) {
+        this.infoEmitter.emit(channelContent.message);
+      }
+      else if (channelContent.action) {
+        console.log('%c Webview: Recieved Action of Type ' + channelContent.action, 'color: #4242ff; font-weight: bold');
 
-        let action: HtmlElementAction;
-        switch (channelContent.action) {
-          case 'click': {
-            action = new Click(
-              image,
-              channelContent.selectors,
-              channelContent.boundingBox);
-            break;
+        this.webviewTag.capturePage((nativeImage: NativeImage) => {
+          let image: string = nativeImage.toDataURL();
+
+          let action: HtmlElementAction;
+          switch (channelContent.action) {
+            case 'click': {
+              action = new Click(
+                image,
+                channelContent.selectors,
+                channelContent.boundingBox);
+              break;
+            }
+            case 'read': {
+              action = new Read(
+                image,
+                channelContent.selectors,
+                channelContent.boundingBox,
+                channelContent.value);
+              break;
+            }
+            case 'type': {
+              action = new Type(
+                image,
+                channelContent.selectors,
+                channelContent.boundingBox,
+                channelContent.value,
+                channelContent.keyCode);
+              break;
+            }
           }
-          case 'read': {
-            action = new Read(
-              image,
-              channelContent.selectors,
-              channelContent.boundingBox,
-              channelContent.value);
-            break;
-          }
-          case 'type': {
-            action = new Type(
-              image,
-              channelContent.selectors,
-              channelContent.boundingBox,
-              channelContent.value,
-              channelContent.keyCode);
-            break;
-          }
-        }
-        this.actionEmitter.emit(action);
-      });
+          this.actionEmitter.emit(action);
+        });
+      }
 
       this.consoleMessageEventFunction = (consoleMessageEvent: ConsoleMessageEvent) => {
         console.log('%c ---Webview---', 'color: #ff4242; font-weight: bold');
         console.log(consoleMessageEvent.message);
-        console.log('%c -------------' , 'color: #ff4242; font-weight: bold')
+        console.log('%c -------------', 'color: #ff4242; font-weight: bold')
       }
     }
 

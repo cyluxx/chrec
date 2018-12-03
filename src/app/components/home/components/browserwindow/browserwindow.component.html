@@ -18,6 +18,10 @@
 </div>
 <div class="row mt-1">
     <div class="col">
-        <webview #webview (actionEmitter)="onAction($event)" [attr.src]="settings.homeUrl" [attr.preload]="preloadScriptPath"></webview>
+        <webview #webview (actionEmitter)="onAction($event)" (infoEmitter)="onInfo($event)" [attr.src]="settings.homeUrl"
+            [attr.preload]="preloadScriptPath"></webview>
     </div>
+</div>
+<div *ngIf="info" class="overlay">
+    <div class="overlay-text">{{info}}</div>
 </div>
