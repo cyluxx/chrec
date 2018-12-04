@@ -26,6 +26,7 @@ const mutationObserver = new MutationObserver(() => {
 
 var eventTargetValueString = '';
 var previousEventTargetValueString = '';
+var currentSelection = '';
 
 const sendClick = (event) => {
     let message = {
@@ -39,7 +40,7 @@ const sendClick = (event) => {
 const sendMouseup = (event) => {
     event.stopPropagation();
     let selection = window.getSelection().toString();
-    if (selection) {
+    if (selection && selection !== currentSelection) {
         let message = {
             action: 'read',
             selectors: generateSelectors(event),
@@ -47,6 +48,7 @@ const sendMouseup = (event) => {
             boundingBox: event.target.getBoundingClientRect()
         }
         sendAction(message);
+        currentSelection = selection;
     }
 }
 
