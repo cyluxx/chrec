@@ -19,11 +19,15 @@ global.myapi = {
 const cssSelectorGenerator = new myapi.CssSelectorGenerator;
 
 const mutationObserver = new MutationObserver(() => {
+    window.eventRecorder.removeEventListeners();
     window.eventRecorder = new EventRecorder();
+    window.eventRecorder.addEventListeners();
 });
 
+var eventTargetValueString = '';
+var previousEventTargetValueString = '';
+
 const sendClick = (event) => {
-    console.log('Preload: click event triggered');
     let message = {
         action: 'click',
         selectors: generateSelectors(event),
@@ -32,32 +36,57 @@ const sendClick = (event) => {
     sendAction(message);
 }
 
-const sendRead = (event) => {
-    console.log('Preload: read event triggered');
-    let message = {
-        action: 'read',
-        selectors: generateSelectors(event),
-        value: window.getSelection().toString(),
-        boundingBox: event.target.getBoundingClientRect()
+const sendMouseup = (event) => {
+    event.stopPropagation();
+    let selection = window.getSelection().toString();
+    if (selection) {
+        let message = {
+            action: 'read',
+            selectors: generateSelectors(event),
+            value: selection,
+            boundingBox: event.target.getBoundingClientRect()
+        }
+        sendAction(message);
     }
-    sendAction(message);
 }
 
-const sendType = (event) => {
-    console.log('Preload: type event triggered');
+const sendKeyup = (event) => {
+    if (event.key === 'Enter' || event.key === 'Tab') {
+        let message = {
+            action: 'type',
+            selectors: generateSelectors(event),
+            value: eventTargetValueString,
+            type: event.type,
+            key: event.key,
+            boundingBox: event.target.getBoundingClientRect()
+        }
+        if (previousEventTargetValueString !== eventTargetValueString) {
+            sendAction(message);
+        }
+    }
+    else {
+        eventTargetValueString = event.target.value;
+    }
+}
+
+const sendFocusout = (event) => {
     let message = {
         action: 'type',
         selectors: generateSelectors(event),
-        value: event.target.value,
+        value: eventTargetValueString,
         type: event.type,
-        keyCode: event.keyCode,
+        key: event.key,
         boundingBox: event.target.getBoundingClientRect()
     }
-    sendAction(message);
+    if (previousEventTargetValueString !== eventTargetValueString) {
+        sendAction(message);
+    }
 }
 
 function sendAction(message) {
+    console.log('Preload: Sending ' + message.action + ' message...');
     ipcRenderer.sendToHost(JSON.stringify(message));
+    previousEventTargetValueString = eventTargetValueString;
 }
 
 function sendInfo(message) {
@@ -99,14 +128,26 @@ class EventRecorder {
             element.addEventListener('click', sendClick);
         }
         for (let element of this.readableElements) {
-            element.addEventListener('mouseup', sendRead);
+            element.addEventListener('mouseup', sendMouseup);
         }
         for (let element of this.typeableElements) {
-            element.addEventListener('focusout', sendType);
+            element.addEventListener('keyup', sendKeyup);
+            element.addEventListener('focusout', sendFocusout);
         }
     }
 
-    //removeEventListeners??
+    removeEventListeners() {
+        for (let element of this.clickableElements) {
+            element.removeEventListener('click', sendClick);
+        }
+        for (let element of this.readableElements) {
+            element.addEventListener('mouseup', sendMouseup);
+        }
+        for (let element of this.typeableElements) {
+            element.removeEventListener('keyup', sendKeyup);
+            element.removeEventListener('focusout', sendFocusout);
+        }
+    }
 }
 
 // wait for document ready (without jQuery)

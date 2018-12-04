@@ -26,6 +26,7 @@ export class WebviewDirective implements OnDestroy {
       else if (channelContent.action) {
         console.log('%c Webview: Recieved Action of Type ' + channelContent.action, 'color: #4242ff; font-weight: bold');
 
+        this.infoEmitter.emit('capturing page');
         this.webviewTag.capturePage((nativeImage: NativeImage) => {
           let image: string = nativeImage.toDataURL();
 
@@ -52,11 +53,12 @@ export class WebviewDirective implements OnDestroy {
                 channelContent.selectors,
                 channelContent.boundingBox,
                 channelContent.value,
-                channelContent.keyCode);
+                channelContent.key);
               break;
             }
           }
           this.actionEmitter.emit(action);
+          this.infoEmitter.emit(null);
         });
       }
 

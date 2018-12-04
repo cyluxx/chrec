@@ -133,12 +133,12 @@ export class Read extends HtmlElementAction {
 
 export class Type extends HtmlElementAction {
     value: string;
-    keyCode: number;
+    key: string;
 
-    constructor(image: string, selectors: string[], boundingBox: DOMRect, value: string, keyCode: number) {
+    constructor(image: string, selectors: string[], boundingBox: DOMRect, value: string, key: string) {
         super(image, selectors, boundingBox);
         this.value = value;
-        this.keyCode = keyCode;
+        this.key = key;
         this.name = Name.Type;
     }
 
