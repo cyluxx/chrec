@@ -19,11 +19,11 @@ export class ProjectDao implements Dao<Project>{
         this.remove = util.promisify(storage.remove);
         this.keys = util.promisify(storage.keys);
 
-        console.log('%c Default Project Storage Data Path: ' + storage.getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
+        console.log('%cDefault Project Storage Data Path: ' + storage.getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
     }
 
     public async create(fileName: string, project: Project, path?: string): Promise<void> {
-        console.log('%c Create ' + fileName, 'font-weight:bold; color:#42ff42');
+        console.log('%cCreate ' + fileName, 'font-weight:bold; color:#42ff42');
         console.log(project);
         return await this.update(fileName, project, path);
     }
@@ -51,13 +51,13 @@ export class ProjectDao implements Dao<Project>{
             }
         }
 
-        console.log('%c Read ' + fileName, 'font-weight:bold; color:#42ff42');
+        console.log('%cRead ' + fileName, 'font-weight:bold; color:#42ff42');
         console.log(project);
         return newProject;
     }
 
     public async update(fileName: string, project: Project, path?: string): Promise<void> {
-        console.log('%c Update ' + fileName, 'font-weight:bold; color:#42ff42');
+        console.log('%cUpdate ' + fileName, 'font-weight:bold; color:#42ff42');
         console.log(project);
         if (path) {
             return await this.set(fileName, project, { dataPath: path });
@@ -66,7 +66,7 @@ export class ProjectDao implements Dao<Project>{
     }
 
     public async delete(fileName: string, path?: string): Promise<void> {
-        console.log('%c Delete ' + fileName, 'font-weight:bold; color:#42ff42');
+        console.log('%cDelete ' + fileName, 'font-weight:bold; color:#42ff42');
         if (path) {
             return await this.remove(fileName, { dataPath: path });
         }
