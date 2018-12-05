@@ -11,7 +11,7 @@ export class WebdriverService {
     driver: WebDriver;
 
     private begin(browser: Browser, seleniumGridUrl: string): void {
-        console.log('%c Starting Webdriver', 'color: #733CA3; font-weight: bold');
+        console.log('%cStarting Webdriver', 'color: #733CA3; font-weight: bold');
         if (browser.headless && browser.type == BrowserType.chrome) {
             this.driver = new Builder().forBrowser(browser.type)
                 .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
@@ -31,9 +31,14 @@ export class WebdriverService {
             for (let i: number = 0; i < settings.numberIterations; i++) {
                 this.begin(browser, settings.seleniumGridUrl);
                 for (let action of sequence.actions) {
-                    await action.run(this.driver);
+                    try {
+                        await action.run(this.driver);
+                    }
+                    catch (error) {
+                        throw error;
+                    }
                 }
-                console.log('%c Closing Session', 'color: #733CA3; font-weight: bold');
+                console.log('%cClosing Session', 'color: #733CA3; font-weight: bold');
                 this.quit();
             }
         }

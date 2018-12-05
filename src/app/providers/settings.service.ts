@@ -46,6 +46,7 @@ export class SettingsService {
         browser.type = Type.chrome;
         browser.width = 800;
         browser.height = 600;
+        browser.headless = false;
         settings.browsers.push(browser);
         settings.numberIterations = 1;
 
