@@ -163,6 +163,7 @@ export enum Name {
     Refresh = 'Refresh',
 
     //HtmlElementActions
+    Change = 'Change',
     Click = 'Click',
     Read = 'Read',
     Type = 'Type'

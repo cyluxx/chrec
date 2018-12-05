@@ -5,7 +5,7 @@ const getQuerySelector = require('get-query-selector');
 const optimalSelect = require('optimal-select').select;
 const selectorQuery = require('selector-query');
 
-const clickableElements = 'a, button';
+const clickableElements = 'a, button, input[type=checkbox]';
 const readableElements = 'div, h1, h2, h3, h4, h5, h6, label, li, p, span';
 const typeableElements = 'input, textarea';
 
