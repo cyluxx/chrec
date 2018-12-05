@@ -25,7 +25,6 @@ export class WebdriverSettingsComponent {
 
     public onSubmit(form: NgForm): void {
         this.settings.seleniumGridUrl = form.value.seleniumGridUrl;
-        this.settings.numberIterations = form.value.numberIterations;
         this.settingsService.setDefaultSettings(this.settings);
     }
 

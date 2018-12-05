@@ -19,6 +19,7 @@ export class WebdriverService {
         else {
             this.driver = new Builder().forBrowser(browser.type).usingServer(`http://${seleniumGridUrl}/wd/hub`).build();
         }
+        this.driver.manage().deleteAllCookies();
         this.driver.manage().window().setSize(browser.width, browser.height);
     }
 
@@ -28,15 +29,13 @@ export class WebdriverService {
 
     public async run(sequence: Sequence, settings: Settings): Promise<void> {
         for (let browser of settings.browsers) {
-            for (let i: number = 0; i < settings.numberIterations; i++) {
+            for (let i: number = 0; i < browser.numberIterations; i++) {
                 this.begin(browser, settings.seleniumGridUrl);
-                for (let action of sequence.actions) {
-                    try {
-                        await action.run(this.driver);
+                for (let i = 0; i < sequence.actions.length; i++) {
+                    if (i !== 0 && browser.sleepTimeBetweenActions) {
+                        this.driver.sleep(browser.sleepTimeBetweenActions);
                     }
-                    catch (error) {
-                        throw error;
-                    }
+                    await sequence.actions[i].run(this.driver);
                 }
                 console.log('%cClosing Session', 'color: #733CA3; font-weight: bold');
                 this.quit();

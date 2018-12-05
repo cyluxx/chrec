@@ -6,19 +6,13 @@
             #seleniumGridUrl="ngModel">
         <small class="form-text text-muted">Defaults to localhost:4444</small>
     </div>
-    <div class="form-group">
-        <label>Number of Iterations</label>
-        <input type="number" min="1" class="form-control" placeholder="Number of Iterations" name="numberIterations"
-            [ngModel]="settings.numberIterations" #numberIterations="ngModel">
-        <small class="form-text text-muted">Number of iterations the sequences are tested per browser.</small>
-    </div>
     <button type="submit" class="btn btn-primary">
         <fa-icon icon="save"></fa-icon> Save
     </button>
 </form>
 <h5 class="mt-3">Browsers</h5>
-<div class="form-row align-items-end">
-    <div class="form-group col-5">
+<div class="form-row">
+    <div class="form-group col-6">
         <label>Type</label>
         <select class="form-control" [(ngModel)]="newBrowser.type">
             <option *ngFor="let type of types" [value]="type">{{type}}</option>
@@ -33,12 +27,26 @@
         <input type="number" min="300" class="form-control" [(ngModel)]="newBrowser.height">
     </div>
     <div class="col-2 mb-2">
+        <label>Headless</label>
         <div *ngIf="shouldDisplayHeadlessCheckbox()" class="form-group form-check">
             <input type="checkbox" class="form-check-input" [(ngModel)]="newBrowser.headless">
             <label class="form-check-label">Headless</label>
         </div>
     </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-6">
+        <label>Number of Iterations</label>
+        <input type="number" min="1" class="form-control" [(ngModel)]="newBrowser.numberIterations">
+        <small class="form-text text-muted">Number of iterations the sequences are tested per browser.</small>
+    </div>
+    <div class="form-group col-5">
+        <label>Sleep Time</label>
+        <input type="number" min="1" class="form-control" [(ngModel)]="newBrowser.sleepTimeBetweenActions">
+        <small class="form-text text-muted">Webdriver sleep milliseconds between Actions</small>
+    </div>
     <div class="form-group col-1">
+        <label>Add</label>
         <button class="btn btn-block btn-primary" (click)="onAddBrowser()">
             <fa-icon icon="plus"></fa-icon>
         </button>
@@ -50,8 +58,10 @@
             <th scope="col">#</th>
             <th scope="col">Type</th>
             <th scope="col">Resolution</th>
-            <th></th>
-            <th></th>
+            <th scope="col">#Iterations</th>
+            <th scope="col">SleepTime (ms)</th>
+            <th scope="col">Headless</th>
+            <th scope="col">Options</th>
         </tr>
     </thead>
     <tbody>
@@ -59,6 +69,8 @@
             <th scope="row">{{i}}</th>
             <td>{{browser.type}}</td>
             <td>{{browser.width}} <fa-icon icon="times"></fa-icon> {{browser.height}}</td>
+            <td>{{browser.numberIterations}}</td>
+            <td>{{browser.sleepTimeBetweenActions}}</td>
             <td><span *ngIf="browser.headless" class="badge badge-primary">Headless</span></td>
             <td>
                 <button class="btn btn-sm btn-danger" (click)="onDeleteBrowser(browser)">

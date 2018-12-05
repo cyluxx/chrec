@@ -47,8 +47,9 @@ export class SettingsService {
         browser.width = 800;
         browser.height = 600;
         browser.headless = false;
+        browser.numberIterations = 1;
+        browser.sleepTimeBetweenActions = 0;
         settings.browsers.push(browser);
-        settings.numberIterations = 1;
 
         //Stability Settings
         settings.useCssSelectorGenerator = true;

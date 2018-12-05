@@ -9,7 +9,6 @@ export class Settings {
     //Webdriver Settings
     seleniumGridUrl: string;
     browsers: Browser[];
-    numberIterations: number;
 
     //Stability Settings
     useCssSelectorGenerator: boolean;
