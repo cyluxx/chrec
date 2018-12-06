@@ -97,21 +97,27 @@ function sendInfo(message) {
 
 function generateSelectors(event) {
     let selectors = [];
+    let selector;
 
     sendInfo('cssSelectorGenerator');
-    selectors.push(cssSelectorGenerator.getSelector(event.target));
+    selector = cssSelectorGenerator.getSelector(event.target);
+    selectors.push({method: 'CssSelectorGenerator', type: 'CSS', value: selector});
 
     sendInfo('finder');
-    selectors.push(myapi.finder(event.target));
+    selector = myapi.finder(event.target)
+    selectors.push({method: 'Finder', type: 'CSS', value: selector});
 
     sendInfo('getQuerySelector');
-    selectors.push(myapi.getQuerySelector(event.target));
+    selector = myapi.getQuerySelector(event.target)
+    selectors.push({method: 'GetQuerySelector', type: 'CSS', value: selector});
 
     sendInfo('optimalSelect');
-    selectors.push(myapi.select(event.target));
+    selector = myapi.select(event.target)
+    selectors.push({method: 'OptimalSelect', type: 'CSS', value: selector});
 
     sendInfo('selectorQuery');
-    selectors.push(myapi.selectorQuery(event.target));
+    selector = myapi.selectorQuery(event.target)
+    selectors.push({method: 'SelectorQuery', type: 'CSS', value: selector});
 
     return selectors;
 }

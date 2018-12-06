@@ -1,4 +1,5 @@
 import { By, Key, WebDriver, WebElement } from 'selenium-webdriver';
+import { Selector, Type as SelectorType } from './selector';
 
 export abstract class Action {
     id: string;
@@ -17,11 +18,11 @@ export abstract class Action {
 }
 
 export abstract class HtmlElementAction extends Action {
-    chosenSelector: string;
-    selectors: string[];
+    chosenSelector: Selector;
+    selectors: Selector[];
     boundingBox: DOMRect;
 
-    constructor(image: string, selectors: string[], boundingBox: DOMRect) {
+    constructor(image: string, selectors: Selector[], boundingBox: DOMRect) {
         super(image);
         this.selectors = selectors;
         this.boundingBox = boundingBox;
@@ -31,13 +32,19 @@ export abstract class HtmlElementAction extends Action {
         for (let selector of this.selectors) {
             try {
                 this.chosenSelector = selector;
-                let webElement: WebElement = await driver.findElement(By.css(selector));
-                console.log('%cChosen Selector ' + this.chosenSelector + ' found!', 'color: #42ff42; font-weight: bold');
+                let webElement: WebElement;
+                if (selector.type === SelectorType.Css) {
+                    webElement = await driver.findElement(By.css(selector.value));
+                }
+                else {
+                    webElement = await driver.findElement(By.xpath(selector.value));
+                }
+                console.log('%cChosen Selector ' + this.chosenSelector.method + ': ' + this.chosenSelector.value + ' found!', 'color: #42ff42; font-weight: bold');
                 return webElement;
             }
             catch (error) {
                 if (error.name === 'NoSuchElementError') {
-                    console.log('%cChosen Selector ' + this.chosenSelector + ' not found! Trying next one...', 'color: #ff4242; font-weight: bold');
+                    console.log('%cChosen Selector ' + this.chosenSelector.method + ': ' + this.chosenSelector.value + ' not found! Trying next one...', 'color: #ff4242; font-weight: bold');
                 }
             }
         }
@@ -100,7 +107,7 @@ export class Refresh extends Action {
 
 //HtmlElementActions
 export class Click extends HtmlElementAction {
-    constructor(image: string, selectors: string[], boundingBox: DOMRect) {
+    constructor(image: string, selectors: Selector[], boundingBox: DOMRect) {
         super(image, selectors, boundingBox);
         this.name = Name.Click;
     }
@@ -121,7 +128,7 @@ export class Click extends HtmlElementAction {
 export class Read extends HtmlElementAction {
     value: string;
 
-    constructor(image: string, selectors: string[], boundingBox: DOMRect, value: string) {
+    constructor(image: string, selectors: Selector[], boundingBox: DOMRect, value: string) {
         super(image, selectors, boundingBox);
         this.value = value;
         this.name = Name.Read;
@@ -148,7 +155,7 @@ export class Type extends HtmlElementAction {
     value: string;
     key: string;
 
-    constructor(image: string, selectors: string[], boundingBox: DOMRect, value: string, key: string) {
+    constructor(image: string, selectors: Selector[], boundingBox: DOMRect, value: string, key: string) {
         super(image, selectors, boundingBox);
         this.value = value;
         this.key = key;

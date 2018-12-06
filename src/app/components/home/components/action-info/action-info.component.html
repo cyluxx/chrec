@@ -19,9 +19,6 @@
         </div>
 
         <div *ngIf="isHtmlElementAction(action)">
-            <p *ngFor="let selector of asHtmlElementAction(action).selectors; let i = index">
-                selector {{i}}: {{selector}}
-            </p>
             <p>
                 boundingBox:
                 x: {{asHtmlElementAction(action).boundingBox.x}},
@@ -49,6 +46,32 @@
                     <input type="text" class="form-control" placeholder="value" [(ngModel)]="asType(action).value">
                 </div>
             </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Method</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Executable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let selector of asHtmlElementAction(action).selectors">
+                        <td>{{selector.method}}</td>
+                        <td>{{selector.type}}</td>
+                        <td>{{selector.value}}</td>
+                        <td>
+                            <span *ngIf="selector.executable" class="badge badge-success">
+                                <fa-icon icon="check"></fa-icon>
+                            </span>
+                            <span *ngIf="!selector.executable" class="badge badge-danger">
+                                <fa-icon icon="times"></fa-icon>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <img *ngIf="action.image" [src]="action.image">
