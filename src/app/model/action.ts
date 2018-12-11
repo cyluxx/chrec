@@ -15,6 +15,14 @@ export abstract class Action {
     }
 
     public abstract run(driver: WebDriver): void;
+
+    protected logCurrent(): void {
+        console.log('%c' + this.id + ': ' + this.name, 'color: #733CA3; font-weight: bold');
+    }
+
+    protected logCouldNotReplicate(): void {
+        console.log('%cCould not replicate ' + this.name + ' Action ' + this.id + '!', 'color: #ff4242; font-weight: bold');
+    }
 }
 
 export abstract class HtmlElementAction extends Action {
@@ -62,7 +70,7 @@ export class Back extends Action {
 
     public run(driver: WebDriver): void {
         driver.navigate().back();
-        console.log('%c' + this.name, 'color: #733CA3; font-weight: bold');
+        this.logCurrent();
     }
 }
 
@@ -74,7 +82,7 @@ export class Forward extends Action {
 
     public run(driver: WebDriver): void {
         driver.navigate().forward();
-        console.log('%c' + this.name, 'color: #733CA3; font-weight: bold');
+        this.logCurrent();
     }
 }
 
@@ -89,7 +97,7 @@ export class GoTo extends Action {
 
     public run(driver: WebDriver): void {
         driver.get(this.url);
-        console.log('%c' + this.name, 'color: #733CA3; font-weight: bold');
+        this.logCurrent();
     }
 }
 
@@ -101,7 +109,7 @@ export class Refresh extends Action {
 
     public run(driver: WebDriver): void {
         driver.navigate().refresh();
-        console.log('%c' + this.name, 'color: #733CA3; font-weight: bold');
+        this.logCurrent();
     }
 }
 
@@ -116,10 +124,10 @@ export class Click extends HtmlElementAction {
         try {
             let webElement: WebElement = await this.findElement(driver);
             webElement.click();
-            console.log('%c' + this.name, 'color: #733CA3; font-weight: bold');
+            this.logCurrent();
         }
         catch (error) {
-            console.log('%cCould not replicate Click Action ' + this.id + '!', 'color: #ff4242; font-weight: bold');
+            this.logCouldNotReplicate();
             throw error;
         }
     }
@@ -142,10 +150,10 @@ export class Read extends HtmlElementAction {
                 console.log('%cElement does not contain selected String.', 'color: #36f9c2; font-weight: bold');
                 throw new Error('Element does not contain selected String.');
             }
-            console.log('%c' + this.name, 'color: #733CA3; font-weight: bold');
+            this.logCurrent();
         }
         catch (error) {
-            console.log('%cCould not replicate Read Action ' + this.id + '!', 'color: #ff4242; font-weight: bold');
+            this.logCouldNotReplicate();
             throw error;
         }
     }
@@ -166,10 +174,10 @@ export class Type extends HtmlElementAction {
         try {
             let webElement: WebElement = await this.findElement(driver);
             webElement.sendKeys(this.value, Key.TAB);
-            console.log('%c' + this.name, 'color: #733CA3; font-weight: bold');
+            this.logCurrent();
         }
         catch (error) {
-            console.log('%cCould not replicate Type Action ' + this.id + '!', 'color: #ff4242; font-weight: bold');
+            this.logCouldNotReplicate();
             throw error;
         }
     }
