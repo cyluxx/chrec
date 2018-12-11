@@ -43,6 +43,7 @@ export class SettingsService {
         //Webdriver Settings
         settings.browsers = [];
         let browser: Browser = new Browser();
+        browser.name = 'default';
         browser.type = Type.chrome;
         browser.width = 800;
         browser.height = 600;

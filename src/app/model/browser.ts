@@ -1,4 +1,5 @@
 export class Browser {
+    name: string;
     type: Type;
     width: number;
     height: number;

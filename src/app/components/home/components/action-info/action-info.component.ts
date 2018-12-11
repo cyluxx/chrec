@@ -1,14 +1,18 @@
 import { Component, Input } from "@angular/core";
 import { Action, GoTo, Read, Type, HtmlElementAction } from "../../../../model/action";
+import { Browser } from "../../../../model/browser";
 
 @Component({
     selector: 'action-info',
-    templateUrl: './action-info.component.html'
+    templateUrl: './action-info.component.html',
+    styleUrls: ['./action-info.component.scss']
 })
-export class ActionInfoComponent{
+export class ActionInfoComponent {
     @Input() action: Action;
 
     edit: boolean;
+
+    currentBrowser: Browser;
 
     public isGoTo(action: Action): boolean {
         return action instanceof GoTo;
@@ -44,5 +48,14 @@ export class ActionInfoComponent{
 
     public onToggleEdit(): void {
         this.edit = !this.edit;
+    }
+
+    public onBrowser(browser: Browser): void {
+        this.currentBrowser = browser;
+    }
+
+    public getStabilityIndicator(browser: Browser): number {
+        return 0;
+        //return (browser.successfulIterations / browser.numberIterations + browser.successfulSelectors.length / this.asHtmlElementAction(this.action).selectors.length) / 2 * 100;
     }
 }

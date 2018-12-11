@@ -30,6 +30,14 @@ export class WebdriverSettingsComponent {
 
     public onAddBrowser(): void {
         if (this.newBrowser.type && this.newBrowser.width >= 300 && this.newBrowser.height >= 300) {
+
+            //check if name allready exists
+            for (let browser of this.settings.browsers) {
+                if (this.newBrowser.name === browser.name) {
+                    return;
+                }
+            }
+
             this.settings.browsers.push(this.newBrowser);
             this.newBrowser = new Browser();
             this.settingsService.setDefaultSettings(this.settings);
@@ -38,11 +46,8 @@ export class WebdriverSettingsComponent {
 
     public onDeleteBrowser(browser: Browser): void {
         let browsers: Browser[] = [];
-        for(let thisBrowser of this.settings.browsers){
-            if(thisBrowser.type !== browser.type 
-                || thisBrowser.width !== browser.width 
-                || thisBrowser.height !== browser.height
-                || thisBrowser.headless !== browser.headless){
+        for (let thisBrowser of this.settings.browsers) {
+            if (thisBrowser.name !== browser.name) {
                 browsers.push(thisBrowser);
             }
         }
@@ -50,7 +55,7 @@ export class WebdriverSettingsComponent {
         this.settingsService.setDefaultSettings(this.settings);
     }
 
-    public shouldDisplayHeadlessCheckbox(): boolean{
+    public shouldDisplayHeadlessCheckbox(): boolean {
         return this.newBrowser.type && this.newBrowser.type === Type.chrome;
     }
 }
