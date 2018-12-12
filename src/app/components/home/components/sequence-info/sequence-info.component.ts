@@ -3,6 +3,7 @@ import { Sequence } from "../../../../model/sequence";
 import { Action } from "../../../../model/action";
 import { WebdriverService } from "../../../../providers/webdriver.service";
 import { Settings } from "../../../../model/settings";
+import { Browser } from "../../../../model/browser";
 
 @Component({
     selector: 'sequence-info',
@@ -22,6 +23,8 @@ export class SequenceInfoComponent {
 
     @Output() rerecordSequenceEmitter = new EventEmitter<Sequence>();
 
+    currentBrowser: Browser;
+
     currentActionIndex: number = 0;
 
     constructor(webdriverService: WebdriverService) {
@@ -36,36 +39,10 @@ export class SequenceInfoComponent {
         this.rerecordSequenceEmitter.emit(this.sequence);
     }
 
-    public onAction(action: Action): void {
-        for(let i = 0; i < this.sequence.actions.length; i++){
-            if(this.sequence.actions[i] === action){
-                this.currentActionIndex = i;
-                break;
-            }
-        }
-        this.currentAction = action;
-    }
-
-    public onForward(): void {
-        this.currentActionIndex++;
-        if (this.currentActionIndex > this.sequence.actions.length - 1) {
-            this.currentActionIndex = 0;
-        }
-        this.currentAction = this.sequence.actions[this.currentActionIndex];
-    }
-
-    public onBackward(): void {
-        this.currentActionIndex--;
-        if (this.currentActionIndex < 0) {
-            this.currentActionIndex = this.sequence.actions.length - 1;
-        }
-        this.currentAction = this.sequence.actions[this.currentActionIndex];
-    }
-
     public async onPlay(): Promise<void> {
         this.sequence.tested = true;
         try {
-            await this.webdriverService.run(this.sequence, this.settings);
+            await this.webdriverService.runAllBrowsers(this.sequence, this.settings);
             this.sequence.executable = true;
         }
         catch (error) {
@@ -73,5 +50,9 @@ export class SequenceInfoComponent {
                 this.sequence.executable = false;
             }
         }
+    }
+
+    public onSelectBrowser(browser: Browser): void {
+        this.currentBrowser = browser;
     }
 }

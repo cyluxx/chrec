@@ -36,8 +36,8 @@ export class BrowserwindowComponent implements AfterViewInit {
             this.inputUrl = this.webview.getURL();
         });
 
-        if(this.sequence.actions.length === 0 && this.settings.homeUrl){
-            this.sequence.actions.push(new GoTo(null, this.settings.homeUrl));
+        if(this.sequence.recordedActions.length === 0 && this.settings.homeUrl){
+            this.sequence.recordedActions.push(new GoTo(null, this.settings.homeUrl));
         }
     }
 
@@ -50,7 +50,7 @@ export class BrowserwindowComponent implements AfterViewInit {
             this.webview.capturePage((nativeImage: NativeImage) => {
                 let image: string = nativeImage.toDataURL();
                 let action: Action = new Back(image);
-                this.sequence.actions.push(action);
+                this.sequence.recordedActions.push(action);
                 this.actionEmitter.emit(action);
             });
             this.webview.goBack();
@@ -66,7 +66,7 @@ export class BrowserwindowComponent implements AfterViewInit {
             this.webview.capturePage((nativeImage: NativeImage) => {
                 let image: string = nativeImage.toDataURL();
                 let action: Action = new Forward(image);
-                this.sequence.actions.push(action);
+                this.sequence.recordedActions.push(action);
                 this.actionEmitter.emit(action);
             });
             this.webview.goForward();
@@ -77,7 +77,7 @@ export class BrowserwindowComponent implements AfterViewInit {
         this.webview.capturePage((nativeImage: NativeImage) => {
             let image: string = nativeImage.toDataURL();
             let action: Action = new Refresh(image);
-            this.sequence.actions.push(action);
+            this.sequence.recordedActions.push(action);
             this.actionEmitter.emit(action);
         });
         this.webview.reloadIgnoringCache();
@@ -88,14 +88,14 @@ export class BrowserwindowComponent implements AfterViewInit {
         this.webview.capturePage((nativeImage: NativeImage) => {
             let image: string = nativeImage.toDataURL();
             let action: Action = new GoTo(image, this.inputUrl);
-            this.sequence.actions.push(action);
+            this.sequence.recordedActions.push(action);
             this.actionEmitter.emit(action);
         });
         this.webview.loadURL(this.inputUrl);
     }
 
     public onAction(action: Action) {
-        this.sequence.actions.push(action);
+        this.sequence.recordedActions.push(action);
         this.actionEmitter.emit(action);
         this.info = null;
     }

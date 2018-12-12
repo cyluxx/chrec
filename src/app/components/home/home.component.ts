@@ -62,8 +62,8 @@ export class HomeComponent implements OnInit {
   }
 
   public getCurrentAction(): Action {
-    if (this.currentSequence.actions && this.currentSequence.actions.length > 0) {
-      return this.currentSequence.actions[0];
+    if (this.currentSequence.recordedActions && this.currentSequence.recordedActions.length > 0) {
+      return this.currentSequence.recordedActions[0];
     }
   }
 

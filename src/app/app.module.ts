@@ -29,6 +29,7 @@ import { WebviewDirective } from "./directives/webview.directive";
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
 import { AlexSettingsComponent } from "./components/settings/components/alex-settings/alex-settings.component";
 import { AppComponent } from "./app.component";
+import { BrowserInfoComponent } from "./components/home/components/browser-info/browser-info.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -101,6 +102,7 @@ library.add(faPen);
     ActionInfoComponent,
     AlexSettingsComponent,
     AppComponent,
+    BrowserInfoComponent,
     BrowserwindowComponent,
     GeneralSettingsComponent,
     HomeComponent,

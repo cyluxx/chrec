@@ -4,8 +4,7 @@ import { Browser } from "../../../../model/browser";
 
 @Component({
     selector: 'action-info',
-    templateUrl: './action-info.component.html',
-    styleUrls: ['./action-info.component.scss']
+    templateUrl: './action-info.component.html'
 })
 export class ActionInfoComponent {
     @Input() action: Action;

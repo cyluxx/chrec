@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-3">
+        <div class="row">
+            <ul class="list-group list-group-flush">
+                <li *ngFor="let action of browser.actions; let i = index" class="list-group-item list-group-item-action"
+                    [class.active]="action === currentAction" (click)="onSelectAction(action)">
+                    <h5 class="mb-1">{{i}}: {{action.name}}</h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="btn-group mr-1">
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="onBackward()">
+                <fa-icon icon="step-backward"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="onForward()">
+                <fa-icon icon="step-forward"></fa-icon>
+            </button>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header text-white bg-dark">
+                <h5>{{browser.name}}: {{browser.type}}</h5>
+                <div class="d-flex justify-content-between">
+                    <small>Resolution: {{browser.width}} <fa-icon icon="times"></fa-icon> {{browser.height}}</small>
+                    <small>#Iterations: {{browser.numberIterations}}</small>
+                    <small>SleepTimeBetweenActions: {{browser.sleepTimeBetweenActions}}</small>
+                    <small *ngIf="browser.headless"><span class="badge badge-primary">Headless</span></small>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <small>Successful Iterations
+                            ({{browser.successfulIterations}}/{{browser.numberIterations}}):</small>
+                        <div class="progress browser-info-bar">
+                            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="browser.successfulIterations / browser.numberIterations * 100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="100 - browser.successfulIterations / browser.numberIterations * 100"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <small>Successful Selectors
+                            ({{getSuccessfulSelectorCount()}}/{{getTotalSelectorCount()}}):</small>
+                        <div class="progress browser-info-bar">
+                            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="getSuccessfulSelectorCount() / getTotalSelectorCount() * 100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="100 - getSuccessfulSelectorCount() / getTotalSelectorCount() * 100"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <small>Stability Indicator ({{getStabilityIndicator(browser)}}):</small>
+                        <div class="progress browser-info-bar">
+                            <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="getStabilityIndicator(browser)"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <action-info [action]="currentAction"></action-info>
+    </div>
+</div>
