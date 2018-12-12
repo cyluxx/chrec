@@ -17,6 +17,7 @@ export class Browser {
         this.height = 600;
         this.headless = false;
         this.numberIterations = 1;
+        this.successfulIterations = 0;
         this.sleepTimeBetweenActions = 0;
         this.actions = [];
     }

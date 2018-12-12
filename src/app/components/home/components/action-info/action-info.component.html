@@ -75,6 +75,8 @@
                 </table>
             </div>
         </div>
-        <img *ngIf="action.image" [src]="action.image">
+        <div *ngIf="action.image">
+            <img [src]="action.image">
+        </div>
     </div>
 </div>
