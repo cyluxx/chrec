@@ -72,6 +72,10 @@ import {
   faCheck,
   faPen
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChrome,
+  faFirefox
+} from "@fortawesome/free-brands-svg-icons";
 
 library.add(faPlay);
 library.add(faPause);
@@ -96,6 +100,8 @@ library.add(faExclamation);
 library.add(faForward);
 library.add(faCheck);
 library.add(faPen);
+library.add(faChrome);
+library.add(faFirefox);
 
 @NgModule({
   declarations: [
