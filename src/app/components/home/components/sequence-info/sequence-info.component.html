@@ -34,9 +34,72 @@
     <div class="col">
         <ul class="nav nav-tabs">
             <li *ngFor="let browser of sequence.browsers" class="nav-item">
-                <a class="nav-link" [class.active]="browser === currentBrowser" (click)="onSelectBrowser(browser)">{{browser.name}} <fa-icon [icon]="['fab', browser.type]"></fa-icon></a>
+                <a class="nav-link" [class.active]="browser === currentBrowser" (click)="onSelectBrowser(browser)">{{browser.name}}
+                    <fa-icon [icon]="['fab', browser.type]"></fa-icon></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [class.active]="showNewBrowserCard" (click)="onAddNewBrowser()">
+                    <fa-icon icon="plus"></fa-icon>
+                </a>
             </li>
         </ul>
+    </div>
+</div>
+<div *ngIf="showNewBrowserCard" class="row mt-3">
+    <div class="col">
+        <div class="d-flex justify-content-between">
+            <h5>Add new Browser</h5>
+            <button class="btn btn-danger" (click)="onAbortNewBrowser()">
+                <fa-icon icon="times"></fa-icon>
+            </button>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label>Name</label>
+                <input type="text" class="form-control" [(ngModel)]="newBrowser.name">
+            </div>
+            <div class="form-group col-6">
+                <label>Type</label>
+                <select class="form-control" [(ngModel)]="newBrowser.type">
+                    <option *ngFor="let type of browserTypes" [value]="type">{{type}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-2">
+                <label>Width</label>
+                <input type="number" min="300" class="form-control" [(ngModel)]="newBrowser.width">
+            </div>
+            <div class="form-group col-2">
+                <label>Height</label>
+                <input type="number" min="300" class="form-control" [(ngModel)]="newBrowser.height">
+            </div>
+            <div class="col-2 mb-2">
+                <label>Headless</label>
+                <div *ngIf="shouldDisplayHeadlessCheckbox()" class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="newBrowser.headless">
+                    <label class="form-check-label">Headless</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label>Number of Iterations</label>
+                <input type="number" min="1" class="form-control" [(ngModel)]="newBrowser.numberIterations">
+                <small class="form-text text-muted">Number of iterations the sequences are tested per browser.</small>
+            </div>
+            <div class="form-group col-5">
+                <label>Sleep Time</label>
+                <input type="number" min="1" class="form-control" [(ngModel)]="newBrowser.sleepTimeBetweenActions">
+                <small class="form-text text-muted">Webdriver sleep milliseconds between Actions</small>
+            </div>
+            <div class="form-group col-1">
+                <label>Add</label>
+                <button class="btn btn-block btn-primary" (click)="onConfirmNewBrowser()">
+                    <fa-icon icon="plus"></fa-icon>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <browser-info *ngIf="currentBrowser" [browser]="currentBrowser"></browser-info>

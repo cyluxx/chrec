@@ -3,7 +3,7 @@ import { Sequence } from "../../../../model/sequence";
 import { Action } from "../../../../model/action";
 import { WebdriverService } from "../../../../providers/webdriver.service";
 import { Settings } from "../../../../model/settings";
-import { Browser } from "../../../../model/browser";
+import { Browser, Type as BrowserType } from "../../../../model/browser";
 
 @Component({
     selector: 'sequence-info',
@@ -27,8 +27,14 @@ export class SequenceInfoComponent {
 
     currentActionIndex: number = 0;
 
+    showNewBrowserCard: boolean;
+    browserTypes: string[];
+    newBrowser: Browser;
+
     constructor(webdriverService: WebdriverService) {
         this.webdriverService = webdriverService;
+        this.browserTypes = Object.keys(BrowserType);
+        this.newBrowser = new Browser();
     }
 
     public onRecordSequence(): void {
@@ -53,6 +59,38 @@ export class SequenceInfoComponent {
     }
 
     public onSelectBrowser(browser: Browser): void {
+        this.showNewBrowserCard = false;
         this.currentBrowser = browser;
+    }
+
+    public onAddNewBrowser(): void {
+        this.currentBrowser = null;
+        this.showNewBrowserCard = !this.showNewBrowserCard;
+    }
+
+    public onConfirmNewBrowser(): void {
+        if (this.newBrowser.type && this.newBrowser.width >= 300 && this.newBrowser.height >= 300) {
+
+            //check if name allready exists
+            for (let browser of this.sequence.browsers) {
+                if (this.newBrowser.name === browser.name) {
+                    return;
+                }
+            }
+
+            this.sequence.browsers.push(this.newBrowser);
+            this.currentBrowser = this.newBrowser;
+            this.newBrowser = new Browser();
+            this.showNewBrowserCard = false;
+        }
+    }
+
+    public onAbortNewBrowser(): void {
+        this.newBrowser = new Browser();
+        this.showNewBrowserCard = false;
+    }
+
+    public shouldDisplayHeadlessCheckbox(): boolean {
+        return this.newBrowser.type && this.newBrowser.type === BrowserType.chrome;
     }
 }

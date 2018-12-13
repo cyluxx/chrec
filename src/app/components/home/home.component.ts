@@ -5,6 +5,7 @@ import { Sequence } from '../../model/sequence';
 import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
 import { Action } from '../../model/action';
+import { Browser } from '../../model/browser';
 
 @Component({
   selector: 'app-home',
@@ -53,6 +54,18 @@ export class HomeComponent implements OnInit {
   public onNewSequence(): void {
     if (this.newSequenceName) {
       let sequence: Sequence = new Sequence(this.newSequenceName);
+      for (let browser of this.settings.browsers) {
+        let newBrowser: Browser = new Browser();
+        newBrowser.name = browser.name;
+        newBrowser.type = browser.type;
+        newBrowser.width = browser.width;
+        newBrowser.height = browser.height;
+        newBrowser.headless = browser.headless;
+        newBrowser.numberIterations = browser.numberIterations;
+        newBrowser.successfulIterations = browser.successfulIterations;
+        newBrowser.sleepTimeBetweenActions = browser.sleepTimeBetweenActions;
+        sequence.browsers.push(newBrowser);
+      }
       this.project.sequences.push(sequence);
       this.currentSequence = sequence;
       this.newSequenceName = '';

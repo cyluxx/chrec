@@ -66,6 +66,9 @@ export class BrowserInfoComponent {
     }
 
     public getStabilityIndicator(): number {
-        return (this.browser.successfulIterations / this.browser.numberIterations + this.getSuccessfulSelectorCount() / this.getTotalSelectorCount()) / 2 * 100;
+        if(this.getSuccessfulSelectorCount() / this.getTotalSelectorCount() === 0){
+            return 0;
+        }
+        return Math.round((this.browser.successfulIterations / this.browser.numberIterations + this.getSuccessfulSelectorCount() / this.getTotalSelectorCount()) / 2 * 100);
     }
 }
