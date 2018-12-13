@@ -24,6 +24,12 @@ import { SettingsService } from "./providers/settings.service";
 import { ProjectDao } from "./dao/project.dao";
 import { SettingsDao } from "./dao/settings.dao";
 
+import { ActionFactory } from "./factory/action.factory";
+import { SelectorFactory } from "./factory/selector.factory";
+import { BrowserFactory } from "./factory/browser.factory";
+import { SequenceFactory } from "./factory/sequence.factory";
+import { ProjectFactory } from "./factory/project.factory";
+
 import { WebviewDirective } from "./directives/webview.directive";
 
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
@@ -135,7 +141,19 @@ library.add(faFirefox);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, WebdriverService, ProjectService, SettingsService, ProjectDao, SettingsDao],
+  providers: [
+    ElectronService,
+    ProjectService,
+    SettingsService,
+    WebdriverService,
+    ProjectDao,
+    SettingsDao,
+    ActionFactory,
+    BrowserFactory,
+    ProjectFactory,
+    SelectorFactory,
+    SequenceFactory
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
