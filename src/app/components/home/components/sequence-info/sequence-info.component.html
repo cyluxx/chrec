@@ -34,7 +34,7 @@
     <div class="col">
         <ul class="nav nav-tabs">
             <li *ngFor="let browser of sequence.browsers" class="nav-item">
-                <a class="nav-link" [class.active]="browser === currentBrowser" (click)="onSelectBrowser(browser)">{{browser.name}}</a>
+                <a class="nav-link" [class.active]="browser === currentBrowser" (click)="onSelectBrowser(browser)">{{browser.name}} <fa-icon [icon]="['fab', browser.type]"></fa-icon></a>
             </li>
         </ul>
     </div>

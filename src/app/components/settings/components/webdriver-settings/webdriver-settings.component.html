@@ -65,7 +65,7 @@
             <th scope="col">Type</th>
             <th scope="col">Resolution</th>
             <th scope="col">#Iterations</th>
-            <th scope="col">SleepTime (ms)</th>
+            <th scope="col">SleepTime(ms)</th>
             <th scope="col">Headless</th>
             <th scope="col">Options</th>
         </tr>
@@ -73,7 +73,7 @@
     <tbody>
         <tr *ngFor="let browser of settings.browsers">
             <th scope="row">{{browser.name}}</th>
-            <td>{{browser.type}}</td>
+            <td>{{browser.type}} <fa-icon [icon]="['fab', browser.type]"></fa-icon></td>
             <td>{{browser.width}} <fa-icon icon="times"></fa-icon> {{browser.height}}</td>
             <td>{{browser.numberIterations}}</td>
             <td>{{browser.sleepTimeBetweenActions}}</td>
