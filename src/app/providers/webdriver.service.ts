@@ -32,19 +32,13 @@ export class WebdriverService {
     public async run(browser: Browser, settings: Settings): Promise<void> {
         try {
             this.begin(browser, settings.seleniumGridUrl);
-            console.log('1');
             for (let i = 0; i < browser.actions.length; i++) {
-                console.log('42');
                 if (i !== 0 && browser.sleepTimeBetweenActions) {
                     this.driver.sleep(browser.sleepTimeBetweenActions);
                 }
-                console.log('penis');
                 await browser.actions[i].run(this.driver);
-                console.log('1337');
             }
-            console.log('2');
             this.quit(browser);
-            console.log('3');
             browser.successfulIterations++;
         }
         catch (error) {

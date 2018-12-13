@@ -189,7 +189,6 @@ export class Type extends HtmlElementAction {
 
     public async run(driver: WebDriver): Promise<void> {
         try {
-            console.log('booyaka');
             let webElement: WebElement = await this.findElement(driver);
             webElement.sendKeys(this.value, Key.TAB);
             this.logCurrent();
