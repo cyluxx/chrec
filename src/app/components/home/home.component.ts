@@ -41,6 +41,8 @@ export class HomeComponent implements OnInit {
   }
 
   public onSave(): void {
+    console.log('home onSave');
+    console.log(this.project);
     this.projectService.setDefaultProject(this.project);
   }
 

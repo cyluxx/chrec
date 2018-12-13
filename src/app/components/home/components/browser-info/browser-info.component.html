@@ -59,6 +59,6 @@
                 </div>
             </div>
         </div>
-        <action-info [action]="currentAction"></action-info>
+        <action-info *ngIf="currentAction" [action]="currentAction"></action-info>
     </div>
 </div>

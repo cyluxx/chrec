@@ -50,7 +50,16 @@ export class WebdriverService {
     public async runAllBrowsers(sequence: Sequence, settings: Settings): Promise<void> {
         sequence.browsers = [];
         for (let browser of settings.browsers) {
-            sequence.browsers.push(Object.create(browser));
+            let newBrowser: Browser = new Browser();
+            newBrowser.name = browser.name;
+            newBrowser.type = browser.type;
+            newBrowser.width = browser.width;
+            newBrowser.height = browser.height;
+            newBrowser.headless = browser.headless;
+            newBrowser.numberIterations = browser.numberIterations;
+            newBrowser.successfulIterations = browser.successfulIterations;
+            newBrowser.sleepTimeBetweenActions = browser.sleepTimeBetweenActions;
+            sequence.browsers.push(newBrowser);
         }
         for (let browser of sequence.browsers) {
             browser.actions = Object.assign([], sequence.recordedActions);
