@@ -30,14 +30,27 @@ export class WebdriverService {
     }
 
     public async run(browser: Browser, settings: Settings): Promise<void> {
-        this.begin(browser, settings.seleniumGridUrl);
-        for (let i = 0; i < browser.actions.length; i++) {
-            if (i !== 0 && browser.sleepTimeBetweenActions) {
-                this.driver.sleep(browser.sleepTimeBetweenActions);
+        try {
+            this.begin(browser, settings.seleniumGridUrl);
+            console.log('1');
+            for (let i = 0; i < browser.actions.length; i++) {
+                console.log('42');
+                if (i !== 0 && browser.sleepTimeBetweenActions) {
+                    this.driver.sleep(browser.sleepTimeBetweenActions);
+                }
+                console.log('penis');
+                await browser.actions[i].run(this.driver);
+                console.log('1337');
             }
-            await browser.actions[i].run(this.driver);
+            console.log('2');
+            this.quit(browser);
+            console.log('3');
+            browser.successfulIterations++;
         }
-        this.quit(browser);
+        catch (error) {
+            this.logError(`WebdriverService: Run: Failed to run ${browser.name} - ${browser.type}`);
+            throw new Error(error);
+        }
     }
 
     public async runAllBrowsers(sequence: Sequence, settings: Settings): Promise<void> {
@@ -49,7 +62,13 @@ export class WebdriverService {
             browser.actions = Object.assign([], sequence.recordedActions);
 
             for (let i: number = 0; i < browser.numberIterations; i++) {
-                await this.run(browser, settings);
+                try {
+                    await this.run(browser, settings);
+                }
+                catch (error) {
+                    this.logError(`WebdriverService: RunAllBrowsers: Failed to run ${browser.name} - ${browser.type} at iteration ${i}`);
+                    throw new Error(error);
+                }
             }
         }
     }
@@ -58,5 +77,9 @@ export class WebdriverService {
         for (let sequence of project.sequences) {
             await this.runAllBrowsers(sequence, settings);
         }
+    }
+
+    private logError(message: string): void {
+        console.log('%c' + message, 'color: #ff4242; font-weight: bold');
     }
 }

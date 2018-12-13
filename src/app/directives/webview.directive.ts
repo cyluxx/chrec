@@ -1,6 +1,7 @@
 import { Directive, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { WebviewTag, IpcMessageEvent, NativeImage, ConsoleMessageEvent } from 'electron';
 import { HtmlElementAction, Click, Read, Type } from '../model/action';
+import { Selector } from '../model/selector';
 
 @Directive({
   selector: 'webview'
@@ -30,19 +31,25 @@ export class WebviewDirective implements OnDestroy {
         this.webviewTag.capturePage((nativeImage: NativeImage) => {
           let image: string = nativeImage.toDataURL();
 
+          let selectors: Selector[] = [];
+          for(let selector of channelContent.selectors){
+            let newSelector: Selector = new Selector(selector.method, selector.value);
+            selectors.push(newSelector);
+          }
+
           let action: HtmlElementAction;
           switch (channelContent.action) {
             case 'click': {
               action = new Click(
                 image,
-                channelContent.selectors,
+                selectors,
                 channelContent.boundingBox);
               break;
             }
             case 'read': {
               action = new Read(
                 image,
-                channelContent.selectors,
+                selectors,
                 channelContent.boundingBox,
                 channelContent.value);
               break;
@@ -50,7 +57,7 @@ export class WebviewDirective implements OnDestroy {
             case 'type': {
               action = new Type(
                 image,
-                channelContent.selectors,
+                selectors,
                 channelContent.boundingBox,
                 channelContent.value,
                 channelContent.key);

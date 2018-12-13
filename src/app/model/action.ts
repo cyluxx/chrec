@@ -1,5 +1,5 @@
-import { By, Key, WebDriver, WebElement } from 'selenium-webdriver';
-import { Selector, Type as SelectorType } from './selector';
+import { Key, WebDriver, WebElement } from 'selenium-webdriver';
+import { Selector } from './selector';
 
 export abstract class Action {
     id: string;
@@ -23,6 +23,10 @@ export abstract class Action {
     protected logCouldNotReplicate(): void {
         console.log('%cCould not replicate ' + this.name + ' Action ' + this.id + '!', 'color: #ff4242; font-weight: bold');
     }
+
+    protected logError(message: string): void {
+        console.log('%c' + message, 'color: #ff4242; font-weight: bold');
+    }
 }
 
 export abstract class HtmlElementAction extends Action {
@@ -36,25 +40,38 @@ export abstract class HtmlElementAction extends Action {
         this.boundingBox = boundingBox;
     }
 
+    public async testSelectors(driver: WebDriver): Promise<void> {
+        try {
+            for (let selector of this.selectors) {
+                await selector.test(driver);
+            }
+        }
+        catch(error){
+            this.logError('HtmlElementAction testSelectors: No valid Selectors!');
+            throw new Error(error);
+        }
+    }
+
     public async findElement(driver: WebDriver): Promise<WebElement> {
+        await this.testSelectors(driver);
+
+        let candidates: Selector[] = [];
         for (let selector of this.selectors) {
-            try {
-                this.chosenSelector = selector;
-                let webElement: WebElement;
-                if (selector.type === SelectorType.Css) {
-                    webElement = await driver.findElement(By.css(selector.value));
-                }
-                else {
-                    webElement = await driver.findElement(By.xpath(selector.value));
-                }
-                console.log('%cChosen Selector ' + this.chosenSelector.method + ': ' + this.chosenSelector.value + ' found!', 'color: #42ff42; font-weight: bold');
-                return webElement;
+            if (selector.executable) {
+                candidates.push(selector);
             }
-            catch (error) {
-                if (error.name === 'NoSuchElementError') {
-                    console.log('%cChosen Selector ' + this.chosenSelector.method + ': ' + this.chosenSelector.value + ' not found! Trying next one...', 'color: #ff4242; font-weight: bold');
-                }
+        }
+        try {
+            if (candidates && candidates !== []) {
+                //get random selector candidate
+                let candidate: Selector = candidates[Math.floor(Math.random() * candidates.length)];
+                this.chosenSelector = candidate;
+                return await candidate.findElement(driver);
             }
+        }
+        catch (error) {
+            this.logError('HtmlElementAction findElement: No valid selector candidates!');
+            throw new Error(error);
         }
     }
 
@@ -128,7 +145,7 @@ export class Click extends HtmlElementAction {
         }
         catch (error) {
             this.logCouldNotReplicate();
-            throw error;
+            throw new Error(error);
         }
     }
 }
@@ -154,7 +171,7 @@ export class Read extends HtmlElementAction {
         }
         catch (error) {
             this.logCouldNotReplicate();
-            throw error;
+            throw new Error(error);
         }
     }
 }
@@ -172,13 +189,14 @@ export class Type extends HtmlElementAction {
 
     public async run(driver: WebDriver): Promise<void> {
         try {
+            console.log('booyaka');
             let webElement: WebElement = await this.findElement(driver);
             webElement.sendKeys(this.value, Key.TAB);
             this.logCurrent();
         }
         catch (error) {
             this.logCouldNotReplicate();
-            throw error;
+            throw new Error(error);
         }
     }
 }

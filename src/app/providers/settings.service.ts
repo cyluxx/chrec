@@ -16,7 +16,7 @@ export class SettingsService {
 
     public newDefaultSettings(): Settings {
         let settings: Settings = new Settings();
-        settings = this.buildDefaultSettings(settings);
+        this.buildDefaultSettings(settings);
         return settings;
     }
 
@@ -30,11 +30,11 @@ export class SettingsService {
 
     public resetDefaultSettings(): void {
         let settings: Settings = new Settings();
-        settings = this.buildDefaultSettings(settings);
+        this.buildDefaultSettings(settings);
         this.setDefaultSettings(settings);
     }
 
-    private buildDefaultSettings(settings: Settings): Settings {
+    private buildDefaultSettings(settings: Settings): void {
         //General Settings
         settings.seleniumGridUrl = 'localhost:4444';
         settings.webviewWidth = 800;
@@ -67,7 +67,5 @@ export class SettingsService {
         settings.alexUrl = 'localhost:8000';
         settings.alexEmail = 'admin@alex.example';
         settings.alexPassword = 'admin';
-
-        return settings;
     }
 }
