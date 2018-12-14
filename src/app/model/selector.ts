@@ -34,12 +34,12 @@ export class Selector {
                 await driver.findElement(By.xpath(this.value));
             }
             this.executable = true;
-            this.logSuccess('%cChosen Selector ' + this.method + ': ' + this.value + ' valid!');
+            this.logSuccess('Chosen Selector ' + this.method + ': ' + this.value + ' valid!');
         }
         catch (error) {
             if (error.name === 'NoSuchElementError') {
                 this.executable = false;
-                this.logError('%cChosen Selector ' + this.method + ': ' + this.value + ' not valid! Trying next one...');
+                this.logError('Chosen Selector ' + this.method + ': ' + this.value + ' not valid! Trying next one...');
             }
             else {
                 throw new Error(error);
@@ -57,7 +57,7 @@ export class Selector {
             }
         }
         catch (error) {
-            this.logError('%cChosen Selector ' + this.method + ': ' + this.value + ' not found!');
+            this.logError('Chosen Selector ' + this.method + ': ' + this.value + ' not found!');
             throw new Error(error);
         }
     }

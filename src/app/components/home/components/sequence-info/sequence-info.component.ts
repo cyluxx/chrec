@@ -93,4 +93,8 @@ export class SequenceInfoComponent {
     public shouldDisplayHeadlessCheckbox(): boolean {
         return this.newBrowser.type && this.newBrowser.type === BrowserType.chrome;
     }
+
+    public onCurrentActionIndex(currentActionIndex: number): void {
+        this.currentActionIndex = currentActionIndex;
+    }
 }
