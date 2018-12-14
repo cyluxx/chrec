@@ -30,4 +30,8 @@ export class BrowserFactory {
         newBrowser.sleepTimeBetweenActions = browser.sleepTimeBetweenActions;
         return newBrowser;
     }
+
+    public fromBrowser(browser: Browser): Browser {
+        return this.fromAny(browser);
+    }
 }

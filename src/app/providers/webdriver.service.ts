@@ -6,9 +6,17 @@ import { Settings } from '../model/settings';
 
 import * as chrome from 'selenium-webdriver/chrome';
 import { Project } from '../model/project';
+import { ActionFactory } from '../factory/action.factory';
 
 @Injectable()
 export class WebdriverService {
+
+    private actionFactory: ActionFactory;
+
+    constructor(actionFactory: ActionFactory){
+        this.actionFactory = actionFactory;
+    }
+
     driver: WebDriver;
 
     private begin(browser: Browser, seleniumGridUrl: string): void {
@@ -51,7 +59,11 @@ export class WebdriverService {
         for (let browser of sequence.browsers) {
 
             browser.successfulIterations = 0;
-            browser.actions = Object.assign([], sequence.recordedActions);
+
+            browser.actions = [];
+            for(let action of sequence.recordedActions){
+                browser.actions.push(this.actionFactory.fromAction(action));
+            }
 
             for (let i: number = 0; i < browser.numberIterations; i++) {
                 try {

@@ -52,9 +52,4 @@ export class ActionInfoComponent {
     public onBrowser(browser: Browser): void {
         this.currentBrowser = browser;
     }
-
-    public getStabilityIndicator(browser: Browser): number {
-        return 0;
-        //return (browser.successfulIterations / browser.numberIterations + browser.successfulSelectors.length / this.asHtmlElementAction(this.action).selectors.length) / 2 * 100;
-    }
 }

@@ -1,13 +1,16 @@
 import { Directive, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { WebviewTag, IpcMessageEvent, NativeImage, ConsoleMessageEvent } from 'electron';
 import { HtmlElementAction, Click, Read, Type } from '../model/action';
-import { Selector } from '../model/selector';
+import { ActionFactory } from '../factory/action.factory';
 
 @Directive({
   selector: 'webview'
 })
 export class WebviewDirective implements OnDestroy {
   webviewTag: WebviewTag;
+  
+  private actionFactory: ActionFactory;
+
   ipcMessageEventFunction: (ipcMessageEvent: IpcMessageEvent) => void;
   consoleMessageEventFunction: (consoleMessageEvent: ConsoleMessageEvent) => void;
 
@@ -15,8 +18,10 @@ export class WebviewDirective implements OnDestroy {
 
   @Output() infoEmitter = new EventEmitter<string>();
 
-  constructor(elementRef: ElementRef) {
+  constructor(elementRef: ElementRef, actionFactory: ActionFactory) {
     this.webviewTag = elementRef.nativeElement as WebviewTag;
+
+    this.actionFactory = actionFactory;
 
     this.ipcMessageEventFunction = (ipcMessageEvent: IpcMessageEvent) => {
       let channelContent = JSON.parse(ipcMessageEvent.channel);
@@ -31,39 +36,8 @@ export class WebviewDirective implements OnDestroy {
         this.webviewTag.capturePage((nativeImage: NativeImage) => {
           let image: string = nativeImage.toDataURL();
 
-          let selectors: Selector[] = [];
-          for(let selector of channelContent.selectors){
-            let newSelector: Selector = new Selector(selector.method, selector.value);
-            selectors.push(newSelector);
-          }
+          let action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, image);
 
-          let action: HtmlElementAction;
-          switch (channelContent.action) {
-            case 'click': {
-              action = new Click(
-                image,
-                selectors,
-                channelContent.boundingBox);
-              break;
-            }
-            case 'read': {
-              action = new Read(
-                image,
-                selectors,
-                channelContent.boundingBox,
-                channelContent.value);
-              break;
-            }
-            case 'type': {
-              action = new Type(
-                image,
-                selectors,
-                channelContent.boundingBox,
-                channelContent.value,
-                channelContent.key);
-              break;
-            }
-          }
           this.actionEmitter.emit(action);
           this.infoEmitter.emit(null);
         });

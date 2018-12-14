@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Sequence } from "../../../../model/sequence";
 import { Action } from "../../../../model/action";
 import { WebdriverService } from "../../../../providers/webdriver.service";

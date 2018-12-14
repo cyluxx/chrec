@@ -5,7 +5,7 @@ import { Sequence } from '../../model/sequence';
 import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
 import { Action } from '../../model/action';
-import { Browser } from '../../model/browser';
+import { BrowserFactory } from '../../factory/browser.factory';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
 
   private projectService: ProjectService;
   private settingsService: SettingsService;
+  private browserFactory: BrowserFactory;
 
   project: Project;
   settings: Settings;
@@ -28,9 +29,10 @@ export class HomeComponent implements OnInit {
   recording: boolean;
   rerecording: boolean;
 
-  constructor(projectService: ProjectService, settingsService: SettingsService) {
+  constructor(projectService: ProjectService, settingsService: SettingsService, browserFactory: BrowserFactory) {
     this.projectService = projectService;
     this.settingsService = settingsService;
+    this.browserFactory = browserFactory;
 
     this.project = projectService.newDefaultProject();
     this.settings = settingsService.newDefaultSettings();
@@ -55,16 +57,7 @@ export class HomeComponent implements OnInit {
     if (this.newSequenceName) {
       let sequence: Sequence = new Sequence(this.newSequenceName);
       for (let browser of this.settings.browsers) {
-        let newBrowser: Browser = new Browser();
-        newBrowser.name = browser.name;
-        newBrowser.type = browser.type;
-        newBrowser.width = browser.width;
-        newBrowser.height = browser.height;
-        newBrowser.headless = browser.headless;
-        newBrowser.numberIterations = browser.numberIterations;
-        newBrowser.successfulIterations = browser.successfulIterations;
-        newBrowser.sleepTimeBetweenActions = browser.sleepTimeBetweenActions;
-        sequence.browsers.push(newBrowser);
+        sequence.browsers.push(this.browserFactory.fromBrowser(browser));
       }
       this.project.sequences.push(sequence);
       this.currentSequence = sequence;
