@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import { Browser } from "../../../../model/browser";
 import { Action, HtmlElementAction } from "../../../../model/action";
 
@@ -7,13 +7,17 @@ import { Action, HtmlElementAction } from "../../../../model/action";
     templateUrl: './browser-info.component.html',
     styleUrls: ['./browser-info.component.scss']
 })
-export class BrowserInfoComponent {
+export class BrowserInfoComponent implements OnChanges{
 
     @Input() browser: Browser;
 
     currentAction: Action;
 
     currentActionIndex: number = 0;
+
+    ngOnChanges(): void {
+        this.currentAction = this.browser.actions[this.currentActionIndex];
+    }
 
     public onSelectAction(action: Action): void {
         for (let i = 0; i < this.browser.actions.length; i++) {
@@ -66,9 +70,6 @@ export class BrowserInfoComponent {
     }
 
     public getStabilityIndicator(): number {
-        if(this.getSuccessfulSelectorCount() / this.getTotalSelectorCount() === 0){
-            return 0;
-        }
         return Math.round((this.browser.successfulIterations / this.browser.numberIterations + this.getSuccessfulSelectorCount() / this.getTotalSelectorCount()) / 2 * 100);
     }
 }
