@@ -97,7 +97,7 @@ export class BrowserwindowComponent implements AfterViewInit {
     public onAction(action: Action) {
         this.sequence.recordedActions.push(action);
         this.actionEmitter.emit(action);
-        this.info = null;
+        this.info = '';
     }
 
     public onInfo(info: string){

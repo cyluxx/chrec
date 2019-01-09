@@ -24,7 +24,6 @@ const robulaPlus = new myapi.RobulaPlus;
 const mutationObserver = new MutationObserver(() => {
     window.eventRecorder.removeEventListeners();
     window.eventRecorder = new EventRecorder();
-    window.eventRecorder.addEventListeners();
 });
 
 var eventTargetValueString = '';

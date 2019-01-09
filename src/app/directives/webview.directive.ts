@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { WebviewTag, IpcMessageEvent, NativeImage, ConsoleMessageEvent } from 'electron';
-import { HtmlElementAction, Click, Read, Type } from '../model/action';
+import { HtmlElementAction } from '../model/action';
 import { ActionFactory } from '../factory/action.factory';
 
 @Directive({
@@ -8,15 +8,16 @@ import { ActionFactory } from '../factory/action.factory';
 })
 export class WebviewDirective implements OnDestroy {
   webviewTag: WebviewTag;
-  
+
   private actionFactory: ActionFactory;
 
   ipcMessageEventFunction: (ipcMessageEvent: IpcMessageEvent) => void;
-  consoleMessageEventFunction: (consoleMessageEvent: ConsoleMessageEvent) => void;
 
   @Output() actionEmitter = new EventEmitter<HtmlElementAction>();
 
   @Output() infoEmitter = new EventEmitter<string>();
+
+  image: string = '';
 
   constructor(elementRef: ElementRef, actionFactory: ActionFactory) {
     this.webviewTag = elementRef.nativeElement as WebviewTag;
@@ -31,34 +32,29 @@ export class WebviewDirective implements OnDestroy {
       }
       else if (channelContent.action) {
         console.log('%c Webview: Recieved Action of Type ' + channelContent.action, 'color: #4242ff; font-weight: bold');
-
-        this.infoEmitter.emit('capturing page');
+        let action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, this.image);
+        this.actionEmitter.emit(action);
         this.webviewTag.capturePage((nativeImage: NativeImage) => {
-          let image: string = nativeImage.toDataURL();
-
-          let action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, image);
-
-          this.actionEmitter.emit(action);
-          this.infoEmitter.emit(null);
+          this.infoEmitter.emit('capturing page');
+          this.image = nativeImage.toDataURL();
+          this.infoEmitter.emit('');
         });
-      }
-
-      this.consoleMessageEventFunction = (consoleMessageEvent: ConsoleMessageEvent) => {
-        console.log('%c ---Webview---', 'color: #ff4242; font-weight: bold');
-        console.log(consoleMessageEvent.message);
-        console.log('%c -------------', 'color: #ff4242; font-weight: bold')
+        this.infoEmitter.emit('');
       }
     }
 
     this.webviewTag.addEventListener('dom-ready', () => {
       this.webviewTag.addEventListener('ipc-message', this.ipcMessageEventFunction);
-      this.webviewTag.addEventListener('console-message', this.consoleMessageEventFunction);
-      this.webviewTag.openDevTools();
+      this.webviewTag.capturePage((nativeImage: NativeImage) => {
+        this.infoEmitter.emit('capturing page');
+        this.image = nativeImage.toDataURL();
+        this.infoEmitter.emit('');
+      });
+      //this.webviewTag.openDevTools();
     });
   }
 
   ngOnDestroy(): void {
     this.webviewTag.removeEventListener('ipc-message', this.ipcMessageEventFunction);
-    this.webviewTag.removeEventListener('console-message', this.consoleMessageEventFunction);
   }
 }

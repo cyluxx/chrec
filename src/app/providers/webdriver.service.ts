@@ -51,6 +51,7 @@ export class WebdriverService {
         }
         catch (error) {
             this.logError(`WebdriverService: Run: Failed to run ${browser.name} - ${browser.type}`);
+            this.quit(browser);
             throw new Error(error);
         }
     }

@@ -27,7 +27,7 @@ export class SequenceInfoComponent {
 
     currentActionIndex: number = 0;
 
-    showNewBrowserCard: boolean;
+    showNewBrowserCard: boolean = false;
     browserTypes: string[];
     newBrowser: Browser;
 
