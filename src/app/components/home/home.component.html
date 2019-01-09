@@ -26,9 +26,13 @@
             </div>
         </div>
         <div class="col-9">
-            <button *ngFor="let sequence of project.sequences" (click)="onSelectSequence(sequence)"
-                [class.btn-outline-success]="sequence.executable" [class.btn-danger]="sequence.tested && !sequence.executable"
-                [class.btn-warning]="!sequence.tested" class="btn mr-1">{{sequence.name}}</button>
+            <ul class="nav nav-tabs">
+                <li *ngFor="let sequence of project.sequences" class="nav-item">
+                    <a class="nav-link" [class.active]="sequence === currentSequence" (click)="onSelectSequence(sequence)"
+                        [class.text-success]="sequence.executable" [class.text-danger]="sequence.tested && !sequence.executable"
+                        [class.text-warning]="!sequence.tested">{{sequence.name}}</a>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="row mt-1">
