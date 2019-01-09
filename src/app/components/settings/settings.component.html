@@ -14,8 +14,8 @@
     </div>
     <div class="col-9">
         <div [ngSwitch]="currentComponent">
-            <alex-settings [settings]="settings" *ngSwitchCase="alexSettings"></alex-settings>
-            <stability-settings [settings]="settings" *ngSwitchCase="stabilitySettings"></stability-settings>
+            <!-- <alex-settings [settings]="settings" *ngSwitchCase="alexSettings"></alex-settings>
+            <stability-settings [settings]="settings" *ngSwitchCase="stabilitySettings"></stability-settings> -->
             <webdriver-settings [settings]="settings" *ngSwitchCase="webdriverSettings"></webdriver-settings>
             <general-settings [settings]="settings" *ngSwitchDefault></general-settings>
         </div>

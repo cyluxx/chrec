@@ -7,12 +7,13 @@ import { Settings } from "../../model/settings";
     templateUrl: './settings.component.html'
 })
 export class SettingsComponent implements OnInit {
-    alexSettings: string = 'Alex Settings';
+    //alexSettings: string = 'Alex Settings';
     generalSettings: string = 'General Settings';
-    stabilitySettings: string = 'Stability Settings';
+    //stabilitySettings: string = 'Stability Settings';
     webdriverSettings: string = 'Webdriver Settings';
 
-    components: string[] = [this.alexSettings, this.generalSettings, this.stabilitySettings, this.webdriverSettings];
+    //components: string[] = [this.alexSettings, this.generalSettings, this.stabilitySettings, this.webdriverSettings];
+    components: string[] = [this.generalSettings, this.webdriverSettings];
     currentComponent: string = this.generalSettings;
 
     private settingsService: SettingsService;
