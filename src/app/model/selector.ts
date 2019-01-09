@@ -1,4 +1,5 @@
 import { WebDriver, WebElement, By } from "selenium-webdriver";
+import { RobulaPlus } from "../../../preload-scripts/robula-plus/robula-plus";
 
 export class Selector {
     type: Type;
@@ -81,5 +82,6 @@ export enum Method {
     Finder = 'Finder',
     GetQuerySelector = 'GetQuerySelector',
     OptimalSelect = 'OptimalSelect',
-    SelectorQuery = 'SelectorQuery'
+    SelectorQuery = 'SelectorQuery',
+    RobulaPlus = 'RobulaPlus'
 }

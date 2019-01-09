@@ -4,6 +4,7 @@ const finder = require('@medv/finder').default;
 const getQuerySelector = require('get-query-selector');
 const optimalSelect = require('optimal-select').select;
 const selectorQuery = require('selector-query');
+const RobulaPlus = require('./robula-plus/robula-plus').RobulaPlus;
 
 const clickableElements = 'a, button, input[type=checkbox]';
 const readableElements = 'div, h1, h2, h3, h4, h5, h6, label, li, p, span';
@@ -14,9 +15,11 @@ global.myapi = {
     finder: finder,
     getQuerySelector: getQuerySelector,
     select: optimalSelect,
-    selectorQuery: selectorQuery
+    selectorQuery: selectorQuery,
+    RobulaPlus: RobulaPlus
 }
 const cssSelectorGenerator = new myapi.CssSelectorGenerator;
+const robulaPlus = new myapi.RobulaPlus;
 
 const mutationObserver = new MutationObserver(() => {
     window.eventRecorder.removeEventListeners();
@@ -104,11 +107,11 @@ function generateSelectors(event) {
     selectors.push({method: 'CssSelectorGenerator', type: 'CSS', value: selector});
 
     sendInfo('finder');
-    selector = myapi.finder(event.target)
+    selector = myapi.finder(event.target);
     selectors.push({method: 'Finder', type: 'CSS', value: selector});
 
     sendInfo('getQuerySelector');
-    selector = myapi.getQuerySelector(event.target)
+    selector = myapi.getQuerySelector(event.target);
     selectors.push({method: 'GetQuerySelector', type: 'CSS', value: selector});
 
     sendInfo('optimalSelect');
@@ -116,8 +119,12 @@ function generateSelectors(event) {
     selectors.push({method: 'OptimalSelect', type: 'CSS', value: selector});
 
     sendInfo('selectorQuery');
-    selector = myapi.selectorQuery(event.target)
+    selector = myapi.selectorQuery(event.target);
     selectors.push({method: 'SelectorQuery', type: 'CSS', value: selector});
+
+    sendInfo('RobulaPlus');
+    selector = robulaPlus.getRobustXPath(event.target, document);
+    selectors.push({method: 'RobulaPlus', type: 'XPath', value: selector});
 
     return selectors;
 }
