@@ -146,61 +146,25 @@ class RobulaPlus {
             let attributePowerSet = this.generatePowerSet(attributes);
             //remove sets with cardinality < 2
             attributePowerSet = attributePowerSet.filter(attributeSet => attributeSet.length >= 2);
-            //sort by attribute priority
-            let temp;
-            for (let priorityAttribute of this.attributePriorizationList) {
-                temp = [];
-                for (let i = 0; i < attributePowerSet.length;) {
-                    let containsConcretePriorityAttribute = false;
-                    for (let attribute of attributePowerSet[i]) {
-                        if (attribute.name === priorityAttribute) {
-                            containsConcretePriorityAttribute = true;
-                            break;
-                        }
-                    }
-                    if (containsConcretePriorityAttribute) {
-                        temp.push(attributePowerSet[i]);
-                        attributePowerSet.splice(i, 1);
-                    }
-                    else {
-                        i++;
-                    }
-                }
-                attributePowerSet = attributePowerSet.concat(temp);
+            //sort elements inside each powerset
+            for (let attributeSet of attributePowerSet) {
+                attributeSet.sort(this.elementCompareFunction.bind(this));
             }
-            //append non priority attributes to end
-            temp = [];
-            for (let i = 0; i < attributePowerSet.length;) {
-                let containsAnyPriorityAttribute = false;
-                for (let attribute of attributePowerSet[i]) {
-                    if (this.attributePriorizationList.includes(attribute.name)) {
-                        containsAnyPriorityAttribute = true;
-                        break;
+            //sort attributePowerSet
+            attributePowerSet.sort((set1, set2) => {
+                if (set1.length < set2.length) {
+                    return -1;
+                }
+                if (set1.length > set2.length) {
+                    return 1;
+                }
+                for (let i = 0; i < set1.length; i++) {
+                    if (set1[i] !== set2[i]) {
+                        return this.elementCompareFunction(set1[i], set2[i]);
                     }
                 }
-                if (!containsAnyPriorityAttribute) {
-                    temp.push(attributePowerSet[i]);
-                    attributePowerSet.splice(i, 1);
-                }
-                else {
-                    i++;
-                }
-            }
-            attributePowerSet = attributePowerSet.concat(temp);
-            //sort by cardinality
-            for (let cardinality = 2; cardinality <= attributes.length; cardinality++) {
-                temp = [];
-                for (let i = 0; i < attributePowerSet.length;) {
-                    if (attributePowerSet[i].length === cardinality) {
-                        temp.push(attributePowerSet[i]);
-                        attributePowerSet.splice(i, 1);
-                    }
-                    else {
-                        i++;
-                    }
-                }
-                attributePowerSet = attributePowerSet.concat(temp);
-            }
+                return 0;
+            });
             //remove id from attributePriorizationList
             this.attributePriorizationList.shift();
             //convert to predicate
@@ -251,6 +215,18 @@ class RobulaPlus {
     generatePowerSet(input) {
         return input.reduce((subsets, value) => subsets.concat(subsets.map((set) => [value, ...set])), [[]]);
     }
+    elementCompareFunction(attr1, attr2) {
+        for (let element of this.attributePriorizationList) {
+            if (element === attr1.name) {
+                return -1;
+            }
+            if (element === attr2.name) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    ;
     getAncestor(element, index) {
         let output = element;
         for (let i = 0; i < index; i++) {

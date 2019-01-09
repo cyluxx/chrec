@@ -50,6 +50,7 @@ export declare class RobulaPlus {
     transfAddPosition(xPath: XPath, element: Element): XPath[];
     transfAddLevel(xPath: XPath, element: Element): XPath[];
     private generatePowerSet;
+    private elementCompareFunction;
     private getAncestor;
     private getAncestorCount;
 }
