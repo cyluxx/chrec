@@ -14,7 +14,7 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 // Bootstrap
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModalModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ElectronService } from "./providers/electron.service";
 import { WebdriverService } from "./providers/webdriver.service";
@@ -41,7 +41,7 @@ import { GeneralSettingsComponent } from "./components/settings/components/gener
 import { HomeComponent } from "./components/home/home.component";
 import { RecordSequenceComponent } from "./components/home/components/record-sequence/record-sequence.component";
 import { RerecordSequenceComponent } from "./components/home/components/rerecord-sequence/rerecord-sequence.component";
-import { SequenceInfoComponent } from "./components/home/components/sequence-info/sequence-info.component";
+import { SequenceInfoComponent, ReplayErrorModal } from "./components/home/components/sequence-info/sequence-info.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { StabilitySettingsComponent } from "./components/settings/components/stability-settings/stability-settings.component";
 import { WebdriverSettingsComponent } from "./components/settings/components/webdriver-settings/webdriver-settings.component";
@@ -124,8 +124,11 @@ library.add(faFirefox);
     SettingsComponent,
     StabilitySettingsComponent,
     WebdriverSettingsComponent,
-    WebviewDirective
+    WebviewDirective,
+
+    ReplayErrorModal
   ],
+  entryComponents: [ReplayErrorModal],
   imports: [
     BrowserModule,
     FormsModule,

@@ -13,7 +13,7 @@ export class WebdriverService {
 
     private actionFactory: ActionFactory;
 
-    constructor(actionFactory: ActionFactory){
+    constructor(actionFactory: ActionFactory) {
         this.actionFactory = actionFactory;
     }
 
@@ -52,7 +52,7 @@ export class WebdriverService {
         catch (error) {
             this.logError(`WebdriverService: Run: Failed to run ${browser.name} - ${browser.type}`);
             this.quit(browser);
-            throw new Error(error);
+            throw new Error(error.message + `\nat Browser ${browser.type}: ${browser.name}`);
         }
     }
 
@@ -62,7 +62,7 @@ export class WebdriverService {
             browser.successfulIterations = 0;
 
             browser.actions = [];
-            for(let action of sequence.recordedActions){
+            for (let action of sequence.recordedActions) {
                 browser.actions.push(this.actionFactory.fromAction(action));
             }
 
@@ -72,7 +72,7 @@ export class WebdriverService {
                 }
                 catch (error) {
                     this.logError(`WebdriverService: RunAllBrowsers: Failed to run ${browser.name} - ${browser.type} at iteration ${i}`);
-                    throw new Error(error);
+                    throw new Error(error.message + `\nat Iteration ${i}`);
                 }
             }
         }

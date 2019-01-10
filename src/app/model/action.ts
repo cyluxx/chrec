@@ -46,7 +46,7 @@ export abstract class HtmlElementAction extends Action {
                 await selector.test(driver);
             }
         }
-        catch(error){
+        catch (error) {
             this.logError('HtmlElementAction testSelectors: No valid Selectors!');
             throw new Error(error);
         }
@@ -62,16 +62,14 @@ export abstract class HtmlElementAction extends Action {
             }
         }
         try {
-            if (candidates && candidates !== []) {
-                //get random selector candidate
-                let candidate: Selector = candidates[Math.floor(Math.random() * candidates.length)];
-                this.chosenSelector = candidate;
-                return await candidate.findElement(driver);
-            }
+            //get random selector candidate
+            let candidate: Selector = candidates[Math.floor(Math.random() * candidates.length)];
+            this.chosenSelector = candidate;
+            return await candidate.findElement(driver);
         }
         catch (error) {
             this.logError('HtmlElementAction findElement: No valid selector candidates!');
-            throw new Error(error);
+            throw new Error(`No valid selector found \nat Action ${this.name}`);
         }
     }
 
@@ -145,7 +143,7 @@ export class Click extends HtmlElementAction {
         }
         catch (error) {
             this.logCouldNotReplicate();
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 }
@@ -171,7 +169,7 @@ export class Read extends HtmlElementAction {
         }
         catch (error) {
             this.logCouldNotReplicate();
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 }
@@ -195,7 +193,7 @@ export class Type extends HtmlElementAction {
         }
         catch (error) {
             this.logCouldNotReplicate();
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 }

@@ -4,6 +4,7 @@ import { Action } from "../../../../model/action";
 import { WebdriverService } from "../../../../providers/webdriver.service";
 import { Settings } from "../../../../model/settings";
 import { Browser, Type as BrowserType } from "../../../../model/browser";
+import { NgbModal, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'sequence-info',
@@ -11,7 +12,9 @@ import { Browser, Type as BrowserType } from "../../../../model/browser";
 })
 export class SequenceInfoComponent {
 
-    webdriverService: WebdriverService;
+    private webdriverService: WebdriverService;
+
+    private modalService: NgbModal;
 
     @Input() sequence: Sequence;
 
@@ -31,8 +34,9 @@ export class SequenceInfoComponent {
     browserTypes: string[];
     newBrowser: Browser;
 
-    constructor(webdriverService: WebdriverService) {
+    constructor(webdriverService: WebdriverService, modalService: NgbModal) {
         this.webdriverService = webdriverService;
+        this.modalService = modalService;
         this.browserTypes = Object.keys(BrowserType);
         this.newBrowser = new Browser();
     }
@@ -52,9 +56,8 @@ export class SequenceInfoComponent {
             this.sequence.executable = true;
         }
         catch (error) {
-            if (error.name === 'NoSuchElementError') {
-                this.sequence.executable = false;
-            }
+            this.sequence.executable = false;
+            this.showReplayErrorModal(error);
         }
     }
 
@@ -97,4 +100,24 @@ export class SequenceInfoComponent {
     public onCurrentActionIndex(currentActionIndex: number): void {
         this.currentActionIndex = currentActionIndex;
     }
+
+    public showReplayErrorModal(errorMessage: string): void {
+        const modalRef = this.modalService.open(ReplayErrorModal, { centered: true });
+        modalRef.componentInstance.sequence = this.sequence;
+        modalRef.componentInstance.errorMessage = errorMessage;
+        modalRef.result.then(() => {
+            this.onRerecordSequence();
+        }, () => { });
+    }
+}
+
+@Component({
+    selector: 'replay-error-modal',
+    templateUrl: './replay-error.modal.html'
+})
+export class ReplayErrorModal {
+    @Input() sequence: Sequence;
+    @Input() errorMessage: string;
+
+    constructor(public activeModal: NgbActiveModal) { }
 }
