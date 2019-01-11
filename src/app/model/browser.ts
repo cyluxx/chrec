@@ -26,5 +26,7 @@ export class Browser {
 export enum Type {
     //strings should be equal to fontawesome icon names
     chrome = 'chrome',
-    firefox = 'firefox'
+    firefox = 'firefox',
+    edge = 'edge',
+    internetExplorer = 'internet-explorer'
 }
