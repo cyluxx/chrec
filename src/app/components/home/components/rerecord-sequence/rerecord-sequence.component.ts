@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, Input, OnInit } from "@angular/core";
 import { Sequence } from "../../../../model/sequence";
 import { Settings } from "../../../../model/settings";
-import { Action } from "../../../../model/action";
+import { Action, GoTo, Read, Type } from "../../../../model/action";
 
 @Component({
     selector: 'rerecord-sequence',
@@ -20,6 +20,8 @@ export class RerecordSequenceComponent implements OnInit {
     currentAction: Action;
 
     newSequence: Sequence;
+
+    showBrowserwindow = false;
 
     public ngOnInit(): void {
         this.newSequence = new Sequence(this.sequence.name);
@@ -44,5 +46,38 @@ export class RerecordSequenceComponent implements OnInit {
         else {
             this.currentAction = null;
         }
+        this.showBrowserwindow = false;
+    }
+
+    public onConfirm(): void {
+        this.showBrowserwindow = true;
+    }
+
+    public onBack(): void {
+        this.showBrowserwindow = false;
+    }
+
+    public isGoTo(action: Action): boolean {
+        return action instanceof GoTo;
+    }
+
+    public asGoTo(action: Action): GoTo {
+        return action as GoTo;
+    }
+
+    public isRead(action: Action): boolean {
+        return action instanceof Read;
+    }
+
+    public asRead(action: Action): Read {
+        return action as Read;
+    }
+
+    public isType(action: Action): boolean {
+        return action instanceof Type;
+    }
+
+    public asType(action: Action): Type {
+        return action as Type;
     }
 }

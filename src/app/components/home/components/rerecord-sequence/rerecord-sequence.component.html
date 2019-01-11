@@ -1,12 +1,12 @@
-<div class="row">
+<div class="row" *ngIf="!showBrowserwindow">
     <div class="col-3">
-        <button (click)="onCancle()" class="btn btn-block btn-danger">
+        <button (click)="onCancle()" class="btn btn-sm btn-danger">
             Cancle <fa-icon icon="times"></fa-icon>
         </button>
-        <button (click)="onSubmit()" class="btn btn-block btn-success mt-1">
+        <button (click)="onSubmit()" class="btn btn-sm btn-success ml-1">
             Done <fa-icon icon="square"></fa-icon>
         </button>
-        <h4>{{sequence.name}}: Old</h4>
+        <h4 class="mt-2">{{sequence.name}}: Old</h4>
         <ul class="list-group list-group-flush">
             <li *ngFor="let action of sequence.recordedActions; let i = index" class="list-group-item" [class.active]="action === currentAction">
                 <h5 class="mb-1">{{i}}: {{action.name}}</h5>
@@ -14,23 +14,53 @@
         </ul>
     </div>
     <div class="col-9">
+        <div class="row mb-3">
+            <div class="col-2">
+                <button (click)="onConfirm()" class="btn btn-sm btn-block btn-primary">
+                    Ok <fa-icon icon="check"></fa-icon>
+                </button>
+            </div>
+            <div class="col-10">
+                <span class="badge badge-dark mr-1">
+                    Action Type: {{currentAction.name}}
+                </span>
+                <span *ngIf="isGoTo(currentAction)" class="badge badge-dark mr-1">
+                    Url: {{asGoTo(currentAction).url}}
+                </span>
+                <span *ngIf="isRead(currentAction)" class="badge badge-dark mr-1">
+                    Read Value: {{asRead(currentAction).value}}
+                </span>
+                <span *ngIf="isType(currentAction)" class="badge badge-dark">
+                    Typed Value: {{asType(currentAction).value}}
+                </span>
+            </div>
+        </div>
         <img *ngIf="currentAction" [src]="currentAction.image">
     </div>
 </div>
-<div class="row">
+<div class="row" [style.visibility]="showBrowserwindow ? 'visible' : 'hidden'">
     <div class="col-3">
-        <div class="row">
-            <div class="col">
-                <h4>{{newSequence.name}}: New</h4>
-                <ul class="list-group list-group-flush">
-                    <li *ngFor="let action of newSequence.recordedActions; let i = index" class="list-group-item">
-                        <h5 class="mb-1">{{i}}: {{action.name}}</h5>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <button (click)="onCancle()" class="btn btn-sm btn-danger">
+            Cancle <fa-icon icon="times"></fa-icon>
+        </button>
+        <button (click)="onSubmit()" class="btn btn-sm btn-success ml-1">
+            Done <fa-icon icon="square"></fa-icon>
+        </button>
+        <h4 class="mt-2">{{newSequence.name}}: New</h4>
+        <ul class="list-group list-group-flush">
+            <li *ngFor="let action of newSequence.recordedActions; let i = index" class="list-group-item">
+                <h5 class="mb-1">{{i}}: {{action.name}}</h5>
+            </li>
+        </ul>
     </div>
     <div class="col-9">
+        <div class="row mb-3">
+            <div class="col-2">
+                <button (click)="onBack()" class="btn btn-sm btn-block btn-primary">
+                    Back <fa-icon icon="arrow-left"></fa-icon>
+                </button>
+            </div>
+        </div>
         <browserwindow [settings]="settings" [sequence]="newSequence" (actionEmitter)="onNextAction()"></browserwindow>
     </div>
 </div>
