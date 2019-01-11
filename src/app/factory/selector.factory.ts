@@ -5,8 +5,10 @@ import { Selector } from "../model/selector";
 export class SelectorFactory {
 
     public fromAny(selector: any): Selector {
-        let newSelector: Selector = new Selector(selector.method, selector.value);
-        newSelector.executable = selector.executable;
-        return newSelector;
+        return new Selector(selector.method, selector.value, selector.executableIterations);
+    }
+
+    public fromChannelContent(channelContentSelector: any): Selector {
+        return new Selector(channelContentSelector.method, channelContentSelector.value, 0);
     }
 }

@@ -5,11 +5,12 @@ export class Selector {
     type: Type;
     method: Method;
     value: string;
-    executable: boolean;
+    executableIterations: number;
 
-    constructor(method: Method, value: string) {
+    constructor(method: Method, value: string, executableIterations: number) {
         this.method = method;
         this.value = value;
+        this.executableIterations = executableIterations;
 
         if (
             this.method === Method.CssSelectorGenerator
@@ -34,12 +35,11 @@ export class Selector {
             else {
                 await driver.findElement(By.xpath(this.value));
             }
-            this.executable = true;
+            this.executableIterations++;
             this.logSuccess('Chosen Selector ' + this.method + ': ' + this.value + ' valid!');
         }
         catch (error) {
             if (error.name === 'NoSuchElementError') {
-                this.executable = false;
                 this.logError('Chosen Selector ' + this.method + ': ' + this.value + ' not valid! Trying next one...');
             }
             else {

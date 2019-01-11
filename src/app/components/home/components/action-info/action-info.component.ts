@@ -9,9 +9,9 @@ import { Browser } from "../../../../model/browser";
 export class ActionInfoComponent {
     @Input() action: Action;
 
-    edit: boolean;
+    @Input() numberIterations: number;
 
-    currentBrowser: Browser;
+    edit: boolean;
 
     public isGoTo(action: Action): boolean {
         return action instanceof GoTo;
@@ -47,9 +47,5 @@ export class ActionInfoComponent {
 
     public onToggleEdit(): void {
         this.edit = !this.edit;
-    }
-
-    public onBrowser(browser: Browser): void {
-        this.currentBrowser = browser;
     }
 }

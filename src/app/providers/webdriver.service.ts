@@ -40,8 +40,11 @@ export class WebdriverService {
     public async run(browser: Browser, settings: Settings): Promise<void> {
         try {
             this.begin(browser, settings.seleniumGridUrl);
-            for (let i = 0; i < browser.actions.length; i++) {
-                if (i !== 0 && browser.sleepTimeBetweenActions) {
+            if(browser.actions[0]){
+                await browser.actions[0].run(this.driver);
+            }
+            for (let i = 1; i < browser.actions.length; i++) {
+                if (browser.sleepTimeBetweenActions) {
                     this.driver.sleep(browser.sleepTimeBetweenActions);
                 }
                 await browser.actions[i].run(this.driver);

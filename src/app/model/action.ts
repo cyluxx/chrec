@@ -55,17 +55,20 @@ export abstract class HtmlElementAction extends Action {
     public async findElement(driver: WebDriver): Promise<WebElement> {
         await this.testSelectors(driver);
 
-        let candidates: Selector[] = [];
-        for (let selector of this.selectors) {
-            if (selector.executable) {
-                candidates.push(selector);
+        let candidates: Selector[] = [...this.selectors];
+        candidates.sort((selector1: Selector, selector2: Selector) => {
+            if (selector1.executableIterations > selector2.executableIterations) {
+                return -1;
             }
-        }
+            if (selector1.executableIterations < selector2.executableIterations) {
+                return 1;
+            }
+            return 0;
+        });
         try {
             //get random selector candidate
-            let candidate: Selector = candidates[Math.floor(Math.random() * candidates.length)];
-            this.chosenSelector = candidate;
-            return await candidate.findElement(driver);
+            this.chosenSelector = candidates[0];
+            return await this.chosenSelector.findElement(driver);
         }
         catch (error) {
             this.logError('HtmlElementAction findElement: No valid selector candidates!');
@@ -84,8 +87,8 @@ export class Back extends Action {
     }
 
     public run(driver: WebDriver): void {
-        driver.navigate().back();
         this.logCurrent();
+        driver.navigate().back();
     }
 }
 
@@ -96,8 +99,8 @@ export class Forward extends Action {
     }
 
     public run(driver: WebDriver): void {
-        driver.navigate().forward();
         this.logCurrent();
+        driver.navigate().forward();
     }
 }
 
@@ -111,8 +114,8 @@ export class GoTo extends Action {
     }
 
     public run(driver: WebDriver): void {
-        driver.get(this.url);
         this.logCurrent();
+        driver.get(this.url);
     }
 }
 
@@ -136,10 +139,10 @@ export class Click extends HtmlElementAction {
     }
 
     public async run(driver: WebDriver): Promise<void> {
+        this.logCurrent();
         try {
             let webElement: WebElement = await this.findElement(driver);
             webElement.click();
-            this.logCurrent();
         }
         catch (error) {
             this.logCouldNotReplicate();
@@ -158,6 +161,7 @@ export class Read extends HtmlElementAction {
     }
 
     public async run(driver: WebDriver): Promise<void> {
+        this.logCurrent();
         try {
             let webElement: WebElement = await this.findElement(driver);
             let text: string = await webElement.getText();
@@ -165,7 +169,6 @@ export class Read extends HtmlElementAction {
                 console.log('%cElement does not contain selected String.', 'color: #36f9c2; font-weight: bold');
                 throw new Error('Element does not contain selected String.');
             }
-            this.logCurrent();
         }
         catch (error) {
             this.logCouldNotReplicate();
@@ -186,10 +189,10 @@ export class Type extends HtmlElementAction {
     }
 
     public async run(driver: WebDriver): Promise<void> {
+        this.logCurrent();
         try {
             let webElement: WebElement = await this.findElement(driver);
             webElement.sendKeys(this.value, Key.TAB);
-            this.logCurrent();
         }
         catch (error) {
             this.logCouldNotReplicate();

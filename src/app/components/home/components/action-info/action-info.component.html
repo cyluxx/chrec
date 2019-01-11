@@ -63,10 +63,14 @@
                             <td>{{selector.type}}</td>
                             <td>{{selector.value}}</td>
                             <td>
-                                <span *ngIf="selector.executable" class="badge badge-success">
+                                ({{selector.executableIterations}}/{{numberIterations}})
+                                <span *ngIf="selector.executableIterations >= numberIterations" class="badge badge-success">
                                     <fa-icon icon="check"></fa-icon>
                                 </span>
-                                <span *ngIf="!selector.executable" class="badge badge-danger">
+                                <span *ngIf="selector.executableIterations > 0 && selector.executableIterations < numberIterations" class="badge badge-warning">
+                                    <fa-icon icon="check"></fa-icon>
+                                </span>
+                                <span *ngIf="selector.executableIterations <= 0" class="badge badge-danger">
                                     <fa-icon icon="times"></fa-icon>
                                 </span>
                             </td>

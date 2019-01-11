@@ -50,7 +50,7 @@ export class BrowserInfoComponent implements OnChanges{
         for (let action of this.browser.actions) {
             if (action instanceof HtmlElementAction) {
                 for (let selector of action.selectors) {
-                    if (selector.executable) {
+                    if (selector.executableIterations === this.browser.numberIterations) {
                         count++;
                     }
                 }

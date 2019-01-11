@@ -53,7 +53,7 @@ export class ActionFactory {
 
         if (channelContent.selectors) {
             for (let selector of channelContent.selectors) {
-                selectors.push(this.selectorFactory.fromAny(selector));
+                selectors.push(this.selectorFactory.fromChannelContent(selector));
             }
         }
 
