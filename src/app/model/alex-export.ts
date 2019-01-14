@@ -53,7 +53,7 @@ export class Action {
     type: ActionType;
     value: string;
     node: Node;
-    regexp: boolean = false;
+    regexp: boolean;
     doubleClick: boolean;
     url: string;
     credentials;
@@ -69,6 +69,7 @@ export class Action {
             case ActionType.web_checkForText:
                 this.value = value;
                 this.node = node;
+                this.regexp = false;
                 break;
             case ActionType.web_click:
                 this.doubleClick = false;
@@ -96,14 +97,14 @@ export class Node {
 }
 
 export enum ActionType {
-    web_fill,
-    web_checkForText,
-    web_click,
-    web_goto,
-    web_browser
+    web_fill = "web_fill",
+    web_checkForText = "web_checkForText",
+    web_click = "web_click",
+    web_goto = "web_goto",
+    web_browser = "web_browser"
 }
 
 export enum NodeType {
-    CSS,
-    XPATH
+    CSS = "CSS",
+    XPATH = "XPATH"
 }
