@@ -6,11 +6,11 @@ export class Sequence {
     tested: boolean;
     executable: boolean;
     browsers: Browser[];
-    recordedActions: Action[];
+    actions: Action[];
 
     constructor(name: string) {
         this.browsers = [];
-        this.recordedActions = [];
+        this.actions = [];
         this.name = name;
     }
 }

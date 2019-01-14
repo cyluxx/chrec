@@ -17,9 +17,9 @@ export class SequenceFactory {
     public fromAny(sequence: any): Sequence {
         let newSequence: Sequence = new Sequence(sequence.name);
 
-        if (sequence.recordedActions) {
-            for (let action of sequence.recordedActions) {
-                newSequence.recordedActions.push(this.actionFactory.fromAny(action));
+        if (sequence.actions) {
+            for (let action of sequence.actions) {
+                newSequence.actions.push(this.actionFactory.fromAny(action));
             }
         }
 

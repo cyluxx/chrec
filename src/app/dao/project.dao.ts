@@ -1,11 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Project } from "../model/project";
-import { Sequence } from "../model/sequence";
-import { Name as ActionName, Back, Action, Forward, GoTo, Refresh, Click, Read, Type, HtmlElementAction } from "../model/action";
 import * as util from 'util';
 import * as storage from 'electron-json-storage';
-import { Browser } from "../model/browser";
-import { Selector } from "../model/selector";
 import { ProjectFactory } from "../factory/project.factory";
 
 @Injectable()

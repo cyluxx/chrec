@@ -14,17 +14,20 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 // Bootstrap
-import { NgbModalModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
+import { AlexExportService } from "./providers/alex-export.service";
 import { ElectronService } from "./providers/electron.service";
 import { WebdriverService } from "./providers/webdriver.service";
 import { ProjectService } from "./providers/project.service";
 import { SettingsService } from "./providers/settings.service";
 
+import { AlexExportDao } from "./dao/alex-export.dao";
 import { ProjectDao } from "./dao/project.dao";
 import { SettingsDao } from "./dao/settings.dao";
 
 import { ActionFactory } from "./factory/action.factory";
+import { AlexExportFactory } from "./factory/alex-export.factory";
 import { SelectorFactory } from "./factory/selector.factory";
 import { BrowserFactory } from "./factory/browser.factory";
 import { SequenceFactory } from "./factory/sequence.factory";
@@ -38,7 +41,7 @@ import { AppComponent } from "./app.component";
 import { BrowserInfoComponent } from "./components/home/components/browser-info/browser-info.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
-import { HomeComponent } from "./components/home/home.component";
+import { HomeComponent, ExportToAlexModal } from "./components/home/home.component";
 import { RecordSequenceComponent } from "./components/home/components/record-sequence/record-sequence.component";
 import { RerecordSequenceComponent } from "./components/home/components/rerecord-sequence/rerecord-sequence.component";
 import { SequenceInfoComponent, ReplayErrorModal } from "./components/home/components/sequence-info/sequence-info.component";
@@ -76,7 +79,8 @@ import {
   faExclamation,
   faForward,
   faCheck,
-  faPen
+  faPen,
+  faFileExport
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faChrome,
@@ -112,6 +116,7 @@ library.add(faChrome);
 library.add(faFirefox);
 library.add(faEdge);
 library.add(faInternetExplorer);
+library.add(faFileExport);
 
 @NgModule({
   declarations: [
@@ -130,9 +135,13 @@ library.add(faInternetExplorer);
     WebdriverSettingsComponent,
     WebviewDirective,
 
+    ExportToAlexModal,
     ReplayErrorModal
   ],
-  entryComponents: [ReplayErrorModal],
+  entryComponents: [
+    ExportToAlexModal,
+    ReplayErrorModal
+  ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -149,13 +158,16 @@ library.add(faInternetExplorer);
     FontAwesomeModule
   ],
   providers: [
+    AlexExportService,
     ElectronService,
     ProjectService,
     SettingsService,
     WebdriverService,
+    AlexExportDao,
     ProjectDao,
     SettingsDao,
     ActionFactory,
+    AlexExportFactory,
     BrowserFactory,
     ProjectFactory,
     SelectorFactory,

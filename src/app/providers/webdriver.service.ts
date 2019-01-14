@@ -65,7 +65,7 @@ export class WebdriverService {
             browser.successfulIterations = 0;
 
             browser.actions = [];
-            for (let action of sequence.recordedActions) {
+            for (let action of sequence.actions) {
                 browser.actions.push(this.actionFactory.fromAction(action));
             }
 

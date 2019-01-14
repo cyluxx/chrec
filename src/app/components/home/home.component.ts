@@ -6,6 +6,8 @@ import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
 import { Action } from '../../model/action';
 import { BrowserFactory } from '../../factory/browser.factory';
+import { AlexExportService } from '../../providers/alex-export.service';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +19,8 @@ export class HomeComponent implements OnInit {
   private projectService: ProjectService;
   private settingsService: SettingsService;
   private browserFactory: BrowserFactory;
+  private alexExportService: AlexExportService;
+  private modalService: NgbModal;
 
   project: Project;
   settings: Settings;
@@ -29,10 +33,12 @@ export class HomeComponent implements OnInit {
   recording: boolean;
   rerecording: boolean;
 
-  constructor(projectService: ProjectService, settingsService: SettingsService, browserFactory: BrowserFactory) {
+  constructor(projectService: ProjectService, settingsService: SettingsService, browserFactory: BrowserFactory, alexExportService: AlexExportService, modalService: NgbModal) {
     this.projectService = projectService;
     this.settingsService = settingsService;
     this.browserFactory = browserFactory;
+    this.alexExportService = alexExportService;
+    this.modalService = modalService;
 
     this.project = projectService.newDefaultProject();
     this.settings = settingsService.newDefaultSettings();
@@ -70,8 +76,8 @@ export class HomeComponent implements OnInit {
   }
 
   public getCurrentAction(): Action {
-    if (this.currentSequence.recordedActions && this.currentSequence.recordedActions.length > 0) {
-      return this.currentSequence.recordedActions[0];
+    if (this.currentSequence.actions && this.currentSequence.actions.length > 0) {
+      return this.currentSequence.actions[0];
     }
   }
 
@@ -94,4 +100,23 @@ export class HomeComponent implements OnInit {
   public onSubmitRerecording(): void {
     this.rerecording = false;
   }
+
+  public onExportToAlex(): void {
+    const modalRef = this.modalService.open(ExportToAlexModal, { centered: true });
+    modalRef.result.then((result) => {
+      this.alexExportService.export(result.fileName, this.project, result.path);
+    }, () => { });
+  }
+}
+
+@Component({
+  selector: 'export-to-alex-modal',
+  templateUrl: './export-to-alex.modal.html'
+})
+export class ExportToAlexModal {
+
+  fileName: string;
+  path: string;
+
+  constructor(public activeModal: NgbActiveModal) { }
 }

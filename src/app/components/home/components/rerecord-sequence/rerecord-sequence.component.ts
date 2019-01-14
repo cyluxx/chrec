@@ -25,7 +25,7 @@ export class RerecordSequenceComponent implements OnInit {
 
     public ngOnInit(): void {
         this.newSequence = new Sequence(this.sequence.name);
-        this.currentAction = this.sequence.recordedActions[0];
+        this.currentAction = this.sequence.actions[0];
     }
 
     public onCancle(): void {
@@ -33,15 +33,15 @@ export class RerecordSequenceComponent implements OnInit {
     }
 
     public onSubmit(): void {
-        this.sequence.recordedActions = this.newSequence.recordedActions;
+        this.sequence.actions = this.newSequence.actions;
         this.sequence.tested = false;
         this.sequence.executable = false;
         this.submitEmitter.emit();
     }
 
     public onNextAction(): void {
-        if (this.sequence.recordedActions.length > this.newSequence.recordedActions.length) {
-            this.currentAction = this.sequence.recordedActions[this.newSequence.recordedActions.length];
+        if (this.sequence.actions.length > this.newSequence.actions.length) {
+            this.currentAction = this.sequence.actions[this.newSequence.actions.length];
         }
         else {
             this.currentAction = null;
