@@ -30,7 +30,6 @@ export abstract class Action {
 }
 
 export abstract class HtmlElementAction extends Action {
-    chosenSelector: Selector;
     selectors: Selector[];
     boundingBox: DOMRect;
 
@@ -54,7 +53,17 @@ export abstract class HtmlElementAction extends Action {
 
     public async findElement(driver: WebDriver): Promise<WebElement> {
         await this.testSelectors(driver);
+        try {
+            //get random selector candidate
+            return await this.getBestSelector().findElement(driver);
+        }
+        catch (error) {
+            this.logError('HtmlElementAction findElement: No valid selector candidates!');
+            throw new Error(`No valid selector found \nat Action ${this.name}`);
+        }
+    }
 
+    public getBestSelector(): Selector {
         let candidates: Selector[] = [...this.selectors];
         candidates.sort((selector1: Selector, selector2: Selector) => {
             if (selector1.executableIterations > selector2.executableIterations) {
@@ -65,15 +74,7 @@ export abstract class HtmlElementAction extends Action {
             }
             return 0;
         });
-        try {
-            //get random selector candidate
-            this.chosenSelector = candidates[0];
-            return await this.chosenSelector.findElement(driver);
-        }
-        catch (error) {
-            this.logError('HtmlElementAction findElement: No valid selector candidates!');
-            throw new Error(`No valid selector found \nat Action ${this.name}`);
-        }
+        return candidates[0];
     }
 
     public abstract async run(driver: WebDriver): Promise<void>;

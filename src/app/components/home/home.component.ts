@@ -4,8 +4,6 @@ import { Project } from '../../model/project';
 import { Sequence } from '../../model/sequence';
 import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
-import { Action } from '../../model/action';
-import { BrowserFactory } from '../../factory/browser.factory';
 import { AlexExportService } from '../../providers/alex-export.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,7 +16,6 @@ export class HomeComponent implements OnInit {
 
   private projectService: ProjectService;
   private settingsService: SettingsService;
-  private browserFactory: BrowserFactory;
   private alexExportService: AlexExportService;
   private modalService: NgbModal;
 
@@ -33,10 +30,9 @@ export class HomeComponent implements OnInit {
   recording: boolean;
   rerecording: boolean;
 
-  constructor(projectService: ProjectService, settingsService: SettingsService, browserFactory: BrowserFactory, alexExportService: AlexExportService, modalService: NgbModal) {
+  constructor(projectService: ProjectService, settingsService: SettingsService, alexExportService: AlexExportService, modalService: NgbModal) {
     this.projectService = projectService;
     this.settingsService = settingsService;
-    this.browserFactory = browserFactory;
     this.alexExportService = alexExportService;
     this.modalService = modalService;
 
@@ -62,9 +58,6 @@ export class HomeComponent implements OnInit {
   public onNewSequence(): void {
     if (this.newSequenceName) {
       let sequence: Sequence = new Sequence(this.newSequenceName);
-      for (let browser of this.settings.browsers) {
-        sequence.browsers.push(this.browserFactory.fromBrowser(browser));
-      }
       this.project.sequences.push(sequence);
       this.currentSequence = sequence;
       this.newSequenceName = '';
@@ -73,12 +66,6 @@ export class HomeComponent implements OnInit {
 
   public onSelectSequence(sequence: Sequence): void {
     this.currentSequence = sequence;
-  }
-
-  public getCurrentAction(): Action {
-    if (this.currentSequence.actions && this.currentSequence.actions.length > 0) {
-      return this.currentSequence.actions[0];
-    }
   }
 
   public onRecordSequence(): void {

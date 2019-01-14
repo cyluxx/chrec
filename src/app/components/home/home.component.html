@@ -32,8 +32,8 @@
             <ul class="nav nav-tabs">
                 <li *ngFor="let sequence of project.sequences" class="nav-item">
                     <a class="nav-link" [class.active]="sequence === currentSequence" (click)="onSelectSequence(sequence)"
-                        [class.text-success]="sequence.executable" [class.text-danger]="sequence.tested && !sequence.executable"
-                        [class.text-warning]="!sequence.tested">{{sequence.name}}</a>
+                        [class.text-success]="sequence.isExecutable()" [class.text-danger]="!sequence.isExecutable()"
+                        [class.text-warning]="!sequence.isTested()">{{sequence.name}}</a>
                 </li>
             </ul>
         </div>
@@ -41,8 +41,7 @@
     <div class="row mt-1">
         <div class="col">
             <sequence-info *ngIf="!recording && !rerecording && currentSequence" [sequence]="currentSequence"
-                [currentAction]="getCurrentAction()" [settings]="settings" (recordSequenceEmitter)="onRecordSequence()"
-                (rerecordSequenceEmitter)="onRerecordSequence()"></sequence-info>
+                [settings]="settings" (recordSequenceEmitter)="onRecordSequence()" (rerecordSequenceEmitter)="onRerecordSequence()"></sequence-info>
             <record-sequence *ngIf="recording" [sequence]="currentSequence" [settings]="settings" (submitEmitter)="onSubmitRecording()"></record-sequence>
             <rerecord-sequence *ngIf="rerecording" [sequence]="currentSequence" [settings]="settings" (cancleEmitter)="onCancleRerecording()"
                 (submitEmitter)="onSubmitRerecording()"></rerecord-sequence>

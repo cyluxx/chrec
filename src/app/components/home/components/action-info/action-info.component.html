@@ -58,7 +58,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let selector of asHtmlElementAction(action).selectors" [class.table-success]="selector === asHtmlElementAction(action).chosenSelector">
+                        <tr *ngFor="let selector of asHtmlElementAction(action).selectors" [class.table-success]="selector === asHtmlElementAction(action).getBestSelector()">
                             <td>{{selector.method}}</td>
                             <td>{{selector.type}}</td>
                             <td>{{selector.value}}</td>

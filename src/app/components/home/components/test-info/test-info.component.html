@@ -1,0 +1,50 @@
+<!-- <div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <small>Most successful method: {{getMostSuccessfulMethod()}}</small>
+                <div class="row">
+                    <div class="col">
+                        <small>Successful Iterations
+                            ({{getSuccessfulIterationsCount()}}/{{getTotalIterationsCount()}}):</small>
+                        <div class="progress browser-info-bar">
+                            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="getSuccessfulIterationsCount() / getTotalIterationsCount() * 100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="100 - getSuccessfulIterationsCount() / getTotalIterationsCount() * 100"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <small>Successful Actions
+                            ({{getSuccessfulActionsCount()}}/{{getTotalActionsCount()}}):</small>
+                        <div class="progress browser-info-bar">
+                            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="getSuccessfulActionsCount() / getTotalActionsCount() * 100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="100 - getSuccessfulActionsCount() / getTotalActionsCount() * 100"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <small>Stability Indicator ({{getStabilityIndicator()}}):</small>
+                        <div class="progress browser-info-bar">
+                            <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="getStabilityIndicator()"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="row">
+    <div class="col-11">
+        <ul class="nav nav-tabs">
+            <li *ngFor="let browser of test.browsers" class="nav-item">
+                <a class="nav-link" [class.active]="browser === currentBrowser" (click)="onSelectBrowser(browser)"
+                    [class.text-danger]="browser.numberIterations > browser.successfulIterations" [class.text-success]="browser.numberIterations <= browser.successfulIterations">
+                    {{browser.name}} <fa-icon [icon]="['fab', browser.type]"></fa-icon></a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-1">
+        <button (click)="onClose()" class="btn btn-sm btn-block btn-danger">
+            <fa-icon icon="times"></fa-icon>
+        </button>
+    </div>
+</div>
+<browser-info *ngIf="currentBrowser" [browser]="currentBrowser"></browser-info>

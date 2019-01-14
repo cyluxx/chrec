@@ -26,11 +26,11 @@ export class AlexExportFactory {
         let url: string;
         let actionType: ActionType;
         if (chrecAction instanceof HtmlElementAction) {
-            if (chrecAction.chosenSelector.type === SelectorType.Css) {
-                node = new Node(chrecAction.chosenSelector.value, NodeType.CSS);
+            if (chrecAction.getBestSelector().type === SelectorType.Css) {
+                node = new Node(chrecAction.getBestSelector().value, NodeType.CSS);
             }
             else {
-                node = new Node(chrecAction.chosenSelector.value, NodeType.XPATH);
+                node = new Node(chrecAction.getBestSelector().value, NodeType.XPATH);
             }
         }
 

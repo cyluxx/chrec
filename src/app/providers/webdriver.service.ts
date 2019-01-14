@@ -7,15 +7,14 @@ import { Settings } from '../model/settings';
 import * as chrome from 'selenium-webdriver/chrome';
 import { Project } from '../model/project';
 import { ActionFactory } from '../factory/action.factory';
+import { Test } from '../model/test';
+import { Action } from '../model/action';
+import { BrowserFactory } from '../factory/browser.factory';
 
 @Injectable()
 export class WebdriverService {
 
-    private actionFactory: ActionFactory;
-
-    constructor(actionFactory: ActionFactory) {
-        this.actionFactory = actionFactory;
-    }
+    constructor(private actionFactory: ActionFactory, private browserFactory: BrowserFactory) { }
 
     driver: WebDriver;
 
@@ -37,10 +36,10 @@ export class WebdriverService {
         this.driver.quit();
     }
 
-    public async run(browser: Browser, settings: Settings): Promise<void> {
+    public async runBrowser(browser: Browser, settings: Settings): Promise<void> {
         try {
             this.begin(browser, settings.seleniumGridUrl);
-            if(browser.actions[0]){
+            if (browser.actions[0]) {
                 await browser.actions[0].run(this.driver);
             }
             for (let i = 1; i < browser.actions.length; i++) {
@@ -59,19 +58,16 @@ export class WebdriverService {
         }
     }
 
-    public async runAllBrowsers(sequence: Sequence, settings: Settings): Promise<void> {
-        for (let browser of sequence.browsers) {
-
-            browser.successfulIterations = 0;
-
+    public async runTest(test: Test, actions: Action[], settings: Settings): Promise<void> {
+        for (let browser of test.browsers) {
             browser.actions = [];
-            for (let action of sequence.actions) {
+            for (let action of actions) {
                 browser.actions.push(this.actionFactory.fromAction(action));
             }
 
             for (let i: number = 0; i < browser.numberIterations; i++) {
                 try {
-                    await this.run(browser, settings);
+                    await this.runBrowser(browser, settings);
                 }
                 catch (error) {
                     this.logError(`WebdriverService: RunAllBrowsers: Failed to run ${browser.name} - ${browser.type} at iteration ${i}`);
@@ -81,9 +77,18 @@ export class WebdriverService {
         }
     }
 
-    public async runAllSequences(project: Project, settings: Settings): Promise<void> {
+    public async runSequence(sequence: Sequence, settings: Settings): Promise<void> {
+        let test: Test = new Test(new Date());
+        for (let browser of settings.browsers) {
+            test.browsers.push(this.browserFactory.fromBrowser(browser));
+        }
+        sequence.tests.push(test);
+        await this.runTest(test, sequence.actions, settings);
+    }
+
+    public async runProject(project: Project, settings: Settings): Promise<void> {
         for (let sequence of project.sequences) {
-            await this.runAllBrowsers(sequence, settings);
+            await this.runSequence(sequence, settings);
         }
     }
 

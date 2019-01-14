@@ -32,6 +32,7 @@ import { SelectorFactory } from "./factory/selector.factory";
 import { BrowserFactory } from "./factory/browser.factory";
 import { SequenceFactory } from "./factory/sequence.factory";
 import { ProjectFactory } from "./factory/project.factory";
+import { TestFactory } from "./factory/test.factory";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
@@ -48,6 +49,7 @@ import { SequenceInfoComponent, ReplayErrorModal } from "./components/home/compo
 import { SettingsComponent } from "./components/settings/settings.component";
 import { StabilitySettingsComponent } from "./components/settings/components/stability-settings/stability-settings.component";
 import { WebdriverSettingsComponent } from "./components/settings/components/webdriver-settings/webdriver-settings.component";
+import { TestInfoComponent } from "./components/home/components/test-info/test-info.component";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -80,7 +82,8 @@ import {
   faForward,
   faCheck,
   faPen,
-  faFileExport
+  faFileExport,
+  faClock
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faChrome,
@@ -117,6 +120,7 @@ library.add(faFirefox);
 library.add(faEdge);
 library.add(faInternetExplorer);
 library.add(faFileExport);
+library.add(faClock);
 
 @NgModule({
   declarations: [
@@ -132,6 +136,7 @@ library.add(faFileExport);
     SequenceInfoComponent,
     SettingsComponent,
     StabilitySettingsComponent,
+    TestInfoComponent,
     WebdriverSettingsComponent,
     WebviewDirective,
 
@@ -171,7 +176,8 @@ library.add(faFileExport);
     BrowserFactory,
     ProjectFactory,
     SelectorFactory,
-    SequenceFactory
+    SequenceFactory,
+    TestFactory
   ],
   bootstrap: [AppComponent]
 })

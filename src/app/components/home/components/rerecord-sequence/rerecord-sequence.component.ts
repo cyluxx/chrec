@@ -34,8 +34,6 @@ export class RerecordSequenceComponent implements OnInit {
 
     public onSubmit(): void {
         this.sequence.actions = this.newSequence.actions;
-        this.sequence.tested = false;
-        this.sequence.executable = false;
         this.submitEmitter.emit();
     }
 

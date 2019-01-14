@@ -1,16 +1,22 @@
-import { Browser } from "./browser";
 import { Action } from "./action";
+import { Test } from "./test";
 
 export class Sequence {
     name: string;
-    tested: boolean;
-    executable: boolean;
-    browsers: Browser[];
     actions: Action[];
+    tests: Test[];
 
     constructor(name: string) {
-        this.browsers = [];
         this.actions = [];
+        this.tests = [];
         this.name = name;
+    }
+
+    public isTested(): boolean {
+        return this.tests.length > 0;
+    }
+
+    public isExecutable(): boolean {
+        return this.isTested() && this.tests[this.tests.length - 1].isExecutable();
     }
 }
