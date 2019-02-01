@@ -17,7 +17,7 @@
         <div class="row mb-3">
             <div class="col-2">
                 <button (click)="onConfirm()" class="btn btn-sm btn-block btn-primary">
-                    Ok <fa-icon icon="check"></fa-icon>
+                    Do Step <fa-icon icon="arrow-right"></fa-icon>
                 </button>
             </div>
             <div class="col-10">
@@ -41,7 +41,7 @@
 <div class="row" [style.visibility]="showBrowserwindow || !currentAction ? 'visible' : 'hidden'">
     <div class="col-3">
         <button (click)="onCancle()" class="btn btn-sm btn-danger">
-            Cancle <fa-icon icon="times"></fa-icon>
+            Cancel <fa-icon icon="times"></fa-icon>
         </button>
         <button (click)="onSubmit()" class="btn btn-sm btn-success ml-1">
             Done <fa-icon icon="square"></fa-icon>
@@ -57,7 +57,7 @@
         <div class="row mb-3">
             <div class="col-2">
                 <button (click)="onBack()" class="btn btn-sm btn-block btn-primary" [class.disabled]="!currentAction">
-                    Back <fa-icon icon="arrow-left"></fa-icon>
+                    <fa-icon icon="arrow-left"></fa-icon> View Step
                 </button>
             </div>
         </div>

@@ -107,7 +107,8 @@ export class BrowserwindowComponent implements AfterViewInit {
     private autocorrectInputUrl(): void {
         let https: string = this.inputUrl.slice(0, 8).toLowerCase();
         let http: string = this.inputUrl.slice(0, 7).toLowerCase();
-        if (https !== "https://" && http !== "http://") {
+        let localhost: string = this.inputUrl.slice(0, 9).toLowerCase();
+        if (https !== "https://" && http !== "http://" && localhost !== 'localhost') {
             this.inputUrl = "https://" + this.inputUrl;
         }
     }
