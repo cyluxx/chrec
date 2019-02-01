@@ -82,5 +82,6 @@ export enum Method {
     GetQuerySelector = 'GetQuerySelector',
     OptimalSelect = 'OptimalSelect',
     SelectorQuery = 'SelectorQuery',
-    RobulaPlus = 'RobulaPlus'
+    RobulaPlus = 'RobulaPlus',
+    CoordinateRobulaPlus = 'CoordinateRobulaPlus'
 }

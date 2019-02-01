@@ -1,5 +1,6 @@
 import { Key, WebDriver, WebElement } from 'selenium-webdriver';
-import { Selector } from './selector';
+import { Selector, Method } from './selector';
+import { RobulaPlus } from '../../../preload-scripts/robula-plus/robula-plus';
 
 export abstract class Action {
     id: string;
@@ -33,6 +34,7 @@ export abstract class HtmlElementAction extends Action {
     selectors: Selector[];
     boundingBox: DOMRect;
     bestAllTimeSelector: Selector;
+    coordinateBasedSelector: Selector;
 
     constructor(image: string, selectors: Selector[], boundingBox: DOMRect) {
         super(image);
@@ -76,6 +78,20 @@ export abstract class HtmlElementAction extends Action {
             return 0;
         });
         return candidates[0];
+    }
+
+    public generateCoordinateBasedLocator(driver: WebDriver): void {
+        let element: Element = driver.executeScript(
+            `return document.elementFromPoint(arguments[0], arguments[1]);`,
+            this.boundingBox.x + this.boundingBox.width / 2,
+            this.boundingBox.y + this.boundingBox.height / 2
+        ) as Element;
+
+        let doc: Document = driver.getPageSource() as Document;
+
+        let robulaPlus = new RobulaPlus();
+
+        this.selectors.push(new Selector(Method.CoordinateRobulaPlus, robulaPlus.getRobustXPath(element, doc), 0));
     }
 
     public abstract async run(driver: WebDriver): Promise<void>;
