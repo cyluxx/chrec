@@ -32,6 +32,7 @@ export abstract class Action {
 export abstract class HtmlElementAction extends Action {
     selectors: Selector[];
     boundingBox: DOMRect;
+    bestAllTimeSelector: Selector;
 
     constructor(image: string, selectors: Selector[], boundingBox: DOMRect) {
         super(image);

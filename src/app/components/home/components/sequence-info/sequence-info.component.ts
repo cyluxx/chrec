@@ -5,6 +5,7 @@ import { Settings } from "../../../../model/settings";
 import { NgbModal, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { Test } from "../../../../model/test";
 import { BrowserFactory } from "../../../../factory/browser.factory";
+import { Action } from "../../../../model/action";
 
 @Component({
     selector: 'sequence-info',
@@ -21,6 +22,10 @@ export class SequenceInfoComponent {
     @Output() rerecordSequenceEmitter = new EventEmitter<Sequence>();
 
     currentTest: Test;
+
+    showInfo: boolean;
+
+    currentInfoAction: Action;
 
     constructor(private webdriverService: WebdriverService, private modalService: NgbModal, private browserFactory: BrowserFactory) { }
 
@@ -41,6 +46,10 @@ export class SequenceInfoComponent {
         }
     }
 
+    public onInfo(): void {
+        this.showInfo = !this.showInfo;
+    }
+
     public showReplayErrorModal(errorMessage: string): void {
         const modalRef = this.modalService.open(ReplayErrorModal, { centered: true });
         modalRef.componentInstance.sequence = this.sequence;
@@ -56,6 +65,10 @@ export class SequenceInfoComponent {
 
     public onOpenTest(test: Test): void {
         this.currentTest = test;
+    }
+
+    public onSelectInfoAction(action: Action): void {
+        this.currentInfoAction = action;
     }
 }
 

@@ -8,7 +8,7 @@ import * as chrome from 'selenium-webdriver/chrome';
 import { Project } from '../model/project';
 import { ActionFactory } from '../factory/action.factory';
 import { Test } from '../model/test';
-import { Action } from '../model/action';
+import { Action, HtmlElementAction } from '../model/action';
 import { BrowserFactory } from '../factory/browser.factory';
 
 @Injectable()
@@ -62,7 +62,11 @@ export class WebdriverService {
         for (let browser of test.browsers) {
             browser.actions = [];
             for (let action of actions) {
-                browser.actions.push(this.actionFactory.fromAction(action));
+                let newAction: Action = this.actionFactory.fromAction(action);
+                if (newAction instanceof HtmlElementAction) {
+                    newAction.selectors.map(selector => selector.executableIterations = 0);
+                }
+                browser.actions.push(newAction);
             }
 
             for (let i: number = 0; i < browser.numberIterations; i++) {
@@ -84,6 +88,7 @@ export class WebdriverService {
         }
         sequence.tests.push(test);
         await this.runTest(test, sequence.actions, settings);
+        sequence.sumAllExecutableIterations();
     }
 
     public async runProject(project: Project, settings: Settings): Promise<void> {

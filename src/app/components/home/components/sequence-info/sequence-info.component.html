@@ -4,7 +4,7 @@
             <input type="text" class="form-control" placeholder="Sequence Name" [(ngModel)]="sequence.name">
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-5">
         <div class="d-flex justify-content-between">
             <h4 class="mb-1">
                 {{sequence.name}}
@@ -18,7 +18,7 @@
             <small>This Sequence has not been recorded yet.</small>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-4">
         <button *ngIf="sequence.actions.length === 0" (click)="onRecordSequence()" class="btn btn-sm btn-danger float-right">
             Record <fa-icon icon="circle"></fa-icon>
         </button>
@@ -26,8 +26,24 @@
             Record Again <fa-icon icon="circle"></fa-icon>
         </button>
         <button *ngIf="sequence.actions.length > 0" (click)="onPlay()" class="btn btn-sm btn-outline-success mr-1 float-right">
-            <fa-icon icon="play"></fa-icon>
+            Test <fa-icon icon="play"></fa-icon>
         </button>
+        <button *ngIf="sequence.actions.length > 0" (click)="onInfo()" class="btn btn-sm btn-outline-primary mr-1 float-right">
+            Info <fa-icon icon="info-circle"></fa-icon>
+        </button>
+    </div>
+</div>
+<div *ngIf="showInfo" class="row">
+    <div class="col-3">
+        <ul class="list-group list-group-flush">
+            <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item list-group-item-action"
+                [class.active]="action === currentInfoAction" (click)="onSelectInfoAction(action)">
+                <h5 class="mb-1">{{i}}: {{action.name}}</h5>
+            </li>
+        </ul>
+    </div>
+    <div class="col-9">
+        <action-info *ngIf="currentInfoAction" [action]="currentInfoAction" [numberIterations]="sequence.getTotalHTMLElementActionCount()"></action-info>
     </div>
 </div>
 <div *ngIf="currentTest" class="row">
@@ -42,7 +58,8 @@
                 <fa-icon icon="clock"></fa-icon> {{test.date}}, #Browsers: {{test.browsers.length}}, <span class="badge badge-success">Executable</span>
             </div>
             <div *ngIf="!test.isExecutable()" class="alert alert-danger cursor-pointer mb-2" (click)="onOpenTest(test)">
-                <fa-icon icon="clock"></fa-icon> {{test.date}}, #Browsers: {{test.browsers.length}}, <span class="badge badge-danger">Not Executable</span>
+                <fa-icon icon="clock"></fa-icon> {{test.date}}, #Browsers: {{test.browsers.length}}, <span class="badge badge-danger">Not
+                    Executable</span>
             </div>
         </div>
     </div>

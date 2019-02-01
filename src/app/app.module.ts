@@ -83,7 +83,8 @@ import {
   faCheck,
   faPen,
   faFileExport,
-  faClock
+  faClock,
+  faInfoCircle
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faChrome,
@@ -121,6 +122,7 @@ library.add(faEdge);
 library.add(faInternetExplorer);
 library.add(faFileExport);
 library.add(faClock);
+library.add(faInfoCircle);
 
 @NgModule({
   declarations: [

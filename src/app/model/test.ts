@@ -10,9 +10,9 @@ export class Test {
     }
 
     public isExecutable(): boolean {
-        if(this.browsers){
-            for(let browser of this.browsers){
-                if(browser.successfulIterations < browser.numberIterations){
+        if (this.browsers) {
+            for (let browser of this.browsers) {
+                if (browser.successfulIterations < browser.numberIterations) {
                     return false;
                 }
             }
