@@ -1,97 +1,103 @@
 import { Injectable } from '@angular/core';
-import { Builder, By, Key, WebDriver } from 'selenium-webdriver';
-import { Action, Type as ActionType } from '../model/action';
-import { Browser } from '../model/browser';
-import * as fs from 'fs';
+import { Builder, WebDriver } from 'selenium-webdriver';
+import { Browser, Type as BrowserType } from '../model/browser';
 import { Sequence } from '../model/sequence';
 import { Settings } from '../model/settings';
 
+import * as chrome from 'selenium-webdriver/chrome';
+import { Project } from '../model/project';
+import { ActionFactory } from '../factory/action.factory';
+import { Test } from '../model/test';
+import { Action, HtmlElementAction } from '../model/action';
+import { BrowserFactory } from '../factory/browser.factory';
+
 @Injectable()
 export class WebdriverService {
+
+    constructor(private actionFactory: ActionFactory, private browserFactory: BrowserFactory) { }
+
     driver: WebDriver;
 
     private begin(browser: Browser, seleniumGridUrl: string): void {
-        this.driver = new Builder().forBrowser(browser.type).usingServer(`http://${seleniumGridUrl}/wd/hub`).build();
+        console.log('%cStarting Webdriver for: ' + browser.name + ' - ' + browser.type, 'color: #733CA3; font-weight: bold');
+        if (browser.headless && browser.type == BrowserType.chrome) {
+            this.driver = new Builder().forBrowser(browser.type)
+                .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
+        }
+        else {
+            this.driver = new Builder().forBrowser(browser.type).usingServer(`http://${seleniumGridUrl}/wd/hub`).build();
+        }
         this.driver.manage().deleteAllCookies();
         this.driver.manage().window().setSize(browser.width, browser.height);
     }
 
-    private click(action: Action): void {
-        this.driver.findElement(By.css(action.selectors[0])).click();
-    }
-
-    private goto(action: Action): void {
-        this.driver.get(action.url);
-    }
-
-    private type(action: Action): void {
-        this.driver.findElement(By.css(action.selectors[0])).sendKeys(action.value, Key.TAB);
-    }
-
-    private refresh(): void {
-        this.driver.navigate().refresh();
-    }
-
-    private forward(): void {
-        this.driver.navigate().forward();
-    }
-
-    private back(): void {
-        this.driver.navigate().back();
-    }
-
-    private customScreenshot(action: Action): void {
-        this.driver.takeScreenshot().then((data) => {
-            fs.writeFile(
-                './screenshots/custom/' + action.filename,
-                data.replace(/^data:image\/png;base64,/, ''),
-                'base64',
-                (error) => {
-                    if (error) {
-                        throw error;
-                    }
-                });
-        });
-    }
-
-    private quit(): void {
+    private quit(browser: Browser): void {
+        console.log('%cClosing Session: ' + browser.name + ' - ' + browser.type, 'color: #733CA3; font-weight: bold');
         this.driver.quit();
     }
 
-    public run(sequence: Sequence, settings: Settings): void {
-        for (let browser of settings.browsers) {
-            for (let i: number = 0; i < settings.numberIterations; i++) {
-                this.begin(browser, settings.seleniumGridUrl);
-                for (let action of sequence.actions) {
-                    if (action.type == ActionType.click) {
-                        this.click(action);
-                    }
-                    else if (action.type == ActionType.goto) {
-                        this.goto(action);
-                    }
-                    else if (action.type == ActionType.type) {
-                        this.type(action);
-                    }
-                    else if (action.type == ActionType.refresh) {
-                        this.refresh();
-                    }
-                    else if (action.type == ActionType.forward) {
-                        this.forward();
-                    }
-                    else if (action.type == ActionType.back) {
-                        this.back();
-                    }
-                    else if (action.type == ActionType.screenshot) {
-                        try {
-                            this.customScreenshot(action);
-                        }
-                        catch (error) {
-                            console.log(error);
-                        }
-                    }
+    public async runBrowser(browser: Browser, settings: Settings): Promise<void> {
+        try {
+            this.begin(browser, settings.seleniumGridUrl);
+            if (browser.actions[0]) {
+                await browser.actions[0].run(this.driver);
+            }
+            for (let i = 1; i < browser.actions.length; i++) {
+                if (browser.sleepTimeBetweenActions) {
+                    this.driver.sleep(browser.sleepTimeBetweenActions);
                 }
-                this.quit();
+                await browser.actions[i].run(this.driver);
+            }
+            this.quit(browser);
+            browser.successfulIterations++;
+        }
+        catch (error) {
+            this.logError(`WebdriverService: Run: Failed to run ${browser.name} - ${browser.type}`);
+            this.quit(browser);
+            throw new Error(error.message + `\nat Browser ${browser.type}: ${browser.name}`);
+        }
+    }
+
+    public async runTest(test: Test, actions: Action[], settings: Settings): Promise<void> {
+        for (let browser of test.browsers) {
+            browser.actions = [];
+            for (let action of actions) {
+                let newAction: Action = this.actionFactory.fromAction(action);
+                if (newAction instanceof HtmlElementAction) {
+                    newAction.selectors.map(selector => selector.executableIterations = 0);
+                }
+                browser.actions.push(newAction);
+            }
+
+            for (let i: number = 0; i < browser.numberIterations; i++) {
+                try {
+                    await this.runBrowser(browser, settings);
+                }
+                catch (error) {
+                    this.logError(`WebdriverService: RunAllBrowsers: Failed to run ${browser.name} - ${browser.type} at iteration ${i}`);
+                    throw new Error(error.message + `\nat Iteration ${i}`);
+                }
             }
         }
+    }
+
+    public async runSequence(sequence: Sequence, settings: Settings): Promise<void> {
+        let test: Test = new Test(new Date());
+        for (let browser of settings.browsers) {
+            test.browsers.push(this.browserFactory.fromBrowser(browser));
+        }
+        sequence.tests.push(test);
+        await this.runTest(test, sequence.actions, settings);
+        sequence.sumAllExecutableIterations();
+    }
+
+    public async runProject(project: Project, settings: Settings): Promise<void> {
+        for (let sequence of project.sequences) {
+            await this.runSequence(sequence, settings);
+        }
+    }
+
+    private logError(message: string): void {
+        console.log('%c' + message, 'color: #ff4242; font-weight: bold');
     }
 }

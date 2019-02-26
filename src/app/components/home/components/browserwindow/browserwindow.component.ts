@@ -1,120 +1,115 @@
-import { Component, Output, EventEmitter, ViewChild, Input, AfterViewInit, ElementRef } from "@angular/core";
-import { Action, Type } from "../../../../model/action";
+import { Component, ViewChild, Input, AfterViewInit, ElementRef, Output, EventEmitter} from "@angular/core";
+import { Action, Back, Forward, Refresh, GoTo } from "../../../../model/action";
 import * as path from 'path';
 import { WebviewTag, NativeImage } from "electron";
-import { RecorderState } from "../../../../model/recorder-state";
 import { Settings } from "../../../../model/settings";
+import { Sequence } from "../../../../model/sequence";
 
 @Component({
-  selector: "browserwindow",
-  templateUrl: "./browserwindow.component.html",
-  styleUrls: ["./browserwindow.component.scss"]
+    selector: "browserwindow",
+    templateUrl: "./browserwindow.component.html",
+    styleUrls: ['./browserwindow.component.scss']
 })
 export class BrowserwindowComponent implements AfterViewInit {
-  @ViewChild("webview") webviewRef: ElementRef;
-  webview: WebviewTag;
+    @ViewChild("webview") webviewRef: ElementRef;
+    webview: WebviewTag;
 
-  preloadScriptPath: string;
-  inputUrl: string;
+    preloadScriptPath: string;
+    inputUrl: string;
+    info: string;
 
-  @Input() recorderState: RecorderState;
+    @Input() settings: Settings;
 
-  @Input() settings: Settings;
+    @Input() sequence: Sequence;
 
-  @Output() actionEmitter = new EventEmitter<Action>();
+    @Output() actionEmitter: EventEmitter<Action> = new EventEmitter<Action>();
 
-  constructor() {
-    this.preloadScriptPath = path.resolve(__dirname, '../../../../../../webview-preload.js'); //TODO resolve path hell
-    this.inputUrl = "";
-  }
+    constructor() {
+        this.preloadScriptPath = path.resolve(__dirname, '../../../../../../preload-scripts/preload.js'); //TODO resolve path hell
+        this.inputUrl = "";
+    }
 
-  public ngAfterViewInit(): void {
-    this.webview = (this.webviewRef.nativeElement) as WebviewTag;
-    this.webview.addEventListener('dom-ready', () => {
-      this.inputUrl = this.webview.getURL();
-    });
-  }
-
-  public canGoBack(): boolean {
-    return this.webview.canGoBack();
-  }
-
-  public onBack(): void {
-    if (this.canGoBack) {
-      if (this.isRecording()) {
-        this.webview.capturePage((image: NativeImage) => {
-          let action: Action = new Action();
-          action.image = image.toDataURL();
-          action.type = Type.back;
-          action.url = this.webview.getURL();
-          this.actionEmitter.emit(action);
+    public ngAfterViewInit(): void {
+        this.webview = (this.webviewRef.nativeElement) as WebviewTag;
+        this.webview.setAttribute('style', `width:${this.settings.webviewWidth}px; height:${this.settings.webviewHeight}px`);
+        this.webview.addEventListener('dom-ready', () => {
+            this.inputUrl = this.webview.getURL();
         });
-      }
-      this.webview.goBack();
+
+        if(this.sequence.actions.length === 0 && this.settings.homeUrl){
+            this.sequence.actions.push(new GoTo(null, this.settings.homeUrl));
+        }
     }
-  }
 
-  public canGoForward(): boolean {
-    return this.webview.canGoForward();
-  }
+    public canGoBack(): boolean {
+        return this.webview.canGoBack();
+    }
 
-  public onForward(): void {
-    if (this.canGoForward) {
-      if (this.isRecording()) {
-        this.webview.capturePage((image: NativeImage) => {
-          let action: Action = new Action();
-          action.image = image.toDataURL();
-          action.type = Type.forward;
-          action.url = this.webview.getURL();
-          this.actionEmitter.emit(action);
+    public onBack(): void {
+        if (this.canGoBack) {
+            this.webview.capturePage((nativeImage: NativeImage) => {
+                let image: string = nativeImage.toDataURL();
+                let action: Action = new Back(image);
+                this.sequence.actions.push(action);
+                this.actionEmitter.emit(action);
+            });
+            this.webview.goBack();
+        }
+    }
+
+    public canGoForward(): boolean {
+        return this.webview.canGoForward();
+    }
+
+    public onForward(): void {
+        if (this.canGoForward) {
+            this.webview.capturePage((nativeImage: NativeImage) => {
+                let image: string = nativeImage.toDataURL();
+                let action: Action = new Forward(image);
+                this.sequence.actions.push(action);
+                this.actionEmitter.emit(action);
+            });
+            this.webview.goForward();
+        }
+    }
+
+    public onReload(): void {
+        this.webview.capturePage((nativeImage: NativeImage) => {
+            let image: string = nativeImage.toDataURL();
+            let action: Action = new Refresh(image);
+            this.sequence.actions.push(action);
+            this.actionEmitter.emit(action);
         });
-      }
-      this.webview.goForward();
+        this.webview.reloadIgnoringCache();
     }
-  }
 
-  public onReload(): void {
-    if (this.isRecording()) {
-      this.webview.capturePage((image: NativeImage) => {
-        let action: Action = new Action();
-        action.image = image.toDataURL();
-        action.type = Type.refresh;
-        action.url = this.webview.getURL();
+    public onLoadUrl(): void {
+        this.autocorrectInputUrl();
+        this.webview.capturePage((nativeImage: NativeImage) => {
+            let image: string = nativeImage.toDataURL();
+            let action: Action = new GoTo(image, this.inputUrl);
+            this.sequence.actions.push(action);
+            this.actionEmitter.emit(action);
+        });
+        this.webview.loadURL(this.inputUrl);
+    }
+
+    public onAction(action: Action) {
+        this.sequence.actions.push(action);
         this.actionEmitter.emit(action);
-      });
+        this.info = '';
     }
-    this.webview.reload();
-  }
 
-  public onLoadUrl(): void {
-    this.autocorrectInputUrl();
-    if (this.isRecording()) {
-      this.webview.capturePage((image: NativeImage) => {
-        let action: Action = new Action();
-        action.image = image.toDataURL();
-        action.type = Type.goto;
-        action.url = this.inputUrl;
-        this.actionEmitter.emit(action);
-      });
+    public onInfo(info: string){
+        this.info = info;
     }
-    this.webview.loadURL(this.inputUrl);
-  }
 
-  public onAction(action: Action) {
-    if (this.isRecording()) {
-      this.actionEmitter.emit(action);
+    private autocorrectInputUrl(): void {
+        let https: string = this.inputUrl.slice(0, 8).toLowerCase();
+        let http: string = this.inputUrl.slice(0, 7).toLowerCase();
+        let localhost: string = this.inputUrl.slice(0, 9).toLowerCase();
+        if (https !== "https://" && http !== "http://" && localhost !== 'localhost') {
+            this.inputUrl = "https://" + this.inputUrl;
+        }
     }
-  }
-
-  private isRecording(): boolean {
-    return this.recorderState == RecorderState.record;
-  }
-
-  private autocorrectInputUrl(): void {
-    let https: string = this.inputUrl.slice(0, 8).toLowerCase();
-    let http: string = this.inputUrl.slice(0, 7).toLowerCase();
-    if (https !== "https://" && http !== "http://") {
-      this.inputUrl = "https://" + this.inputUrl;
-    }
-  }
 }

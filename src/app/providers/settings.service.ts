@@ -1,62 +1,71 @@
 import { Injectable } from "@angular/core";
 import { Settings } from "../model/settings";
-import * as util from 'util';
 import { Browser, Type } from "../model/browser";
-const storage = require('electron-json-storage');
-const SETTINGS = 'settings';
+import { SettingsDao } from "../dao/settings.dao";
+
+const DEFAULT_SETTINGS = 'settings';
 
 @Injectable()
 export class SettingsService {
 
-    private get: (key: String) => Promise<Settings>;
+    private settingsDao: SettingsDao;
 
-    constructor() {
-        this.get = util.promisify(storage.get);
+    constructor(settingsDao: SettingsDao) {
+        this.settingsDao = settingsDao;
     }
 
-    public setSettings(settings: Settings): void {
-        storage.set(SETTINGS, settings, (error) => {
-            if (error) throw error;
-        });
-    }
-
-    public async getSettings(): Promise<Settings> {
-        return await this.get(SETTINGS);
-    }
-
-    public removeSettings(): void {
-        storage.remove(SETTINGS, (error) => {
-            if (error) throw error;
-        });
-    }
-
-    public resetSettings(): void {
+    public newDefaultSettings(): Settings {
         let settings: Settings = new Settings();
+        this.buildDefaultSettings(settings);
+        return settings;
+    }
 
+    public async getDefaultSettings(): Promise<Settings> {
+        return this.settingsDao.read(DEFAULT_SETTINGS);
+    }
+
+    public setDefaultSettings(settings: Settings): void {
+        this.settingsDao.create(DEFAULT_SETTINGS, settings);
+    }
+
+    public resetDefaultSettings(): void {
+        let settings: Settings = new Settings();
+        this.buildDefaultSettings(settings);
+        this.setDefaultSettings(settings);
+    }
+
+    private buildDefaultSettings(settings: Settings): void {
+        //General Settings
         settings.seleniumGridUrl = 'localhost:4444';
+        settings.webviewWidth = 800;
+        settings.webviewHeight = 600;
 
+        //Webdriver Settings
         settings.browsers = [];
         let browser: Browser = new Browser();
+        browser.name = 'default';
         browser.type = Type.chrome;
-        browser.width = 1920;
-        browser.height = 1080;
+        browser.width = 800;
+        browser.height = 600;
+        browser.headless = false;
+        browser.numberIterations = 1;
+        browser.sleepTimeBetweenActions = 0;
         settings.browsers.push(browser);
 
-        settings.numberIterations = 1;
-
+        //Stability Settings
         settings.useCssSelectorGenerator = true;
         settings.useFinder = true;
         settings.useGetQuerySelector = true;
         settings.useOptimalSelect = true;
         settings.useSelectorQuery = true;
         settings.useBoundingBox = true;
+        settings.useBoundingBoxTransposition = true;
         settings.useTemplateMatching = true;
         settings.useFeatureMatching = true;
 
+        //Alex Settings
         settings.alexUrl = 'localhost:8000';
         settings.alexEmail = 'admin@alex.example';
         settings.alexPassword = 'admin';
-
-        this.setSettings(settings);
     }
 }

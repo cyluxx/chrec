@@ -4,7 +4,8 @@ export class Project {
     name: string;
     sequences: Sequence[];
 
-    constructor(){
+    constructor(name: string){
         this.sequences = [];
+        this.name = name;
     }
 }

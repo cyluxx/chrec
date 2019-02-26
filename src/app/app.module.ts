@@ -16,26 +16,40 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 // Bootstrap
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
+import { AlexExportService } from "./providers/alex-export.service";
 import { ElectronService } from "./providers/electron.service";
 import { WebdriverService } from "./providers/webdriver.service";
 import { ProjectService } from "./providers/project.service";
 import { SettingsService } from "./providers/settings.service";
+
+import { AlexExportDao } from "./dao/alex-export.dao";
+import { ProjectDao } from "./dao/project.dao";
+import { SettingsDao } from "./dao/settings.dao";
+
+import { ActionFactory } from "./factory/action.factory";
+import { AlexExportFactory } from "./factory/alex-export.factory";
+import { SelectorFactory } from "./factory/selector.factory";
+import { BrowserFactory } from "./factory/browser.factory";
+import { SequenceFactory } from "./factory/sequence.factory";
+import { ProjectFactory } from "./factory/project.factory";
+import { TestFactory } from "./factory/test.factory";
 
 import { WebviewDirective } from "./directives/webview.directive";
 
 import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
 import { AlexSettingsComponent } from "./components/settings/components/alex-settings/alex-settings.component";
 import { AppComponent } from "./app.component";
+import { BrowserInfoComponent } from "./components/home/components/browser-info/browser-info.component";
 import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
 import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
-import { HomeComponent } from "./components/home/home.component";
-import { QuickbarComponent } from "./components/home/components/quickbar/quickbar.component";
-import { SequenceTabsComponent } from "./components/home/components/sequence-tabs/sequence-tabs.component";
+import { HomeComponent, ExportToAlexModal } from "./components/home/home.component";
+import { RecordSequenceComponent } from "./components/home/components/record-sequence/record-sequence.component";
+import { RerecordSequenceComponent } from "./components/home/components/rerecord-sequence/rerecord-sequence.component";
+import { SequenceInfoComponent, ReplayErrorModal } from "./components/home/components/sequence-info/sequence-info.component";
 import { SettingsComponent } from "./components/settings/settings.component";
-import { SidebarComponent } from "./components/home/components/sidebar/sidebar.component";
 import { StabilitySettingsComponent } from "./components/settings/components/stability-settings/stability-settings.component";
-import { StatusbarComponent } from "./components/home/components/statusbar/statusbar.component";
 import { WebdriverSettingsComponent } from "./components/settings/components/webdriver-settings/webdriver-settings.component";
+import { TestInfoComponent } from "./components/home/components/test-info/test-info.component";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -64,8 +78,20 @@ import {
   faTimes,
   faCog,
   faTrash,
-  faExclamation
+  faExclamation,
+  faForward,
+  faCheck,
+  faPen,
+  faFileExport,
+  faClock,
+  faInfoCircle
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChrome,
+  faFirefox,
+  faEdge,
+  faInternetExplorer
+} from "@fortawesome/free-brands-svg-icons";
 
 library.add(faPlay);
 library.add(faPause);
@@ -87,23 +113,41 @@ library.add(faTimes);
 library.add(faTrash);
 library.add(faCog);
 library.add(faExclamation);
+library.add(faForward);
+library.add(faCheck);
+library.add(faPen);
+library.add(faChrome);
+library.add(faFirefox);
+library.add(faEdge);
+library.add(faInternetExplorer);
+library.add(faFileExport);
+library.add(faClock);
+library.add(faInfoCircle);
 
 @NgModule({
   declarations: [
     ActionInfoComponent,
     AlexSettingsComponent,
     AppComponent,
+    BrowserInfoComponent,
     BrowserwindowComponent,
     GeneralSettingsComponent,
     HomeComponent,
-    QuickbarComponent,
-    SequenceTabsComponent,
+    RecordSequenceComponent,
+    RerecordSequenceComponent,
+    SequenceInfoComponent,
     SettingsComponent,
-    SidebarComponent,
     StabilitySettingsComponent,
-    StatusbarComponent,
+    TestInfoComponent,
     WebdriverSettingsComponent,
-    WebviewDirective
+    WebviewDirective,
+
+    ExportToAlexModal,
+    ReplayErrorModal
+  ],
+  entryComponents: [
+    ExportToAlexModal,
+    ReplayErrorModal
   ],
   imports: [
     BrowserModule,
@@ -120,7 +164,23 @@ library.add(faExclamation);
     NgbModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [ElectronService, WebdriverService, ProjectService, SettingsService],
+  providers: [
+    AlexExportService,
+    ElectronService,
+    ProjectService,
+    SettingsService,
+    WebdriverService,
+    AlexExportDao,
+    ProjectDao,
+    SettingsDao,
+    ActionFactory,
+    AlexExportFactory,
+    BrowserFactory,
+    ProjectFactory,
+    SelectorFactory,
+    SequenceFactory,
+    TestFactory
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

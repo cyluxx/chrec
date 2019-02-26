@@ -26,6 +26,6 @@ export class StabilitySettingsComponent {
         this.settings.useBoundingBox = form.value.useBoundingBox;
         this.settings.useTemplateMatching = form.value.useTemplateMatching;
         this.settings.useFeatureMatching = form.value.useFeatureMatching;
-        this.settingsService.setSettings(this.settings);
+        this.settingsService.setDefaultSettings(this.settings);
     }
 }

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col">
-        <div class="input-group mb-3">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <button (click)="onBack()" class="btn btn-outline-secondary" type="button">
                     <fa-icon icon="arrow-left"></fa-icon>
@@ -16,8 +16,12 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row mt-1">
     <div class="col">
-        <webview #webview (actionEmitter)="onAction($event)" [attr.src]="settings.homeUrl" [attr.preload]="preloadScriptPath"></webview>
+        <webview #webview (actionEmitter)="onAction($event)" (infoEmitter)="onInfo($event)" [attr.src]="settings.homeUrl"
+            [attr.preload]="preloadScriptPath"></webview>
     </div>
+</div>
+<div *ngIf="info" class="overlay">
+    <div class="overlay-text">{{info}}</div>
 </div>

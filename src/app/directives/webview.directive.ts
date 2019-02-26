@@ -1,42 +1,56 @@
 import { Directive, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { WebviewTag, IpcMessageEvent, NativeImage } from 'electron';
-import { Action, Type } from '../model/action';
+import { WebviewTag, IpcMessageEvent, NativeImage, ConsoleMessageEvent } from 'electron';
+import { HtmlElementAction } from '../model/action';
+import { ActionFactory } from '../factory/action.factory';
 
 @Directive({
   selector: 'webview'
 })
 export class WebviewDirective implements OnDestroy {
   webviewTag: WebviewTag;
+
+  private actionFactory: ActionFactory;
+
   ipcMessageEventFunction: (ipcMessageEvent: IpcMessageEvent) => void;
 
-  @Output() actionEmitter = new EventEmitter<Action>();
+  @Output() actionEmitter = new EventEmitter<HtmlElementAction>();
 
-  constructor(elementRef: ElementRef) {
+  @Output() infoEmitter = new EventEmitter<string>();
+
+  image: string = '';
+
+  constructor(elementRef: ElementRef, actionFactory: ActionFactory) {
     this.webviewTag = elementRef.nativeElement as WebviewTag;
+
+    this.actionFactory = actionFactory;
 
     this.ipcMessageEventFunction = (ipcMessageEvent: IpcMessageEvent) => {
       let channelContent = JSON.parse(ipcMessageEvent.channel);
-      let action: Action = new Action();
-      if(channelContent.type == 'focusout'){
-        action.type = Type.type;
-      }
-      else {
-        action.type = Type[channelContent.type as string];
-      }
-      action.selectors = channelContent.selectors;
-      action.value = channelContent.value;
-      action.url = channelContent.url;
-      action.keyCode = channelContent.keyCode;
-      action.boundingBox = channelContent.boundingBox;
 
-      this.webviewTag.capturePage((image: NativeImage) => {
-        action.image = image.toDataURL();
+      if (channelContent.info) {
+        this.infoEmitter.emit(channelContent.message);
+      }
+      else if (channelContent.action) {
+        console.log('%c Webview: Recieved Action of Type ' + channelContent.action, 'color: #4242ff; font-weight: bold');
+        let action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, this.image);
         this.actionEmitter.emit(action);
-      });
+        this.webviewTag.capturePage((nativeImage: NativeImage) => {
+          this.infoEmitter.emit('capturing page');
+          this.image = nativeImage.toDataURL();
+          this.infoEmitter.emit('');
+        });
+        this.infoEmitter.emit('');
+      }
     }
+
     this.webviewTag.addEventListener('dom-ready', () => {
       this.webviewTag.addEventListener('ipc-message', this.ipcMessageEventFunction);
-      this.webviewTag.openDevTools();
+      this.webviewTag.capturePage((nativeImage: NativeImage) => {
+        this.infoEmitter.emit('capturing page');
+        this.image = nativeImage.toDataURL();
+        this.infoEmitter.emit('');
+      });
+      //this.webviewTag.openDevTools();
     });
   }
 

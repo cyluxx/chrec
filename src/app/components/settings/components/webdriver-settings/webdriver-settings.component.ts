@@ -25,26 +25,37 @@ export class WebdriverSettingsComponent {
 
     public onSubmit(form: NgForm): void {
         this.settings.seleniumGridUrl = form.value.seleniumGridUrl;
-        this.settings.numberIterations = form.value.numberIterations;
-        this.settingsService.setSettings(this.settings);
+        this.settingsService.setDefaultSettings(this.settings);
     }
 
     public onAddBrowser(): void {
         if (this.newBrowser.type && this.newBrowser.width >= 300 && this.newBrowser.height >= 300) {
+
+            //check if name allready exists
+            for (let browser of this.settings.browsers) {
+                if (this.newBrowser.name === browser.name) {
+                    return;
+                }
+            }
+
             this.settings.browsers.push(this.newBrowser);
             this.newBrowser = new Browser();
-            this.settingsService.setSettings(this.settings);
+            this.settingsService.setDefaultSettings(this.settings);
         }
     }
 
     public onDeleteBrowser(browser: Browser): void {
         let browsers: Browser[] = [];
-        for(let thisBrowser of this.settings.browsers){
-            if(thisBrowser.type !== browser.type || thisBrowser.width !== browser.width || thisBrowser.height !== browser.height){
+        for (let thisBrowser of this.settings.browsers) {
+            if (thisBrowser.name !== browser.name) {
                 browsers.push(thisBrowser);
             }
         }
         this.settings.browsers = browsers;
-        this.settingsService.setSettings(this.settings);
+        this.settingsService.setDefaultSettings(this.settings);
+    }
+
+    public shouldDisplayHeadlessCheckbox(): boolean {
+        return this.newBrowser.type && this.newBrowser.type === Type.chrome;
     }
 }

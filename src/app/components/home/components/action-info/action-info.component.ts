@@ -1,36 +1,51 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
-import { Action } from "../../../../model/action";
-import { nativeImage } from "electron";
-import { Mat } from "opencv4nodejs";
+import { Component, Input } from "@angular/core";
+import { Action, GoTo, Read, Type, HtmlElementAction } from "../../../../model/action";
+import { Browser } from "../../../../model/browser";
 
 @Component({
     selector: 'action-info',
     templateUrl: './action-info.component.html'
 })
-export class ActionInfoComponent implements AfterViewInit{
-    @ViewChild("canvas") canvasRef: ElementRef;
-
+export class ActionInfoComponent {
     @Input() action: Action;
 
-    @Output() closeEmitter = new EventEmitter<boolean>();
+    @Input() numberIterations: number;
 
-    imgUrl: string;
+    edit: boolean;
 
-    constructor() {
-        this.action = new Action();
+    public isGoTo(action: Action): boolean {
+        return action instanceof GoTo;
     }
 
-    public ngAfterViewInit(): void {
-        // if (this.action.image) {
-        //     console.log('test1');
-        //     let mat: Mat = opencv.imdecode(nativeImage.createFromDataURL(this.action.image).toBitmap());
-        //     console.log('test2');
-        //     opencv.imshow('canvas', mat);
-        //     console.log('test3');
-        // }
+    public asGoTo(action: Action): GoTo {
+        return action as GoTo;
     }
 
-    public onClose(): void {
-        this.closeEmitter.emit(true);
+    public isHtmlElementAction(action: Action): boolean {
+        return action instanceof HtmlElementAction;
+    }
+
+    public asHtmlElementAction(action: Action): HtmlElementAction {
+        return action as HtmlElementAction;
+    }
+
+    public isRead(action: Action): boolean {
+        return action instanceof Read;
+    }
+
+    public asRead(action: Action): Read {
+        return action as Read;
+    }
+
+    public isType(action: Action): boolean {
+        return action instanceof Type;
+    }
+
+    public asType(action: Action): Type {
+        return action as Type;
+    }
+
+    public onToggleEdit(): void {
+        this.edit = !this.edit;
     }
 }

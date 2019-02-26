@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Action } from '../../model/action';
-import { RecorderState } from '../../model/recorder-state';
 import { ProjectService } from '../../providers/project.service';
 import { Project } from '../../model/project';
 import { Sequence } from '../../model/sequence';
 import { Settings } from '../../model/settings';
 import { SettingsService } from '../../providers/settings.service';
-
-const DEFAULT_PROJECT = 'default project';
+import { AlexExportService } from '../../providers/alex-export.service';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -18,78 +16,94 @@ export class HomeComponent implements OnInit {
 
   private projectService: ProjectService;
   private settingsService: SettingsService;
+  private alexExportService: AlexExportService;
+  private modalService: NgbModal;
 
   project: Project;
-  currentSequence: Sequence;
-  currentAction: Action;
-  recorderState: RecorderState;
-
   settings: Settings;
 
-  constructor(projectService: ProjectService, settingsService: SettingsService) {
+  currentSequence: Sequence;
+
+  screenshotFilename: string;
+  newSequenceName: string;
+
+  recording: boolean;
+  rerecording: boolean;
+
+  constructor(projectService: ProjectService, settingsService: SettingsService, alexExportService: AlexExportService, modalService: NgbModal) {
     this.projectService = projectService;
     this.settingsService = settingsService;
+    this.alexExportService = alexExportService;
+    this.modalService = modalService;
 
-    this.project = new Project();
-    this.project.name = DEFAULT_PROJECT;
-    this.project.sequences = [];
-
-    this.currentSequence = new Sequence();
-    this.currentSequence.actions = [];
-    this.recorderState = RecorderState.stop;
-
-    this.settings = new Settings();
+    this.project = projectService.newDefaultProject();
+    this.settings = settingsService.newDefaultSettings();
   }
 
-  ngOnInit(): void {
-    this.projectService.getProject(DEFAULT_PROJECT)
-      .then((project: Project) => {
-        if (project.name) {
-          this.project = project;
-        }
-      });
-    this.settingsService.getSettings()
-      .then((settings: Settings) => {
-        if (settings) {
-          this.settings = settings;
-          if (!settings.browsers) {
-            this.settings.browsers = [];
-          }
-        }
-      });
+  async ngOnInit(): Promise<void> {
+    this.project = await this.projectService.getDefaultProject();
+    this.settings = await this.settingsService.getDefaultSettings();
   }
 
-  onRecordAction(action: Action) {
-    if (this.isRecording()) {
-      this.currentSequence.actions.push(action);
+  public onSave(): void {
+    console.log('home onSave');
+    console.log(this.project);
+    this.projectService.setDefaultProject(this.project);
+  }
+
+  public onClearProject(): void {
+    this.projectService.removeDefaultProject();
+  }
+
+  public onNewSequence(): void {
+    if (this.newSequenceName) {
+      let sequence: Sequence = new Sequence(this.newSequenceName);
+      this.project.sequences.push(sequence);
+      this.currentSequence = sequence;
+      this.newSequenceName = '';
     }
   }
 
-  onCurrentSequence(sequence: Sequence) {
+  public onSelectSequence(sequence: Sequence): void {
     this.currentSequence = sequence;
   }
 
-  onRecorderState(recorderState: RecorderState) {
-    this.recorderState = recorderState;
+  public onRecordSequence(): void {
+    this.recording = true;
   }
 
-  onSave() {
-    this.projectService.setProject(this.project);
+  public onSubmitRecording(): void {
+    this.recording = false;
   }
 
-  isRecording() {
-    return this.recorderState == RecorderState.record;
+  public onRerecordSequence(): void {
+    this.rerecording = true;
   }
 
-  onClearProjects() {
-    this.projectService.removeProject(DEFAULT_PROJECT);
+  public onCancleRerecording(): void {
+    this.rerecording = false;
   }
 
-  onCloseActionInfo(): void {
-    this.currentAction = null;
+  public onSubmitRerecording(): void {
+    this.rerecording = false;
   }
 
-  onActionInfo(action: Action): void {
-    this.currentAction = action;
+  public onExportToAlex(): void {
+    const modalRef = this.modalService.open(ExportToAlexModal, { centered: true });
+    modalRef.result.then((result) => {
+      this.alexExportService.export(result.fileName, this.project, result.path);
+    }, () => { });
   }
+}
+
+@Component({
+  selector: 'export-to-alex-modal',
+  templateUrl: './export-to-alex.modal.html'
+})
+export class ExportToAlexModal {
+
+  fileName: string;
+  path: string;
+
+  constructor(public activeModal: NgbActiveModal) { }
 }
