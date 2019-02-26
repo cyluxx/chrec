@@ -1,18 +1,24 @@
 {
-  "name": "angular-electron",
-  "version": "4.1.0",
-  "description": "Angular 6 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "chrec",
+  "version": "0.1.0",
+  "description": "Visually Stabilizing Selenium Web Recorder for Automated User Acceptance Tests",
+  "homepage": "https://github.com/cyluxx/chrec",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Andreas Plewnia",
+    "email": "acplewnia@gmail.com"
   },
   "keywords": [
-    "angular",
-    "angular 6",
-    "electron",
-    "typescript",
-    "sass"
+    "ChRec",
+    "Selenium",
+    "CSS",
+    "selector",
+    "XPath",
+    "locator",
+    "record",
+    "recorder",
+    "testing",
+    "WebDriver",
+    "UI"
   ],
   "main": "main.js",
   "private": true,
