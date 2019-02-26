@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Settings } from "../model/settings";
-import { Browser, Type } from "../model/browser";
 import { SettingsDao } from "../dao/settings.dao";
+import { Browser } from 'chrec-core/lib/model/browser/browser';
+import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 
 const DEFAULT_SETTINGS = 'settings';
 
@@ -15,7 +16,7 @@ export class SettingsService {
     }
 
     public newDefaultSettings(): Settings {
-        let settings: Settings = new Settings();
+        const settings: Settings = new Settings();
         this.buildDefaultSettings(settings);
         return settings;
     }
@@ -29,43 +30,34 @@ export class SettingsService {
     }
 
     public resetDefaultSettings(): void {
-        let settings: Settings = new Settings();
+        const settings: Settings = new Settings();
         this.buildDefaultSettings(settings);
         this.setDefaultSettings(settings);
     }
 
     private buildDefaultSettings(settings: Settings): void {
-        //General Settings
+        // General Settings
         settings.seleniumGridUrl = 'localhost:4444';
         settings.webviewWidth = 800;
         settings.webviewHeight = 600;
 
-        //Webdriver Settings
-        settings.browsers = [];
-        let browser: Browser = new Browser();
-        browser.name = 'default';
-        browser.type = Type.chrome;
-        browser.width = 800;
-        browser.height = 600;
-        browser.headless = false;
-        browser.numberIterations = 1;
-        browser.sleepTimeBetweenActions = 0;
-        settings.browsers.push(browser);
+        // Webdriver Settings
+        settings.browsers = [new Chrome('default', 800, 600, false)];
 
-        //Stability Settings
-        settings.useCssSelectorGenerator = true;
-        settings.useFinder = true;
-        settings.useGetQuerySelector = true;
-        settings.useOptimalSelect = true;
-        settings.useSelectorQuery = true;
-        settings.useBoundingBox = true;
-        settings.useBoundingBoxTransposition = true;
-        settings.useTemplateMatching = true;
-        settings.useFeatureMatching = true;
+        // Stability Settings
+        // settings.useCssSelectorGenerator = true;
+        // settings.useFinder = true;
+        // settings.useGetQuerySelector = true;
+        // settings.useOptimalSelect = true;
+        // settings.useSelectorQuery = true;
+        // settings.useBoundingBox = true;
+        // settings.useBoundingBoxTransposition = true;
+        // settings.useTemplateMatching = true;
+        // settings.useFeatureMatching = true;
 
-        //Alex Settings
-        settings.alexUrl = 'localhost:8000';
-        settings.alexEmail = 'admin@alex.example';
-        settings.alexPassword = 'admin';
+        // Alex Settings
+        // settings.alexUrl = 'localhost:8000';
+        // settings.alexEmail = 'admin@alex.example';
+        // settings.alexPassword = 'admin';
     }
 }

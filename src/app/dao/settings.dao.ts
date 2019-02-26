@@ -1,27 +1,30 @@
-import { Injectable } from "@angular/core";
-import { Settings } from "../model/settings";
+import { Injectable } from '@angular/core';
+import { Settings } from '../model/settings';
 import * as util from 'util';
-import * as storage from 'electron-json-storage';
+import { set, get, remove, getDefaultDataPath, DataOptions } from 'electron-json-storage';
 
 @Injectable()
 export class SettingsDao implements Dao<Settings>{
 
-    private set: (fileName: string, object: object, options?: object) => Promise<void>;
-    private get: (fileName: string, options?: object) => Promise<Settings>;
-    private remove: (fileName: string, options?: object) => Promise<void>;
+    private set: (fileName: string, settings: Settings, options?: DataOptions, error?: any) => Promise<void>;
+    private get: (fileName: string, options?: DataOptions, error?: any) => Promise<Settings>;
+    private remove: (fileName: string, options?: DataOptions, error?: any) => Promise<void>;
 
     constructor() {
-        this.set = util.promisify(storage.set);
-        this.get = util.promisify(storage.get);
-        this.remove = util.promisify(storage.remove);
+        this.set = util.promisify(set);
+        this.get = util.promisify(get);
+        this.remove = util.promisify(remove);
 
-        console.log('%cDefault Settings Storage Data Path: ' + storage.getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
+        console.log('%cDefault Settings Storage Data Path: ' + getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
     }
 
-    public async create(fileName: string, settings: Settings, path?: string): Promise<any> {
-        console.log('%cCreate ' + fileName, 'font-weight:bold; color:#42ff42');
+    public async createOrUpdate(fileName: string, settings: Settings, path?: string): Promise<any> {
+        console.log('%cCreate or Update ' + fileName, 'font-weight:bold; color:#42ff42');
         console.log(settings);
-        return await this.update(fileName, settings, path);
+        if (path) {
+            return await this.set(fileName, settings, { dataPath: path });
+        }
+        return await this.set(fileName, settings);
     }
 
     public async read(fileName: string, path?: string): Promise<Settings> {
@@ -35,15 +38,6 @@ export class SettingsDao implements Dao<Settings>{
         }
         console.log(settings);
         return settings;
-    }
-
-    public async update(fileName: string, settings: Settings, path?: string): Promise<any> {
-        console.log('%cUpdate ' + fileName, 'font-weight:bold; color:#42ff42');
-        console.log(settings);
-        if (path) {
-            return await this.set(fileName, settings, { dataPath: path });
-        }
-        return await this.set(fileName, settings);
     }
 
     public async delete(fileName: string, path?: string): Promise<any> {

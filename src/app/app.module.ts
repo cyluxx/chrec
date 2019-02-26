@@ -28,7 +28,7 @@ import { SettingsDao } from "./dao/settings.dao";
 
 import { ActionFactory } from "./factory/action.factory";
 import { AlexExportFactory } from "./factory/alex-export.factory";
-import { SelectorFactory } from "./factory/selector.factory";
+import { SelectorFactory } from "./factory/locator.factory";
 import { BrowserFactory } from "./factory/browser.factory";
 import { SequenceFactory } from "./factory/sequence.factory";
 import { ProjectFactory } from "./factory/project.factory";
