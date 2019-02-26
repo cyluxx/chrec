@@ -2,10 +2,6 @@ import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
-if (process.platform === 'win32' && !process.env.OPENCV4NODEJS_DISABLE_AUTOBUILD) {
-  process.env.path += ';' + require('./node_modules/opencv-build').opencvBinDir
-}
-
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
