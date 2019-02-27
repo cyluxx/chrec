@@ -6,7 +6,7 @@ import { Settings } from "../../../../model/settings";
 import { Sequence } from "../../../../model/sequence";
 
 @Component({
-    selector: "browserwindow",
+    selector: 'browserwindow',
     templateUrl: "./browserwindow.component.html",
     styleUrls: ['./browserwindow.component.scss']
 })

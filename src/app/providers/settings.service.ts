@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Settings } from "../model/settings";
 import { SettingsDao } from "../dao/settings.dao";
-import { Browser } from 'chrec-core/lib/model/browser/browser';
 import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 
 const DEFAULT_SETTINGS = 'settings';
@@ -26,7 +25,7 @@ export class SettingsService {
     }
 
     public setDefaultSettings(settings: Settings): void {
-        this.settingsDao.create(DEFAULT_SETTINGS, settings);
+        this.settingsDao.createOrUpdate(DEFAULT_SETTINGS, settings);
     }
 
     public resetDefaultSettings(): void {

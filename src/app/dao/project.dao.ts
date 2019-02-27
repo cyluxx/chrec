@@ -32,8 +32,7 @@ export class ProjectDao implements Dao<Project> {
         let project: any;
         if (path) {
             project = await this.get(fileName, { dataPath: path });
-        }
-        else {
+        } else {
             project = await this.get(fileName);
         }
 

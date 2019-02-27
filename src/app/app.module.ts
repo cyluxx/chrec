@@ -92,6 +92,17 @@ import {
   faEdge,
   faInternetExplorer
 } from "@fortawesome/free-brands-svg-icons";
+import { StatusbarComponent } from './statusbar/statusbar.component';
+import { BrowserInfoSidebarComponent } from './browser-info-sidebar/browser-info-sidebar.component';
+import { EditableActionInfoComponent } from './editable-action-info/editable-action-info.component';
+import { EditableHtmlElementActionInfoComponent } from './editable-html-element-action-info/editable-html-element-action-info.component';
+import { HtmlElementActionInfoComponent } from './html-element-action-info/html-element-action-info.component';
+import { LocatorInfoComponent } from './locator-info/locator-info.component';
+import { ProjectInfoComponent } from './project-info/project-info.component';
+import { QuickbarComponent } from './quickbar/quickbar.component';
+import { SequenceInfoSidebarComponent } from './sequence-info-sidebar/sequence-info-sidebar.component';
+import { RecordSidebarComponent } from './record-sidebar/record-sidebar.component';
+import { RerecordSidebarComponent } from './rerecord-sidebar/rerecord-sidebar.component';
 
 library.add(faPlay);
 library.add(faPause);
@@ -143,7 +154,18 @@ library.add(faInfoCircle);
     WebviewDirective,
 
     ExportToAlexModal,
-    ReplayErrorModal
+    ReplayErrorModal,
+    StatusbarComponent,
+    BrowserInfoSidebarComponent,
+    EditableActionInfoComponent,
+    EditableHtmlElementActionInfoComponent,
+    HtmlElementActionInfoComponent,
+    LocatorInfoComponent,
+    ProjectInfoComponent,
+    QuickbarComponent,
+    SequenceInfoSidebarComponent,
+    RecordSidebarComponent,
+    RerecordSidebarComponent
   ],
   entryComponents: [
     ExportToAlexModal,

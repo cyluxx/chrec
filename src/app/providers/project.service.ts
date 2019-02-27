@@ -21,15 +21,15 @@ export class ProjectService {
 
     public async getDefaultProject(): Promise<Project> {
         let project: Project = await this.projectDao.read(DEFAULT_PROJECT);
-        if (project.name) {
+        if (project.getName()) {
             return project;
         }
-        project = new Project(DEFAULT_PROJECT);
+        project = new Project(DEFAULT_PROJECT, [], []);
         return project;
     }
 
     public setDefaultProject(project: Project): void {
-        this.projectDao.create(DEFAULT_PROJECT, project);
+        this.projectDao.createOrUpdate(DEFAULT_PROJECT, project);
     }
 
     public removeDefaultProject(): void {
