@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import { WebdriverSettingsComponent } from './webdriver-settings.component';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('WebdriverSettingsComponent', () => {
+  let component: WebdriverSettingsComponent;
+  let fixture: ComponentFixture<WebdriverSettingsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [ WebdriverSettingsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(WebdriverSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,64 +1,59 @@
-import "zone.js/dist/zone-mix";
-import "reflect-metadata";
-import "../polyfills";
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import 'zone.js/dist/zone-mix';
+import 'reflect-metadata';
+import '../polyfills';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-import { AppRoutingModule } from "./app-routing.module";
+import { AppRoutingModule } from './app-routing.module';
 
 // NG Translate
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // Bootstrap
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AlexExportService } from "./providers/alex-export.service";
-import { ElectronService } from "./providers/electron.service";
-import { WebdriverService } from "./providers/webdriver.service";
-import { ProjectService } from "./providers/project.service";
-import { SettingsService } from "./providers/settings.service";
+import { ElectronService } from './providers/electron.service';
+import { ProjectService } from './providers/project.service';
+import { SettingsService } from './providers/settings.service';
 
-import { AlexExportDao } from "./dao/alex-export.dao";
-import { ProjectDao } from "./dao/project.dao";
-import { SettingsDao } from "./dao/settings.dao";
+import { ProjectDao } from './dao/project.dao';
+import { SettingsDao } from './dao/settings.dao';
 
-import { ActionFactory } from "./factory/action.factory";
-import { AlexExportFactory } from "./factory/alex-export.factory";
-import { SelectorFactory } from "./factory/locator.factory";
-import { BrowserFactory } from "./factory/browser.factory";
-import { SequenceFactory } from "./factory/sequence.factory";
-import { ProjectFactory } from "./factory/project.factory";
-import { TestFactory } from "./factory/test.factory";
+import { ActionFactory } from './factory/action.factory';
+import { ProjectFactory } from './factory/project.factory';
 
-import { WebviewDirective } from "./directives/webview.directive";
+import { WebviewDirective } from './directives/webview.directive';
 
-import { ActionInfoComponent } from "./components/home/components/action-info/action-info.component";
-import { AlexSettingsComponent } from "./components/settings/components/alex-settings/alex-settings.component";
-import { AppComponent } from "./app.component";
-import { BrowserInfoComponent } from "./components/home/components/browser-info/browser-info.component";
-import { BrowserwindowComponent } from "./components/home/components/browserwindow/browserwindow.component";
-import { GeneralSettingsComponent } from "./components/settings/components/general-settings/general-settings.component";
-import { HomeComponent, ExportToAlexModal } from "./components/home/home.component";
-import { RecordSequenceComponent } from "./components/home/components/record-sequence/record-sequence.component";
-import { RerecordSequenceComponent } from "./components/home/components/rerecord-sequence/rerecord-sequence.component";
-import { SequenceInfoComponent, ReplayErrorModal } from "./components/home/components/sequence-info/sequence-info.component";
-import { SettingsComponent } from "./components/settings/settings.component";
-import { StabilitySettingsComponent } from "./components/settings/components/stability-settings/stability-settings.component";
-import { WebdriverSettingsComponent } from "./components/settings/components/webdriver-settings/webdriver-settings.component";
-import { TestInfoComponent } from "./components/home/components/test-info/test-info.component";
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { BrowserWindowComponent } from './components/common/browser-window/browser-window.component';
+import { ActionComponent } from './components/home/action/action.component';
+import { BrowserComponent } from './components/home/browser/browser.component';
+import { BrowserSidebarComponent } from './components/home/browser-sidebar/browser-sidebar.component';
+import { EditableActionComponent } from './components/home/editable-action/editable-action.component';
+import { EditableHtmlElementActionComponent } from './components/home/editable-html-element-action/editable-html-element-action.component';
+import { HtmlElementActionComponent } from './components/home/html-element-action/html-element-action.component';
+import { LocatorComponent } from './components/home/locator/locator.component';
+import { ProjectComponent } from './components/home/project/project.component';
+import { SequenceComponent } from './components/home/sequence/sequence.component';
+import { SequenceSidebarComponent } from './components/home/sequence-sidebar/sequence-sidebar.component';
+import { RecordComponent } from './components/record/record.component';
+import { ReRecordComponent } from './components/re-record/re-record.component';
+import { ReRecordSidebarComponent } from './components/re-record/re-record-sidebar/re-record-sidebar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-//Font Awesome
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+// Font Awesome
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faPlay,
   faPause,
@@ -85,24 +80,13 @@ import {
   faFileExport,
   faClock,
   faInfoCircle
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 import {
   faChrome,
   faFirefox,
   faEdge,
   faInternetExplorer
-} from "@fortawesome/free-brands-svg-icons";
-import { StatusbarComponent } from './statusbar/statusbar.component';
-import { BrowserInfoSidebarComponent } from './browser-info-sidebar/browser-info-sidebar.component';
-import { EditableActionInfoComponent } from './editable-action-info/editable-action-info.component';
-import { EditableHtmlElementActionInfoComponent } from './editable-html-element-action-info/editable-html-element-action-info.component';
-import { HtmlElementActionInfoComponent } from './html-element-action-info/html-element-action-info.component';
-import { LocatorInfoComponent } from './locator-info/locator-info.component';
-import { ProjectInfoComponent } from './project-info/project-info.component';
-import { QuickbarComponent } from './quickbar/quickbar.component';
-import { SequenceInfoSidebarComponent } from './sequence-info-sidebar/sequence-info-sidebar.component';
-import { RecordSidebarComponent } from './record-sidebar/record-sidebar.component';
-import { RerecordSidebarComponent } from './rerecord-sidebar/rerecord-sidebar.component';
+} from '@fortawesome/free-brands-svg-icons';
 
 library.add(faPlay);
 library.add(faPause);
@@ -137,39 +121,26 @@ library.add(faInfoCircle);
 
 @NgModule({
   declarations: [
-    ActionInfoComponent,
-    AlexSettingsComponent,
     AppComponent,
-    BrowserInfoComponent,
-    BrowserwindowComponent,
-    GeneralSettingsComponent,
     HomeComponent,
-    RecordSequenceComponent,
-    RerecordSequenceComponent,
-    SequenceInfoComponent,
     SettingsComponent,
-    StabilitySettingsComponent,
-    TestInfoComponent,
-    WebdriverSettingsComponent,
     WebviewDirective,
-
-    ExportToAlexModal,
-    ReplayErrorModal,
-    StatusbarComponent,
-    BrowserInfoSidebarComponent,
-    EditableActionInfoComponent,
-    EditableHtmlElementActionInfoComponent,
-    HtmlElementActionInfoComponent,
-    LocatorInfoComponent,
-    ProjectInfoComponent,
-    QuickbarComponent,
-    SequenceInfoSidebarComponent,
-    RecordSidebarComponent,
-    RerecordSidebarComponent
+    BrowserWindowComponent,
+    ActionComponent,
+    BrowserComponent,
+    BrowserSidebarComponent,
+    EditableActionComponent,
+    EditableHtmlElementActionComponent,
+    HtmlElementActionComponent,
+    LocatorComponent,
+    ProjectComponent,
+    SequenceComponent,
+    SequenceSidebarComponent,
+    RecordComponent,
+    ReRecordComponent,
+    ReRecordSidebarComponent
   ],
   entryComponents: [
-    ExportToAlexModal,
-    ReplayErrorModal
   ],
   imports: [
     BrowserModule,
@@ -187,21 +158,13 @@ library.add(faInfoCircle);
     FontAwesomeModule
   ],
   providers: [
-    AlexExportService,
     ElectronService,
     ProjectService,
     SettingsService,
-    WebdriverService,
-    AlexExportDao,
     ProjectDao,
     SettingsDao,
     ActionFactory,
-    AlexExportFactory,
-    BrowserFactory,
-    ProjectFactory,
-    SelectorFactory,
-    SequenceFactory,
-    TestFactory
+    ProjectFactory
   ],
   bootstrap: [AppComponent]
 })
