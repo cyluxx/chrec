@@ -33,18 +33,15 @@ import { HomeComponent } from './components/home/home.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { BrowserWindowComponent } from './components/common/browser-window/browser-window.component';
 import { ActionComponent } from './components/home/action/action.component';
-import { BrowserComponent } from './components/home/browser/browser.component';
-import { BrowserSidebarComponent } from './components/home/browser-sidebar/browser-sidebar.component';
-import { EditableActionComponent } from './components/home/editable-action/editable-action.component';
-import { EditableHtmlElementActionComponent } from './components/home/editable-html-element-action/editable-html-element-action.component';
-import { HtmlElementActionComponent } from './components/home/html-element-action/html-element-action.component';
-import { LocatorComponent } from './components/home/locator/locator.component';
 import { ProjectComponent } from './components/home/project/project.component';
 import { SequenceComponent } from './components/home/sequence/sequence.component';
-import { SequenceSidebarComponent } from './components/home/sequence-sidebar/sequence-sidebar.component';
 import { RecordComponent } from './components/record/record.component';
 import { ReRecordComponent } from './components/re-record/re-record.component';
-import { ReRecordSidebarComponent } from './components/re-record/re-record-sidebar/re-record-sidebar.component';
+import { StatusbarComponent } from './components/common/statusbar/statusbar.component';
+import { ProjectTestResultComponent } from './components/home/project-test-result/project-test-result.component';
+import { SequenceTestResultComponent } from './components/home/sequence-test-result/sequence-test-result.component';
+import { BrowserTestResultComponent } from './components/home/browser-test-result/browser-test-result.component';
+import { ActionTestResultComponent } from './components/home/action-test-result/action-test-result.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -55,31 +52,19 @@ export function HttpLoaderFactory(http: HttpClient) {
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-  faPlay,
-  faPause,
-  faCircle,
-  faSquare,
-  faArrowLeft,
-  faArrowRight,
-  faFastForward,
-  faFastBackward,
-  faStepForward,
-  faStepBackward,
-  faSync,
-  faCamera,
-  faPlus,
-  faSave,
-  faDatabase,
-  faTimes,
   faCog,
-  faTrash,
-  faExclamation,
-  faForward,
-  faCheck,
-  faPen,
+  faSave,
   faFileExport,
-  faClock,
-  faInfoCircle
+  faFolderOpen,
+  faPlus,
+  faCircle,
+  faCheck,
+  faTimes,
+  faPlay,
+  faToggleOn,
+  faEye,
+  faEdit,
+  faCaretDown
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faChrome,
@@ -88,36 +73,8 @@ import {
   faInternetExplorer
 } from '@fortawesome/free-brands-svg-icons';
 
-library.add(faPlay);
-library.add(faPause);
-library.add(faCircle);
-library.add(faSquare);
-library.add(faArrowLeft);
-library.add(faArrowRight);
-library.add(faSync);
-library.add(faFastForward);
-library.add(faFastBackward);
-library.add(faFastBackward);
-library.add(faStepForward);
-library.add(faStepBackward);
-library.add(faCamera);
-library.add(faPlus);
-library.add(faSave);
-library.add(faDatabase);
-library.add(faTimes);
-library.add(faTrash);
-library.add(faCog);
-library.add(faExclamation);
-library.add(faForward);
-library.add(faCheck);
-library.add(faPen);
-library.add(faChrome);
-library.add(faFirefox);
-library.add(faEdge);
-library.add(faInternetExplorer);
-library.add(faFileExport);
-library.add(faClock);
-library.add(faInfoCircle);
+library.add(faCog, faSave, faFileExport, faFolderOpen, faPlus, faCircle, faCheck, faTimes, faPlay, faToggleOn, faEye, faEdit, faCaretDown);
+library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
 
 @NgModule({
   declarations: [
@@ -127,18 +84,15 @@ library.add(faInfoCircle);
     WebviewDirective,
     BrowserWindowComponent,
     ActionComponent,
-    BrowserComponent,
-    BrowserSidebarComponent,
-    EditableActionComponent,
-    EditableHtmlElementActionComponent,
-    HtmlElementActionComponent,
-    LocatorComponent,
     ProjectComponent,
     SequenceComponent,
-    SequenceSidebarComponent,
     RecordComponent,
     ReRecordComponent,
-    ReRecordSidebarComponent
+    StatusbarComponent,
+    ProjectTestResultComponent,
+    SequenceTestResultComponent,
+    BrowserTestResultComponent,
+    ActionTestResultComponent
   ],
   entryComponents: [
   ],

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocatorComponent } from './locator.component';
+import { SequenceTestResultComponent } from './sequence-test-result.component';
 
-describe('LocatorComponent', () => {
-  let component: LocatorComponent;
-  let fixture: ComponentFixture<LocatorComponent>;
+describe('SequenceTestResultComponent', () => {
+  let component: SequenceTestResultComponent;
+  let fixture: ComponentFixture<SequenceTestResultComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LocatorComponent ]
+      declarations: [ SequenceTestResultComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LocatorComponent);
+    fixture = TestBed.createComponent(SequenceTestResultComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

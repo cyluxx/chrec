@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditableActionComponent } from './editable-action.component';
+import { ActionTestResultComponent } from './action-test-result.component';
 
-describe('EditableActionComponent', () => {
-  let component: EditableActionComponent;
-  let fixture: ComponentFixture<EditableActionComponent>;
+describe('ActionTestResultComponent', () => {
+  let component: ActionTestResultComponent;
+  let fixture: ComponentFixture<ActionTestResultComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditableActionComponent ]
+      declarations: [ ActionTestResultComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditableActionComponent);
+    fixture = TestBed.createComponent(ActionTestResultComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

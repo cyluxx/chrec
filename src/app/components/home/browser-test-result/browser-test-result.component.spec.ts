@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BrowserSidebarComponent } from './browser-sidebar.component';
+import { BrowserTestResultComponent } from './browser-test-result.component';
 
-describe('BrowserSidebarComponent', () => {
-  let component: BrowserSidebarComponent;
-  let fixture: ComponentFixture<BrowserSidebarComponent>;
+describe('BrowserTestResultComponent', () => {
+  let component: BrowserTestResultComponent;
+  let fixture: ComponentFixture<BrowserTestResultComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BrowserSidebarComponent ]
+      declarations: [ BrowserTestResultComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BrowserSidebarComponent);
+    fixture = TestBed.createComponent(BrowserTestResultComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
