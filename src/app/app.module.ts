@@ -26,6 +26,10 @@ import {
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+// NGRX
+import { StoreModule } from '@ngrx/store';
+import { projectReducer } from './redux/reducers/project.reducer';
+
 // NG Translate
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -118,7 +122,10 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
       }
     }),
     NgbModule.forRoot(),
-    FontAwesomeModule
+    FontAwesomeModule,
+    StoreModule.forRoot({
+      project: projectReducer
+    })
   ],
   providers: [
     ElectronService,
