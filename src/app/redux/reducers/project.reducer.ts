@@ -12,7 +12,12 @@ export function projectReducer(project: Project = null, action: Action): Project
         case ProjectActions.EDIT_NAME:
             project.setName(action.payload);
             return project;
-        default:
+        case ProjectActions.ADD_SEQUENCE:
+            project.getSequences().push(action.payload);
+            return project;
+        case ProjectActions.ADD_TEST_RESULT:
+            project.addTestResult(action.payload);
             return project;
     }
+    return project;
 }

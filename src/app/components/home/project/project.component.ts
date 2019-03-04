@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Project } from 'chrec-core/lib/model/project';
 import { Observable } from 'rxjs';
 import * as ProjectActions from '../../../redux/actions/project.actions';
-import { AppState } from '../../../../app-state';
+import { AppState } from '../../../redux/app-state';
 
 @Component({
   selector: 'app-project',

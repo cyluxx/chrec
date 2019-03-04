@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as ProjectActions from '../../redux/actions/project.actions';
-import { AppState } from '../../../app-state';
+import { AppState } from '../../redux/app-state';
 
 @Component({
   selector: 'app-home',
