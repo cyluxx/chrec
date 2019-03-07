@@ -57,7 +57,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@medv/finder": "^1.1.1",
-    "@ng-bootstrap/ng-bootstrap": "^2.2.2",
+    "@ng-bootstrap/ng-bootstrap": "^4.1.0",
     "@types/electron-json-storage": "^4.0.0",
     "@types/selenium-webdriver": "^3.0.15",
     "bootstrap-scss": "^4.3.1",

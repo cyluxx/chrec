@@ -3,13 +3,13 @@
     <a class="btn btn-sm btn-primary mr-1" routerLink="/settings">
       <fa-icon icon="cog"></fa-icon>
     </a>
-    <button (click)="create()" class="btn btn-sm btn-outline-secondary mr-1">
+    <button (click)="onNewProject(newProjectModalContent)" class="btn btn-sm btn-outline-secondary mr-1">
       <fa-icon icon="file"></fa-icon>
     </button>
-    <button class="btn btn-sm btn-outline-secondary mr-1">
+    <button [class.disabled]="!project" (click)="onSaveProject()" class="btn btn-sm btn-outline-secondary mr-1">
       <fa-icon icon="save"></fa-icon>
     </button>
-    <button class="btn btn-sm btn-outline-secondary mr-1">
+    <button (click)="onOpenProject()" class="btn btn-sm btn-outline-secondary mr-1">
       <fa-icon icon="folder-open"></fa-icon>
     </button>
     <button class="btn btn-sm btn-outline-secondary mr-1">
@@ -17,5 +17,24 @@
     </button>
   </div>
 </div>
-<app-project></app-project>
+<app-project [project]="project"></app-project>
 <app-statusbar></app-statusbar>
+
+<ng-template #newProjectModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">New Project</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Project Name:</label>
+      <input [(ngModel)]="newProjectName" type="text" class="form-control" placeholder="Project Name"/>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancel <fa-icon icon="times"></fa-icon></button>
+    <button type="button" class="btn btn-primary" (click)="modal.close()">Create <fa-icon icon="plus"></fa-icon></button>
+  </div>
+</ng-template>

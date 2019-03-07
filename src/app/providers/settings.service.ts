@@ -3,8 +3,6 @@ import { Settings } from "../model/settings";
 import { SettingsDao } from "../dao/settings.dao";
 import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 
-const DEFAULT_SETTINGS = 'settings';
-
 @Injectable()
 export class SettingsService {
 
@@ -20,18 +18,8 @@ export class SettingsService {
         return settings;
     }
 
-    public async getDefaultSettings(): Promise<Settings> {
-        return this.settingsDao.read(DEFAULT_SETTINGS);
-    }
-
-    public setDefaultSettings(settings: Settings): void {
-        this.settingsDao.createOrUpdate(DEFAULT_SETTINGS, settings);
-    }
-
-    public resetDefaultSettings(): void {
-        const settings: Settings = new Settings();
-        this.buildDefaultSettings(settings);
-        this.setDefaultSettings(settings);
+    public saveSettings(settings: Settings): void {
+        this.settingsDao.createOrUpdate(settings);
     }
 
     private buildDefaultSettings(settings: Settings): void {

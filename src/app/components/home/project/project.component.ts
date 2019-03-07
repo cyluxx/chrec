@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Project } from 'chrec-core/lib/model/project';
 
 @Component({
@@ -8,7 +8,9 @@ import { Project } from 'chrec-core/lib/model/project';
 })
 export class ProjectComponent {
 
-  projectName: string;
+  @Input() project: Project;
 
   constructor() { }
+
+
 }

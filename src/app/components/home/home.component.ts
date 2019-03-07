@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Project } from 'chrec-core/lib/model/project';
+import { ProjectService } from '../../providers/project.service';
+import { ElectronService } from '../../providers/electron.service';
+import * as path from 'path';
 
 @Component({
   selector: 'app-home',
@@ -7,5 +12,35 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
-  constructor() { }
+  newProjectName: string;
+  project: Project;
+
+  constructor(private electronService: ElectronService, private modalService: NgbModal, private projectService: ProjectService) { }
+
+  onNewProject(newProjectModalContent: any) {
+    this.modalService.open(newProjectModalContent).result.then(() => {
+      if (this.newProjectName) {
+        this.project = this.projectService.newProject(this.newProjectName);
+      }
+    }, () => { });
+  }
+
+  async onOpenProject() {
+    const absolutePath = this.electronService.getPathFromOpenDialog();
+    if (absolutePath) {
+      const fileName = path.basename(absolutePath);
+      const dirName = path.dirname(absolutePath);
+      this.project = await this.projectService.readProject(fileName, dirName);
+    }
+  }
+
+  onSaveProject() {
+    if (this.project) {
+      const absolutePath = this.electronService.getPathFromSaveDialog();
+      if (absolutePath) {
+        const dirName = path.dirname(absolutePath);
+        this.projectService.saveProject(this.project, dirName);
+      }
+    }
+  }
 }
