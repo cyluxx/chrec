@@ -1,0 +1,11 @@
+<div *ngIf="!edit" (click)="onEdit()" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()">
+  {{ value }} <fa-icon icon="edit" [ngClass]="mouseOver? text-black : text-light"></fa-icon>
+</div>
+<div *ngIf="edit" class="input-group">
+  <input [type]="type" [(ngModel)]="value"></input>
+  <div class="input-group-append">
+    <button class="btn btn-primary" (click)="onSubmit()">
+      <fa-icon icon="check"></fa-icon>
+    </button>
+  </div>
+</div>
