@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-editable-input',
@@ -10,6 +10,7 @@ export class EditableInputComponent {
   @Input() type = 'text';
   @Input() value: string;
   @Output() valueEmitter = new EventEmitter<string>();
+  alert = false;
   edit = false;
   mouseOver = false;
 
@@ -28,7 +29,13 @@ export class EditableInputComponent {
   }
 
   onSubmit() {
-    this.valueEmitter.emit(this.value);
-    this.edit = false;
+    if (this.value) {
+      this.valueEmitter.emit(this.value);
+      this.edit = false;
+      this.alert = false;
+    } else {
+      this.alert = true;
+      setTimeout(() => this.alert = false, 5000);
+    }
   }
 }

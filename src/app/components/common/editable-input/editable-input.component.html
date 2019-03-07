@@ -1,8 +1,9 @@
 <div *ngIf="!edit" (click)="onEdit()" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()" class="editable">
   {{ value }} <fa-icon [ngClass]="mouseOver?'text-primary':'text-secondary'" icon="edit"></fa-icon>
 </div>
+<ngb-alert *ngIf="alert" type="danger" (close)="alert = false">This value should not be empty!</ngb-alert>
 <div *ngIf="edit" class="input-group">
-  <input [type]="type" [(ngModel)]="value" class="form-control"/>
+  <input [type]="type" [(ngModel)]="value" (keyup.enter)="onSubmit()" class="form-control"/>
   <div class="input-group-append">
     <button (click)="onSubmit()" class="btn btn-primary" type="button">
       <fa-icon icon="check"></fa-icon>
