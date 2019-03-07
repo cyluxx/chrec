@@ -1,10 +1,10 @@
-<div *ngIf="!edit" (click)="onEdit()" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()">
-  {{ value }} <fa-icon icon="edit" [ngClass]="mouseOver? text-black : text-light"></fa-icon>
+<div *ngIf="!edit" (click)="onEdit()" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()" class="editable">
+  {{ value }} <fa-icon [ngClass]="mouseOver?'text-primary':'text-secondary'" icon="edit"></fa-icon>
 </div>
 <div *ngIf="edit" class="input-group">
-  <input [type]="type" [(ngModel)]="value"></input>
+  <input [type]="type" [(ngModel)]="value" class="form-control"/>
   <div class="input-group-append">
-    <button class="btn btn-primary" (click)="onSubmit()">
+    <button (click)="onSubmit()" class="btn btn-primary" type="button">
       <fa-icon icon="check"></fa-icon>
     </button>
   </div>

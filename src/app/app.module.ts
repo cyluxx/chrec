@@ -26,10 +26,6 @@ import {
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-// NGRX
-import { StoreModule } from '@ngrx/store';
-import { projectReducer } from './redux/reducers/project.reducer';
-
 // NG Translate
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -54,6 +50,7 @@ import { SequenceComponent } from './components/home/sequence/sequence.component
 import { ReRecordComponent } from './components/re-record/re-record.component';
 import { RecordComponent } from './components/record/record.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { EditableInputComponent } from './components/common/editable-input/editable-input.component';
 
 import { ProjectDao } from './dao/project.dao';
 import { SettingsDao } from './dao/settings.dao';
@@ -105,7 +102,8 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     ProjectTestResultComponent,
     SequenceTestResultComponent,
     BrowserTestResultComponent,
-    ActionTestResultComponent
+    ActionTestResultComponent,
+    EditableInputComponent
   ],
   entryComponents: [
   ],
@@ -123,9 +121,6 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     }),
     NgbModule.forRoot(),
     FontAwesomeModule,
-    StoreModule.forRoot({
-      project: projectReducer
-    })
   ],
   providers: [
     ElectronService,
