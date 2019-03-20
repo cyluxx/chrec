@@ -20,33 +20,32 @@ export class SettingsDao implements Dao<Settings> {
     console.log('%cDefault Settings Storage Data Path: ' + getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
   }
 
-  public async createOrUpdate(settings: Settings, path?: string): Promise<any> {
+  public async createOrUpdate(fileName: string, settings: Settings, path?: string): Promise<any> {
+    if (path) {
+      await this.set(CHREC_SETTINGS, settings, { dataPath: path });
+    }
+    await this.set(CHREC_SETTINGS, settings);
     console.log('%cCreate or Update ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
     console.log(settings);
-    if (path) {
-      return await this.set(CHREC_SETTINGS, settings, { dataPath: path });
-    }
-    return await this.set(CHREC_SETTINGS, settings);
   }
 
   public async read(fileName: string, path?: string): Promise<Settings> {
-    console.log('%cRead ' + fileName, 'font-weight:bold; color:#42ff42');
     let settings: Settings;
     if (path) {
-      settings = await this.get(fileName, { dataPath: path }) as Settings;
+      settings = await this.get(CHREC_SETTINGS, { dataPath: path }) as Settings;
+    } else {
+      settings = await this.get(CHREC_SETTINGS) as Settings;
     }
-    else {
-      settings = await this.get(fileName) as Settings;
-    }
+    console.log('%cRead ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
     console.log(settings);
     return settings;
   }
 
   public async delete(fileName: string, path?: string): Promise<any> {
-    console.log('%cDelete ' + fileName, 'font-weight:bold; color:#42ff42');
     if (path) {
-      return await this.remove(fileName, { dataPath: path });
+      await this.remove(CHREC_SETTINGS, { dataPath: path });
     }
-    return await this.remove(fileName);
+    await this.remove(CHREC_SETTINGS);
+    console.log('%cDelete ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
   }
 }

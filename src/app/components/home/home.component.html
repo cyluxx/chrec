@@ -12,7 +12,7 @@
     <button (click)="onOpenProject()" class="btn btn-sm btn-outline-secondary mr-1">
       <fa-icon icon="folder-open"></fa-icon>
     </button>
-    <button class="btn btn-sm btn-outline-secondary mr-1">
+    <button [class.disabled]="!project" (click)="onExportProject()" class="btn btn-sm btn-outline-secondary mr-1">
       <fa-icon icon="file-export"></fa-icon>
     </button>
   </div>

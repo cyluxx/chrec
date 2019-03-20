@@ -17,6 +17,17 @@ export class HomeComponent {
 
   constructor(private electronService: ElectronService, private modalService: NgbModal, private projectService: ProjectService) { }
 
+  onExportProject() {
+    if (this.project) {
+      const absolutePath = this.electronService.getPathFromSaveDialog();
+      if (absolutePath) {
+        const fileName = path.basename(absolutePath);
+        const dirName = path.dirname(absolutePath);
+        this.projectService.exportToAlexJson(fileName, this.project, dirName);
+      }
+    }
+  }
+
   onNewProject(newProjectModalContent: any) {
     this.modalService.open(newProjectModalContent).result.then(() => {
       if (this.newProjectName) {
@@ -38,8 +49,9 @@ export class HomeComponent {
     if (this.project) {
       const absolutePath = this.electronService.getPathFromSaveDialog();
       if (absolutePath) {
+        const fileName = path.basename(absolutePath);
         const dirName = path.dirname(absolutePath);
-        this.projectService.saveProject(this.project, dirName);
+        this.projectService.saveProject(fileName, this.project, dirName);
       }
     }
   }

@@ -19,12 +19,12 @@ export class ProjectDao implements Dao<Project> {
     console.log('%cDefault Project Storage Data Path: ' + getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
   }
 
-  public async createOrUpdate(project: Project, path?: string): Promise<void> {
+  public async createOrUpdate(fileName: string, project: Project, path?: string): Promise<void> {
     if (path) {
-      await this.set(project.getName(), project, { dataPath: path });
+      await this.set(fileName, project, { dataPath: path });
     }
-    await this.set(project.getName(), project);
-    console.log(`%cCreate or Update ${project.getName()} at ${path}`, 'font-weight:bold; color:#42ff42');
+    await this.set(fileName, project);
+    console.log(`%cCreate or Update ${fileName} at ${path}`, 'font-weight:bold; color:#42ff42');
     console.log(project);
   }
 

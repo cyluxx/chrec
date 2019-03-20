@@ -52,6 +52,7 @@ import { RecordComponent } from './components/record/record.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { EditableInputComponent } from './components/common/editable-input/editable-input.component';
 
+import { AlexExportDao } from './dao/alex-export.dao';
 import { ProjectDao } from './dao/project.dao';
 import { SettingsDao } from './dao/settings.dao';
 
@@ -126,6 +127,7 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     ElectronService,
     ProjectService,
     SettingsService,
+    AlexExportDao,
     ProjectDao,
     SettingsDao,
     ActionFactory,

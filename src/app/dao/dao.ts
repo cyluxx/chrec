@@ -1,6 +1,6 @@
 interface Dao<T> {
 
-    createOrUpdate(object: T, path?: string): Promise<void>;
+    createOrUpdate(fileName: string, object: T, path?: string): Promise<void>;
 
     read(fileName: string, path?: string): Promise<T>;
 
