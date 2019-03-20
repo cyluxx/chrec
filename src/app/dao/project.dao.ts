@@ -20,35 +20,32 @@ export class ProjectDao implements Dao<Project> {
   }
 
   public async createOrUpdate(project: Project, path?: string): Promise<void> {
+    if (path) {
+      await this.set(project.getName(), project, { dataPath: path });
+    }
+    await this.set(project.getName(), project);
     console.log(`%cCreate or Update ${project.getName()} at ${path}`, 'font-weight:bold; color:#42ff42');
     console.log(project);
-    if (path) {
-      return await this.set(project.getName(), project, { dataPath: path });
-    }
-    return await this.set(project.getName(), project);
   }
 
   public async read(fileName: string, path?: string): Promise<Project> {
-    console.log(`%cRead ${fileName} at ${path}`, 'font-weight:bold; color:#42ff42');
-
     let project: any;
     if (path) {
       project = await this.get(fileName, { dataPath: path });
     } else {
       project = await this.get(fileName);
     }
-
     const newProject: Project = this.projectFactory.fromStorageJson(project);
-
+    console.log(`%cRead ${fileName} at ${path}`, 'font-weight:bold; color:#42ff42');
     console.log(newProject);
     return newProject;
   }
 
   public async delete(fileName: string, path?: string): Promise<void> {
-    console.log('%cDelete ' + fileName, 'font-weight:bold; color:#42ff42');
     if (path) {
-      return await this.remove(fileName, { dataPath: path });
+      await this.remove(fileName, { dataPath: path });
     }
-    return await this.remove(fileName);
+    await this.remove(fileName);
+    console.log('%cDelete ' + fileName, 'font-weight:bold; color:#42ff42');
   }
 }
