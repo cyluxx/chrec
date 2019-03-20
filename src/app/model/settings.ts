@@ -3,6 +3,7 @@ import { Browser } from 'chrec-core/lib/model/browser/browser';
 export class Settings {
     // General Settings
     homeUrl: string;
+    recentlyOpenedPath: string;
     webviewWidth: number;
     webviewHeight: number;
 
