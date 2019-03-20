@@ -63,6 +63,7 @@ import { ProjectFactory } from './factory/project.factory';
 
 import { ElectronService } from './providers/electron.service';
 import { ProjectService } from './providers/project.service';
+import { ReplayService } from './providers/replay.service';
 import { SettingsService } from './providers/settings.service';
 
 // AoT requires an exported function for factories
@@ -126,6 +127,7 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
   providers: [
     ElectronService,
     ProjectService,
+    ReplayService,
     SettingsService,
     AlexExportDao,
     ProjectDao,
