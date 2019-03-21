@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { AppConfig } from '../environments/environment';
+import { State } from './model/state';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,10 @@ import { AppConfig } from '../environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  public states = State;
+  currentState: State;
+
   constructor(public electronService: ElectronService) {
 
     console.log('AppConfig', AppConfig);

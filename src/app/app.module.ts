@@ -34,8 +34,6 @@ import 'reflect-metadata';
 import 'zone.js/dist/zone-mix';
 import '../polyfills';
 
-import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from './app.component';
 import { BrowserWindowComponent } from './components/common/browser-window/browser-window.component';
 import { StatusbarComponent } from './components/common/statusbar/statusbar.component';
@@ -113,7 +111,6 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
