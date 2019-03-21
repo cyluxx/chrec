@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Project } from 'chrec-core/lib/model/project';
 import { ReplayService } from '../../../providers/replay.service';
 import { Settings } from '../../../model/settings';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Sequence } from 'chrec-core/lib/model/sequence';
 
 @Component({
   selector: 'app-project',
@@ -11,10 +13,19 @@ import { Settings } from '../../../model/settings';
 export class ProjectComponent {
 
   moreTestResults = false;
+  newSequenceName: string;
   @Input() project: Project;
   @Input() settings: Settings;
 
-  constructor(private replayService: ReplayService) { }
+  constructor(private modalService: NgbModal, private replayService: ReplayService) { }
+
+  onNewSequence(newSequenceModalContent: any) {
+    this.modalService.open(newSequenceModalContent).result.then(() => {
+      if (this.newSequenceName) {
+        this.project.addSequence(new Sequence(this.newSequenceName, [], []));
+      }
+    }, () => { });
+  }
 
   async onTestProject() {
     this.project = await this.replayService.testProject(this.project, this.settings);
