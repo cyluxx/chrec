@@ -1,23 +1,39 @@
 <div class="row">
   <div class="col">
-    <a class="btn btn-sm btn-primary mr-1" routerLink="/settings">
-      <fa-icon icon="cog"></fa-icon>
-    </a>
-    <button (click)="onNewProject(newProjectModalContent)" class="btn btn-sm btn-outline-secondary mr-1">
-      <fa-icon icon="file"></fa-icon>
-    </button>
-    <button [class.disabled]="!project" (click)="onSaveProject()" class="btn btn-sm btn-outline-secondary mr-1">
-      <fa-icon icon="save"></fa-icon>
-    </button>
-    <button (click)="onOpenProject()" class="btn btn-sm btn-outline-secondary mr-1">
-      <fa-icon icon="folder-open"></fa-icon>
-    </button>
-    <button [class.disabled]="!project" (click)="onExportProject()" class="btn btn-sm btn-outline-secondary mr-1">
-      <fa-icon icon="file-export"></fa-icon>
-    </button>
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex align-items-center justify-content-between">
+          <h4 class="card-title m-0">
+            ChRec
+          </h4>
+          <div>
+            <a class="btn btn-sm btn-outline-secondary mr-1" routerLink="/settings">
+              <fa-icon icon="cog"></fa-icon>
+            </a>
+            <button (click)="onNewProject(newProjectModalContent)" class="btn btn-sm btn-outline-secondary mr-1">
+              <fa-icon icon="file"></fa-icon>
+            </button>
+            <button [class.disabled]="!project" (click)="onSaveProject()" class="btn btn-sm btn-outline-secondary mr-1">
+              <fa-icon icon="save"></fa-icon>
+            </button>
+            <button (click)="onOpenProject()" class="btn btn-sm btn-outline-secondary mr-1">
+              <fa-icon icon="folder-open"></fa-icon>
+            </button>
+            <button [class.disabled]="!project" (click)="onExportProject()"
+              class="btn btn-sm btn-outline-secondary mr-1">
+              <fa-icon icon="file-export"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div *ngIf="project">
+          <app-project [project]="project" [settings]="settings"></app-project>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<app-project [project]="project" [settings]="settings"></app-project>
 <app-statusbar></app-statusbar>
 
 <ng-template #newProjectModalContent let-modal>
@@ -30,11 +46,13 @@
   <div class="modal-body">
     <div class="form-group">
       <label>Project Name:</label>
-      <input [(ngModel)]="newProjectName" type="text" class="form-control" placeholder="Project Name"/>
+      <input [(ngModel)]="newProjectName" type="text" class="form-control" placeholder="Project Name" />
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancel <fa-icon icon="times"></fa-icon></button>
-    <button type="button" class="btn btn-primary" (click)="modal.close()">Create <fa-icon icon="plus"></fa-icon></button>
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancel <fa-icon icon="times"></fa-icon>
+    </button>
+    <button type="button" class="btn btn-primary" (click)="modal.close()">Create <fa-icon icon="plus"></fa-icon>
+    </button>
   </div>
 </ng-template>
