@@ -1,15 +1,15 @@
 import { BoundingBox } from 'chrec-core/lib/model/bounding-box';
-import { ImportService } from 'chrec-core/lib/service/import.service';
+import { ModelFactory } from 'chrec-core/lib/factory/model.factory';
 
 export class BoundingBoxFactory {
 
-    private importService: ImportService = new ImportService();
+  private modelFactory: ModelFactory = new ModelFactory();
 
-    public fromChannelContent(channelContent: any): BoundingBox {
-        return new BoundingBox(channelContent.x, channelContent.y, channelContent.width, channelContent.height);
-    }
+  public fromChannelContent(channelContent: any): BoundingBox {
+    return new BoundingBox(channelContent.x, channelContent.y, channelContent.width, channelContent.height);
+  }
 
-    public fromStorageJson(parsedJson: any): BoundingBox {
-        return this.importService.boundingBoxFromChrecJson(parsedJson);
-    }
+  public fromStorageJson(parsedJson: any): BoundingBox {
+    return this.modelFactory.boundingBoxFromChrecJson(parsedJson);
+  }
 }
