@@ -1,21 +1,26 @@
 <div class="row">
   <div class="col">
-    <h4 class="card-title">Sequence Name and Stats <fa-icon icon="edit"></fa-icon>
-    </h4>
+    <div class="d-flex align-items-center justify-content-between">
+      <h4 class="card-title">Sequence Name and Stats <fa-icon icon="edit"></fa-icon>
+      </h4>
+      <div>
+        <button (click)="onReRecordSequence()" class="btn btn-sm btn-outline-danger mr-1">
+          <fa-icon icon="circle"></fa-icon> Re-Record Sequence
+        </button>
+        <button (click)="onTestSequence()" class="btn btn-sm btn-outline-success">
+          <fa-icon icon="play"></fa-icon> Test Sequence
+        </button>
+      </div>
+    </div>
     <p class="card-text">Sequence Stats</p>
     <ngb-accordion #a="ngbAccordion">
       <ngb-panel>
         <ng-template ngbPanelHeader>
-          <div class="d-flex align-items-center justify-content-between">
-            <button ngbPanelToggle class="btn btn-link">
-              <h5 class="m-0">
-                <fa-icon icon="caret-down"></fa-icon> Recorded Actions
-              </h5>
-            </button>
-            <button (click)="onReRecordSequence()" class="btn btn-sm btn-outline-danger">
-              <fa-icon icon="circle"></fa-icon> Re-Record Sequence
-            </button>
-          </div>
+          <button ngbPanelToggle class="btn btn-link">
+            <h5 class="m-0">
+              <fa-icon icon="caret-down"></fa-icon> Recorded Actions
+            </h5>
+          </button>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="row">
@@ -43,22 +48,17 @@
       </ngb-panel>
       <ngb-panel>
         <ng-template ngbPanelHeader>
-          <div class="d-flex align-items-center justify-content-between">
-            <button ngbPanelToggle class="btn btn-link">
-              <h5 class="m-0">
-                <fa-icon icon="caret-down"></fa-icon> Sequence Test Results
-              </h5>
-            </button>
-            <button (click)="onTestSequence()" class="btn btn-sm btn-outline-success">
-              <fa-icon icon="play"></fa-icon> Test Sequence
-            </button>
-          </div>
+          <button ngbPanelToggle class="btn btn-link">
+            <h5 class="m-0">
+              <fa-icon icon="caret-down"></fa-icon> Sequence Test Results
+            </h5>
+          </button>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="alert alert-warning" role="alert">
             Last Sequence Test Result!
           </div>
-          <button [attr.aria-expanded]="moreTestResults" (click)="onToggleMoreTestResults()"
+          <button [attr.aria-expanded]="moreTestResults" (click)="moreTestResults !=moreTestResults"
             aria-controls="more-test-results" type="button" class="btn btn-secondary btn-sm btn-block">
             <fa-icon icon="caret-down"></fa-icon>
           </button>

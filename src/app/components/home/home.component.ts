@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Project } from 'chrec-core/lib/model/project';
 import { ProjectService } from '../../providers/project.service';
@@ -12,10 +12,11 @@ import * as path from 'path';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   newProjectName: string;
-  project: Project;
+  @Input() project: Project;
+  @Output() recordSequence = new EventEmitter();
   settings: Settings;
 
   constructor(
@@ -24,15 +25,6 @@ export class HomeComponent implements OnInit {
     private projectService: ProjectService,
     private settingsService: SettingsService
   ) { }
-
-  async ngOnInit() {
-    this.settings = await this.settingsService.readSettings();
-
-    // TODO: Recent Project resets on Router redirect
-    const fileName = path.basename(this.settings.recentlyOpenedPath);
-    const dirName = path.dirname(this.settings.recentlyOpenedPath);
-    this.project = await this.projectService.readProject(fileName, dirName);
-  }
 
   onExportProject() {
     if (this.project) {

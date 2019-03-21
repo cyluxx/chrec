@@ -17,14 +17,10 @@ export class SequenceComponent{
   constructor(private replayService: ReplayService) { }
 
   onReRecordSequence() {
-    
+
   }
 
   async onTestSequence() {
     this.sequence = await this.replayService.testSequence(this.sequence, this.settings);
-  }
-
-  onToggleMoreTestResults() {
-    this.moreTestResults = !this.moreTestResults;
   }
 }

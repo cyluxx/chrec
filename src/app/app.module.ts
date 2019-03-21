@@ -20,7 +20,11 @@ import {
   faPlay, faPlus,
   faSave,
   faTimes,
-  faToggleOn
+  faToggleOn,
+  faArrowLeft,
+  faArrowRight,
+  faSquare,
+  faSync
 } from '@fortawesome/free-solid-svg-icons';
 
 // Bootstrap
@@ -57,6 +61,8 @@ import { SettingsDao } from './dao/settings.dao';
 import { WebviewDirective } from './directives/webview.directive';
 
 import { ActionFactory } from './factory/action.factory';
+import { BoundingBoxFactory } from './factory/bounding-box.factory';
+import { LocatorFactory } from './factory/locator.factory';
 import { ProjectFactory } from './factory/project.factory';
 
 import { ElectronService } from './providers/electron.service';
@@ -83,7 +89,11 @@ library.add(faCog,
   faEye,
   faEdit,
   faCaretDown,
-  faFile);
+  faFile,
+  faArrowLeft,
+  faArrowRight,
+  faSquare,
+  faSync);
 library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
 
 @NgModule({
@@ -130,6 +140,8 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     ProjectDao,
     SettingsDao,
     ActionFactory,
+    BoundingBoxFactory,
+    LocatorFactory,
     ProjectFactory
   ],
   bootstrap: [AppComponent]

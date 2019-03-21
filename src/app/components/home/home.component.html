@@ -28,7 +28,7 @@
       </div>
       <div class="card-body">
         <div *ngIf="project">
-          <app-project [project]="project" [settings]="settings"></app-project>
+          <app-project [project]="project" [settings]="settings" (recordSequence)="recordSequence.emit($event)"></app-project>
         </div>
       </div>
     </div>

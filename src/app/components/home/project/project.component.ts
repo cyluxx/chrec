@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Project } from 'chrec-core/lib/model/project';
 import { ReplayService } from '../../../providers/replay.service';
 import { Settings } from '../../../model/settings';
@@ -15,6 +15,7 @@ export class ProjectComponent {
   moreTestResults = false;
   newSequenceName: string;
   @Input() project: Project;
+  @Output() recordSequence = new EventEmitter<Sequence>();
   @Input() settings: Settings;
 
   constructor(private modalService: NgbModal, private replayService: ReplayService) { }
@@ -22,16 +23,14 @@ export class ProjectComponent {
   onNewSequence(newSequenceModalContent: any) {
     this.modalService.open(newSequenceModalContent).result.then(() => {
       if (this.newSequenceName) {
-        this.project.addSequence(new Sequence(this.newSequenceName, [], []));
+        const sequence = new Sequence(this.newSequenceName, [], []);
+        this.project.addSequence(sequence);
+        this.recordSequence.emit(sequence);
       }
     }, () => { });
   }
 
   async onTestProject() {
     this.project = await this.replayService.testProject(this.project, this.settings);
-  }
-
-  onToggleMoreTestResults() {
-    this.moreTestResults = !this.moreTestResults;
   }
 }

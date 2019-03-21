@@ -1,19 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { AppConfig } from '../environments/environment';
 import { State } from './model/state';
+import { Sequence } from 'chrec-core/lib/model/sequence';
+import { Settings } from './model/settings';
+import { ProjectService } from './providers/project.service';
+import { SettingsService } from './providers/settings.service';
+import * as path from 'path';
+import { Project } from 'chrec-core/lib/model/project';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  public states = State;
+  recentProject: Project;
+  sequenceToRecord: Sequence;
+  settings: Settings;
+  states = State;
   currentState: State;
 
-  constructor(public electronService: ElectronService) {
+  constructor(public electronService: ElectronService, private projectService: ProjectService, private settingsService: SettingsService) {
 
     console.log('AppConfig', AppConfig);
 
@@ -24,5 +33,18 @@ export class AppComponent {
     } else {
       console.log('Mode web');
     }
+  }
+
+  async ngOnInit() {
+    this.settings = await this.settingsService.readSettings();
+
+    const fileName = path.basename(this.settings.recentlyOpenedPath);
+    const dirName = path.dirname(this.settings.recentlyOpenedPath);
+    this.recentProject = await this.projectService.readProject(fileName, dirName);
+  }
+
+  onRecordSequence(sequence: Sequence) {
+    this.sequenceToRecord = sequence;
+    this.currentState = this.states.RECORD;
   }
 }
