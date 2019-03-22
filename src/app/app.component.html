@@ -4,3 +4,4 @@
   <app-settings *ngSwitchCase="states.SETTINGS"></app-settings>
   <app-home *ngSwitchDefault [project]="recentProject" (recordSequence)="onRecordSequence($event)"></app-home>
 </div>
+<app-record [sequence]="sequenceToRecord" [settings]="settings"></app-record>

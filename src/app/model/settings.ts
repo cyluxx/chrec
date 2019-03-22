@@ -2,10 +2,10 @@ import { Browser } from 'chrec-core/lib/model/browser/browser';
 
 export class Settings {
     // General Settings
-    homeUrl: string;
+    // homeUrl: string;
     recentlyOpenedPath: string;
-    webviewWidth: number;
-    webviewHeight: number;
+    // webviewWidth: number;
+    // webviewHeight: number;
 
     // Webdriver Settings
     seleniumGridUrl: string;

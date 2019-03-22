@@ -17,7 +17,7 @@ import { Project } from 'chrec-core/lib/model/project';
 export class AppComponent implements OnInit {
 
   recentProject: Project;
-  sequenceToRecord: Sequence;
+  sequenceToRecord: Sequence = new Sequence('test', [], []);
   settings: Settings;
   states = State;
   currentState: State;

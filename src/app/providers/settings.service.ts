@@ -28,10 +28,10 @@ export class SettingsService {
 
   private buildDefaultSettings(settings: Settings): void {
     // General Settings
-    settings.homeUrl = '';
+    // settings.homeUrl = '';
     settings.recentlyOpenedPath = '';
-    settings.webviewWidth = 800;
-    settings.webviewHeight = 600;
+    // settings.webviewWidth = 800;
+    // settings.webviewHeight = 600;
 
     // Webdriver Settings
     settings.seleniumGridUrl = 'localhost:4444';
