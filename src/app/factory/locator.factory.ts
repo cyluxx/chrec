@@ -1,8 +1,10 @@
+import { Injectable } from '@angular/core';
 import { Locator } from 'chrec-core/lib/model/locator/locator';
 import { CssLocator } from 'chrec-core/lib/model/locator/css-locator';
 import { XpathLocator } from 'chrec-core/lib/model/locator/xpath-locator';
 import { ModelFactory } from 'chrec-core/lib/factory/model.factory';
 
+@Injectable()
 export class LocatorFactory {
 
   private modelFactory: ModelFactory = new ModelFactory();

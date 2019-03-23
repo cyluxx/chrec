@@ -62,8 +62,10 @@ import { WebviewDirective } from './directives/webview.directive';
 
 import { ActionFactory } from './factory/action.factory';
 import { BoundingBoxFactory } from './factory/bounding-box.factory';
+import { BrowserFactory } from './factory/browser.factory';
 import { LocatorFactory } from './factory/locator.factory';
 import { ProjectFactory } from './factory/project.factory';
+import { SettingsFactory } from './factory/settings.factory';
 
 import { ElectronService } from './providers/electron.service';
 import { ProjectService } from './providers/project.service';
@@ -141,8 +143,10 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     SettingsDao,
     ActionFactory,
     BoundingBoxFactory,
+    BrowserFactory,
     LocatorFactory,
-    ProjectFactory
+    ProjectFactory,
+    SettingsFactory
   ],
   bootstrap: [AppComponent]
 })

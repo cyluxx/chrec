@@ -2,15 +2,17 @@ import { Browser } from 'chrec-core/lib/model/browser/browser';
 import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 
 export class Settings {
+
+  constructor(
     // General Settings
-    homeUrl = 'https://github.com/cyluxx/chrec';
-    recentlyOpenedPath = '';
-    webviewWidth = 800;
-    webviewHeight = 600;
+    public homeUrl: string,
+    public recentlyOpenedPath: string,
+    public webviewWidth: number,
+    public webviewHeight: number,
 
     // Webdriver Settings
-    seleniumGridUrl = 'http://localhost:4444/wd/hub';
-    browsers: Browser[] = [new Chrome('default', 800, 600, false)];
+    public seleniumGridUrl: string,
+    public browsers: Browser[]
 
     // Stability Settings
     // useCssSelectorGenerator: boolean;
@@ -27,4 +29,5 @@ export class Settings {
     // alexUrl: string;
     // alexEmail: string;
     // alexPassword: string;
+  ) { }
 }

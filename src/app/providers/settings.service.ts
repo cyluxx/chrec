@@ -13,7 +13,14 @@ export class SettingsService {
   }
 
   public newDefaultSettings(): Settings {
-    return new Settings();
+    return new Settings(
+      'https://github.com/cyluxx/chrec',
+      '',
+      800,
+      600,
+      'http://localhost:4444/wd/hub',
+      [new Chrome('default', 800, 600, false)]
+    );
   }
 
   public async readSettings(): Promise<Settings> {
