@@ -23,6 +23,10 @@ export class SettingsService {
     );
   }
 
+  public resetSettings(): void {
+    this.settingsDao.createOrUpdate('chrec-settings', this.newDefaultSettings());
+  }
+
   public async readSettings(): Promise<Settings> {
     return this.settingsDao.read('chrec-settings');
   }

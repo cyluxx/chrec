@@ -1,4 +1,4 @@
-<div class="row">
+<div *ngIf="browserTestResult" class="row">
   <div class="col-3">
     <ul class="list-group list-group-flush">
       <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()" [class.active]="currentActionTestResult === actionTestResult"

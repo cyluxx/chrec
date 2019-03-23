@@ -50,25 +50,11 @@
           </button>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="alert alert-warning" role="alert">
-            Last Sequence Test Result!
+          <div *ngFor="let sequenceTestResult of sequence.getTestResults()"
+            (click)="currentSequenceTestResult = sequenceTestResult" class="alert alert-warning" role="alert">
+            {{sequenceTestResult.getDate()}}
           </div>
-          <button [attr.aria-expanded]="moreTestResults" (click)="moreTestResults !=moreTestResults"
-            aria-controls="more-test-results" type="button" class="btn btn-secondary btn-sm btn-block">
-            <fa-icon icon="caret-down"></fa-icon>
-          </button>
-          <div id="more-test-results" [ngbCollapse]="!moreTestResults">
-            <div class="alert alert-warning" role="alert">
-              Test Result!
-            </div>
-            <div class="alert alert-warning" role="alert">
-              Test Result!
-            </div>
-            <div class="alert alert-warning" role="alert">
-              Test Result!
-            </div>
-          </div>
-          <app-sequence-test-result></app-sequence-test-result>
+          <app-sequence-test-result [sequenceTestResult]="currentSequenceTestResult"></app-sequence-test-result>
         </ng-template>
       </ngb-panel>
     </ngb-accordion>

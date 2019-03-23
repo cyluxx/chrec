@@ -3,6 +3,7 @@ import { ReplayService } from '../../../providers/replay.service';
 import { Sequence } from 'chrec-core/lib/model/sequence';
 import { Settings } from '../../../model/settings';
 import { Action } from 'chrec-core/lib/model/action/action';
+import { SequenceTestResult } from 'chrec-core/lib/model/test-result/sequence-test-result';
 
 @Component({
   selector: 'app-sequence',
@@ -15,7 +16,7 @@ export class SequenceComponent {
   @Input() settings: Settings;
 
   currentAction: Action;
-  moreTestResults = false;
+  currentSequenceTestResult: SequenceTestResult;
 
   constructor(private replayService: ReplayService) { }
 

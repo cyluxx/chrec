@@ -53,6 +53,8 @@ import { ReRecordComponent } from './components/re-record/re-record.component';
 import { RecordComponent } from './components/record/record.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { EditableInputComponent } from './components/common/editable-input/editable-input.component';
+import { GeneralSettingsComponent } from './components/settings/general-settings/general-settings.component';
+import { WebdriverSettingsComponent } from './components/settings/webdriver-settings/webdriver-settings.component';
 
 import { AlexExportDao } from './dao/alex-export.dao';
 import { ProjectDao } from './dao/project.dao';
@@ -115,7 +117,9 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     SequenceTestResultComponent,
     BrowserTestResultComponent,
     ActionTestResultComponent,
-    EditableInputComponent
+    EditableInputComponent,
+    GeneralSettingsComponent,
+    WebdriverSettingsComponent
   ],
   entryComponents: [
   ],
