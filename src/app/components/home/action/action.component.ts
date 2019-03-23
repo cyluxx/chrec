@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Action } from 'chrec-core/lib/model/action/action';
 
 @Component({
   selector: 'app-action',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./action.component.scss']
 })
 export class ActionComponent implements OnInit {
+
+  @Input() action: Action;
 
   constructor() { }
 

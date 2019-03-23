@@ -14,10 +14,11 @@ import * as path from 'path';
 })
 export class HomeComponent {
 
-  newProjectName: string;
   @Input() project: Project;
+  @Input() settings: Settings;
   @Output() recordSequence = new EventEmitter();
-  settings: Settings;
+
+  newProjectName: string;
 
   constructor(
     private electronService: ElectronService,

@@ -1,8 +1,7 @@
-<div class="row">
+<div *ngIf="action" class="row">
   <div class="col">
     <div class="d-flex justify-content-between">
-      <h4 class="mb-1">Action Type <fa-icon icon="edit"></fa-icon>
-      </h4>
+      <h4 class="mb-1">{{action.getClassName()}}</h4>
     </div>
   </div>
 </div>

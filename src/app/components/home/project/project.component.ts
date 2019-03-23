@@ -12,11 +12,14 @@ import { Sequence } from 'chrec-core/lib/model/sequence';
 })
 export class ProjectComponent {
 
+  @Input() project: Project;
+  @Input() settings: Settings;
+
+  @Output() recordSequence = new EventEmitter<Sequence>();
+
+  currentSequence: Sequence;
   moreTestResults = false;
   newSequenceName: string;
-  @Input() project: Project;
-  @Output() recordSequence = new EventEmitter<Sequence>();
-  @Input() settings: Settings;
 
   constructor(private modalService: NgbModal, private replayService: ReplayService) { }
 

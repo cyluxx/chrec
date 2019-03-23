@@ -26,15 +26,16 @@
         </ng-template>
         <ng-template ngbPanelContent class="border-primary">
           <ul class="nav nav-tabs mb-3">
-            <li class="nav-item">
-              <a class="nav-link active">Sequence 1 <fa-icon class="text-success" icon="check"></fa-icon>
+            <li *ngFor="let sequence of project.getSequences()" class="nav-item">
+              <a [class.active]="currentSequence === sequence" (click)="currentSequence = sequence"
+                class="nav-link">{{sequence.getName()}} <fa-icon class="text-success" icon="check"></fa-icon>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link">Sequence 2 <fa-icon class="text-danger" icon="times"></fa-icon></a>
             </li>
           </ul>
-          <app-sequence></app-sequence>
+          <app-sequence [sequence]="currentSequence" [settings]="settings"></app-sequence>
         </ng-template>
       </ngb-panel>
       <ngb-panel>
@@ -85,7 +86,11 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="modal.dismiss()"><fa-icon icon="times"></fa-icon> Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="modal.close()"><fa-icon icon="circle"></fa-icon> Record</button>
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      <fa-icon icon="times"></fa-icon> Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="modal.close()">
+      <fa-icon icon="circle"></fa-icon> Record
+    </button>
   </div>
 </ng-template>

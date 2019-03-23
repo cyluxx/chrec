@@ -11,9 +11,6 @@ export class RecordComponent {
 
   @Input() sequence: Sequence;
   @Input() settings: Settings;
-  @Output() submitEmitter = new EventEmitter();
+  @Output() submit = new EventEmitter();
 
-  public onSubmit(): void {
-    this.submitEmitter.emit();
-  }
 }

@@ -1,7 +1,9 @@
-<div class="row">
+<div *ngIf="sequence" class="row">
   <div class="col">
     <div class="d-flex align-items-center justify-content-between">
-      <h4 class="card-title">Sequence Name and Stats <fa-icon icon="edit"></fa-icon>
+      <h4 class="card-title">
+        <app-editable-input [value]="sequence.getName()" (valueEmitter)="sequence.setName($event)">
+        </app-editable-input>
       </h4>
       <div>
         <button (click)="onReRecordSequence()" class="btn btn-sm btn-outline-danger mr-1">
@@ -26,22 +28,15 @@
           <div class="row">
             <div class="col-3">
               <ul class="list-group list-group-flush">
-                <li class="list-group-item list-group-item-action active">
-                  <h5 class="mb-1">Action 1</h5>
-                  <small>Action Stats</small>
-                </li>
-                <li class="list-group-item list-group-item-action">
-                  <h5 class="mb-1">Action 2</h5>
-                  <small>Action Stats</small>
-                </li>
-                <li class="list-group-item list-group-item-action">
-                  <h5 class="mb-1">Action 3</h5>
+                <li *ngFor="let action of sequence.getActions()" [class.active]="currentAction === action"
+                  (click)="currentAction = action" class="list-group-item list-group-item-action">
+                  <h5 class="mb-1">{{action.getClassName()}}</h5>
                   <small>Action Stats</small>
                 </li>
               </ul>
             </div>
             <div class="col-9">
-              <app-action></app-action>
+              <app-action [action]="currentAction"></app-action>
             </div>
           </div>
         </ng-template>

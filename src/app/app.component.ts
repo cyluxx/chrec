@@ -15,15 +15,17 @@ import { Project } from 'chrec-core/lib/model/project';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
   recentProject: Project;
-  sequenceToRecord: Sequence = new Sequence('test', [], []);
+  sequenceToRecord: Sequence;
   settings: Settings;
   states = State;
   currentState: State;
 
-  constructor(public electronService: ElectronService, private projectService: ProjectService, private settingsService: SettingsService) {
-
+  constructor(
+    public electronService: ElectronService,
+    private projectService: ProjectService,
+    private settingsService: SettingsService
+  ) {
     console.log('AppConfig', AppConfig);
 
     if (electronService.isElectron()) {
@@ -36,11 +38,17 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.settings = await this.settingsService.readSettings();
+    try {
+      this.settings = await this.settingsService.readSettings();
+    } catch (error) {
+      this.settings = this.settingsService.newDefaultSettings();
+    }
 
-    const fileName = path.basename(this.settings.recentlyOpenedPath);
-    const dirName = path.dirname(this.settings.recentlyOpenedPath);
-    this.recentProject = await this.projectService.readProject(fileName, dirName);
+    if (this.settings.recentlyOpenedPath) {
+      const fileName = path.basename(this.settings.recentlyOpenedPath);
+      const dirName = path.dirname(this.settings.recentlyOpenedPath);
+      this.recentProject = await this.projectService.readProject(fileName, dirName);
+    }
   }
 
   onRecordSequence(sequence: Sequence) {
