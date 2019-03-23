@@ -2,8 +2,8 @@
   <app-re-record *ngSwitchCase="states.RE_RECORD"></app-re-record>
   <app-record *ngSwitchCase="states.RECORD" [sequence]="sequenceToRecord" [settings]="settings"
     (submit)="currentState = states.HOME"></app-record>
-  <app-settings *ngSwitchCase="states.SETTINGS"></app-settings>
-  <app-home *ngSwitchDefault [project]="recentProject" [settings]="settings"
-    (recordSequence)="onRecordSequence($event)"></app-home>
+  <app-settings *ngSwitchCase="states.SETTINGS" (close)="currentState = states.HOME"></app-settings>
+  <app-home *ngSwitchDefault [project]="recentProject" [settings]="settings" (recordSequence)="onRecordSequence($event)"
+    (settingsEmitter)="currentState = states.SETTINGS"></app-home>
 </div>
 <app-statusbar></app-statusbar>

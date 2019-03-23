@@ -5,9 +5,9 @@
         ChRec
       </h4>
       <div>
-        <a class="btn btn-sm btn-outline-secondary mr-1" routerLink="/settings">
+        <button (click)="settingsEmitter.emit()" class="btn btn-sm btn-outline-secondary mr-1">
           <fa-icon icon="cog"></fa-icon>
-        </a>
+        </button>
         <button (click)="onNewProject(newProjectModalContent)" class="btn btn-sm btn-outline-secondary mr-1">
           <fa-icon icon="file"></fa-icon>
         </button>
@@ -17,7 +17,7 @@
         <button (click)="onOpenProject()" class="btn btn-sm btn-outline-secondary mr-1">
           <fa-icon icon="folder-open"></fa-icon>
         </button>
-        <button [class.disabled]="!project" (click)="onExportProject()" class="btn btn-sm btn-outline-secondary mr-1">
+        <button [class.disabled]="!project" (click)="onExportProject()" class="btn btn-sm btn-outline-secondary">
           <fa-icon icon="file-export"></fa-icon>
         </button>
       </div>

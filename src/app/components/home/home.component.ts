@@ -16,7 +16,9 @@ export class HomeComponent {
 
   @Input() project: Project;
   @Input() settings: Settings;
+
   @Output() recordSequence = new EventEmitter();
+  @Output() settingsEmitter = new EventEmitter();
 
   newProjectName: string;
 
