@@ -4,6 +4,7 @@ import { ReplayService } from '../../../providers/replay.service';
 import { Settings } from '../../../model/settings';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Sequence } from 'chrec-core/lib/model/sequence';
+import { ProjectTestResult } from 'chrec-core/lib/model/test-result/project-test-result';
 
 @Component({
   selector: 'app-project',

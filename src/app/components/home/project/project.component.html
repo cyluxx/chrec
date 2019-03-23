@@ -47,25 +47,9 @@
           </button>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="alert alert-primary" role="alert">
-            Last Project Test Result!
+          <div *ngFor="let testResult of project.getTestResults()">
+            <app-project-test-result [projectTestResult]="testResult"></app-project-test-result>
           </div>
-          <button [attr.aria-expanded]="moreTestResults" (click)="moreTestResults = !moreTestResults"
-            aria-controls="more-test-results" type="button" class="btn btn-secondary btn-sm btn-block">
-            <fa-icon icon="caret-down"></fa-icon>
-          </button>
-          <div id="more-test-results" [ngbCollapse]="!moreTestResults">
-            <div class="alert alert-primary" role="alert">
-              Test Result!
-            </div>
-            <div class="alert alert-primary" role="alert">
-              Test Result!
-            </div>
-            <div class="alert alert-primary" role="alert">
-              Test Result!
-            </div>
-          </div>
-          <app-project-test-result></app-project-test-result>
         </ng-template>
       </ngb-panel>
     </ngb-accordion>

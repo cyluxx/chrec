@@ -1,4 +1,14 @@
-<p>
-  browser-test-result works!
-</p>
-<app-action-test-result></app-action-test-result>
+<div class="row">
+  <div class="col-3">
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()" [class.active]="currentActionTestResult === actionTestResult"
+        (click)="currentActionTestResult = actionTestResult" class="list-group-item list-group-item-action">
+        <h5 class="mb-1">{{actionTestResult.getAction().getClassName()}}</h5>
+        <small>Action Stats</small>
+      </li>
+    </ul>
+  </div>
+  <div class="col-9">
+    <app-action-test-result [actionTestResult]="currentActionTestResult"></app-action-test-result>
+  </div>
+</div>

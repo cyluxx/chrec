@@ -3,5 +3,37 @@
     <div class="d-flex justify-content-between">
       <h4 class="mb-1">{{action.getClassName()}}</h4>
     </div>
+    <div *ngIf="action.getImage()">
+      <img [src]="action.getImage()">
+    </div>
+    <app-editable-input *ngIf="isGoTo(action)" [value]="asGoTo(action).getUrl()" (valueEmitter)="asGoTo(action).setUrl($event)">
+    </app-editable-input>
+    <div *ngIf="isHtmlElementAction(action)">
+      <p>
+        boundingBox:
+        x: {{asHtmlElementAction(action).getBoundingBox().x}},
+        y: {{asHtmlElementAction(action).getBoundingBox().y}},
+        width: {{asHtmlElementAction(action).getBoundingBox().width}},
+        height: {{asHtmlElementAction(action).getBoundingBox().height}}
+      </p>
+      <div class="card-body p-0">
+        <table class="table table-striped m-0">
+          <thead>
+            <tr>
+              <th scope="col">Method</th>
+              <th scope="col">Type</th>
+              <th scope="col">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let locator of asHtmlElementAction(action).getLocators()">
+              <td>{{locator.getMethodName()}}</td>
+              <td>{{locator.getClassName()}}</td>
+              <td>{{locator.getValue()}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

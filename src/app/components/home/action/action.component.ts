@@ -1,18 +1,32 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Action } from 'chrec-core/lib/model/action/action';
+import { GoTo } from 'chrec-core/lib/model/action/go-to';
+import { HtmlElementAction } from 'chrec-core/lib/model/action/html-element-action/html-element-action';
 
 @Component({
   selector: 'app-action',
   templateUrl: './action.component.html',
   styleUrls: ['./action.component.scss']
 })
-export class ActionComponent implements OnInit {
+export class ActionComponent {
 
   @Input() action: Action;
 
   constructor() { }
 
-  ngOnInit() {
+  public isGoTo(action: Action): boolean {
+    return action instanceof GoTo;
   }
 
+  public asGoTo(action: Action): GoTo {
+    return action as GoTo;
+  }
+
+  public isHtmlElementAction(action: Action): boolean {
+    return action instanceof HtmlElementAction;
+  }
+
+  public asHtmlElementAction(action: Action): HtmlElementAction {
+    return action as HtmlElementAction;
+  }
 }

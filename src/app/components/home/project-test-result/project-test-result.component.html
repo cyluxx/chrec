@@ -1,16 +1,11 @@
-<div class="row">
+<div *ngIf="projectTestResult" class="row">
   <div class="col">
-    <h4>Test Results for Project</h4>
-  </div>
-</div>
-<div class="row">
-  <div class="col">
+    <div class="alert alert-primary" role="alert">
+      <fa-icon icon="caret-down"></fa-icon> {{projectTestResult.getDate()}}
+    </div>
     <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link active">Sequence 1 <fa-icon class="text-success" icon="check"></fa-icon></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link">Sequence 2 <fa-icon class="text-danger" icon="times"></fa-icon></a>
+      <li *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()" class="nav-item">
+        <a class="nav-link active">{{sequenceTestResult.getDate()}} <fa-icon class="text-success" icon="check"></fa-icon></a>
       </li>
     </ul>
   </div>
