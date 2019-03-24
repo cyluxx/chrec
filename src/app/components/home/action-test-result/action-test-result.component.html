@@ -1,42 +1,64 @@
 <div *ngIf="actionTestResult" class="row">
   <div class="col">
-    <div class="d-flex justify-content-between">
-      <h4 class="mb-1">{{actionTestResult.getAction().getClassName()}}</h4>
-    </div>
-    <div *ngIf="actionTestResult.getAction().getImage()">
-      <img [src]="actionTestResult.getAction().getImage()">
-    </div>
-    <p *ngIf="isGoTo(actionTestResult.getAction())">
-      {{asGoTo(actionTestResult.getAction()).getUrl()}}
-    </p>
-    <div *ngIf="isHtmlElementActionTestResult(actionTestResult)">
-      <p>
-        boundingBox:
-        x: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().x}},
-        y: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().y}},
-        width: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().width}},
-        height: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().height}}
-      </p>
-      <div class="card-body p-0">
-        <table class="table table-striped m-0">
-          <thead>
-            <tr>
-              <th scope="col">Method</th>
-              <th scope="col">Type</th>
-              <th scope="col">Value</th>
-              <th scope="col">Result</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let locatorTestResult of asHtmlElementActionTestResult(actionTestResult).getLocatorTestResults()">
-              <td>{{locatorTestResult.getLocator().getMethodName()}}</td>
-              <td>{{locatorTestResult.getLocator().getClassName()}}</td>
-              <td>{{locatorTestResult.getLocator().getValue()}}</td>
-              <td>({{locatorTestResult.getSuccessfulLocatorCount()}}/{{locatorTestResult.getTotalLocatorCount()}})</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="card border-info mt-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h4 class="mb-1">{{actionTestResult.getAction().getClassName()}}</h4>
+          <div>
+            <span *ngIf="actionTestResult.isReplayable()" class="badge badge-success">
+              <fa-icon icon="check"></fa-icon> Successful
+            </span>
+            <span *ngIf="!actionTestResult.isReplayable()" class="badge badge-danger">
+              <fa-icon icon="times"></fa-icon> Failed
+            </span>
+            <span *ngIf="!isHtmlElementActionTestResult(actionTestResult)" class="badge badge-info ml-1">
+              No Locators
+            </span>
+          </div>
+        </div>
+        <div *ngIf="actionTestResult.getAction().getImage()">
+          <img [src]="actionTestResult.getAction().getImage()">
+        </div>
+        <p *ngIf="isGoTo(actionTestResult.getAction())">
+          Url: {{asGoTo(actionTestResult.getAction()).getUrl()}}
+        </p>
+        <div *ngIf="isHtmlElementActionTestResult(actionTestResult)">
+          <p>
+            boundingBox:
+            x: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().x}},
+            y: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().y}},
+            width: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().width}},
+            height: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().height}}
+          </p>
+          <div class="card-body p-0">
+            <table class="table table-striped m-0">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let locatorTestResult of asHtmlElementActionTestResult(actionTestResult).getLocatorTestResults()">
+                  <td>{{locatorTestResult.getLocator().getMethodName()}}</td>
+                  <td>{{locatorTestResult.getLocator().getClassName()}}</td>
+                  <td>{{locatorTestResult.getLocator().getValue()}}</td>
+                  <td>
+                    <span *ngIf="locatorTestResult.isReplayable()" class="badge badge-success">
+                      <fa-icon icon="check"></fa-icon> Successful
+                    </span>
+                    <span *ngIf="!locatorTestResult.isReplayable()" class="badge badge-danger">
+                      <fa-icon icon="times"></fa-icon> Failed
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

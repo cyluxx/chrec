@@ -1,23 +1,39 @@
 <div *ngIf="sequenceTestResult" class="row">
   <div class="col">
-    <div class="d-flex align-items-center justify-content-between">
-      <h4 class="card-title">
-        {{sequenceTestResult.getSequence().getName()}}
-      </h4>
-      <div>
-        <button (click)="close.emit()" class="btn btn-sm btn-danger">
-          <fa-icon icon="times"></fa-icon>
-        </button>
+    <div class="card border-warning mt-3">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <h4 class="card-title">
+            {{sequenceTestResult.getSequence().getName()}}
+          </h4>
+          <div>
+            <span *ngIf="sequenceTestResult.isReplayable()" class="badge badge-success">
+              <fa-icon icon="check"></fa-icon> Successful
+            </span>
+            <span *ngIf="!sequenceTestResult.isReplayable()" class="badge badge-danger">
+              <fa-icon icon="times"></fa-icon> Failed
+            </span>
+            <span class="badge badge-warning ml-1">SuccessfulLocators:
+              ({{sequenceTestResult.getSuccessfulLocatorCount()}}/{{sequenceTestResult.getSuccessfulLocatorCount()}})</span>
+          </div>
+          <div>
+            <button (click)="close.emit()" class="btn btn-sm btn-danger">
+              <fa-icon icon="times"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <ngb-tabset>
+          <ngb-tab *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()">
+            <ng-template ngbTabTitle>{{browserTestResult.getBrowser().getName()}} <fa-icon
+                [ngClass]="{'text-success': browserTestResult.isReplayable(),'text-danger': !browserTestResult.isReplayable()}"
+                [icon]="getIcon(browserTestResult.getBrowser())"></fa-icon>
+            </ng-template>
+            <ng-template ngbTabContent>
+              <app-browser-test-result [browserTestResult]="browserTestResult"></app-browser-test-result>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
       </div>
     </div>
-    <ngb-tabset>
-      <ngb-tab *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()">
-        <ng-template ngbTabTitle>{{browserTestResult.getBrowser().getName()}} <fa-icon class="text-success" [icon]="getIcon(browserTestResult.getBrowser())"></fa-icon>
-        </ng-template>
-        <ng-template ngbTabContent>
-            <app-browser-test-result [browserTestResult]="browserTestResult"></app-browser-test-result>
-        </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
   </div>
 </div>

@@ -14,7 +14,6 @@
         </button>
       </div>
     </div>
-    <p class="card-text">Project Stats</p>
     <ngb-tabset type="pills" justify="justified">
       <ngb-tab>
         <ng-template ngbTabTitle>
@@ -23,8 +22,7 @@
         <ng-template ngbTabContent>
           <ngb-tabset>
             <ngb-tab *ngFor="let sequence of project.getSequences()">
-              <ng-template ngbTabTitle>{{sequence.getName()}} <fa-icon class="text-success" icon="check"></fa-icon>
-              </ng-template>
+              <ng-template ngbTabTitle>{{sequence.getName()}}</ng-template>
               <ng-template ngbTabContent>
                 <app-sequence [project]="project" [sequence]="sequence" [settings]="settings"
                   (projectEmitter)="onProject($event)"></app-sequence>
@@ -44,12 +42,21 @@
               <thead>
                 <tr>
                   <th scope="col">Date</th>
+                  <th scope="col">Status</th>
                   <th scope="col">Options</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let projectTestResult of project.getTestResults()">
-                  <td>{{projectTestResult.getDate()}}</td>
+                  <td>{{projectTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}</td>
+                  <td>
+                    <span *ngIf="projectTestResult.isReplayable()" class="badge badge-success">
+                      <fa-icon icon="check"></fa-icon> Successful
+                    </span>
+                    <span *ngIf="!projectTestResult.isReplayable()" class="badge badge-danger">
+                      <fa-icon icon="times"></fa-icon> Failed
+                    </span>
+                  </td>
                   <td><button (click)="currentProjectTestResult = projectTestResult"
                       class="btn btn-sm btn-outline-primary">
                       <fa-icon icon="eye"></fa-icon> Details
