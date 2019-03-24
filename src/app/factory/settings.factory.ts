@@ -11,7 +11,7 @@ export class SettingsFactory {
   public fromStorageJson(parsedJson: any): Settings {
     const browsers: Browser[] = [];
     for (const browser of parsedJson.browsers) {
-      this.browserFactory.fromStorageJson(browser);
+      browsers.push(this.browserFactory.fromStorageJson(browser));
     }
     return new Settings(
       parsedJson.homeUrl,

@@ -55,4 +55,8 @@ export class AppComponent implements OnInit {
     this.sequenceToRecord = sequence;
     this.currentState = this.states.RECORD;
   }
+
+  onSettings(settings: Settings) {
+    this.settings = settings;
+  }
 }

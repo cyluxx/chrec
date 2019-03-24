@@ -80,7 +80,8 @@
       <td>{{browser.getWidth()}} <fa-icon icon="times"></fa-icon> {{browser.getHeight()}}</td>
       <td>#Iter</td>
       <td>#Sleep</td>
-      <td><span *ngIf="isChrome(browser) && asChrome(browser).isHeadless()" class="badge badge-primary">Headless</span></td>
+      <td><span *ngIf="isChrome(browser) && asChrome(browser).isHeadless()" class="badge badge-primary">Headless</span>
+      </td>
       <td>
         <button class="btn btn-sm btn-danger" (click)="onDeleteBrowser(browser)">
           <fa-icon icon="trash"></fa-icon>

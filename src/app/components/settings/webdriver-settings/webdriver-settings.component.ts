@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { SettingsService } from '../../../providers/settings.service';
 import { Settings } from '../../../model/settings';
 import { Browser } from 'chrec-core/lib/model/browser/browser';
@@ -15,6 +15,8 @@ import { Edge } from 'chrec-core/lib/model/browser/edge';
 export class WebdriverSettingsComponent {
 
   @Input() settings: Settings;
+
+  @Output() settingsEmitter = new EventEmitter<Settings>();
 
   newBrowserName = '';
   newBrowserType: string;

@@ -1,8 +1,10 @@
 <div [ngSwitch]="currentState" class="container-fluid pr-0 pl-0">
-  <app-re-record *ngSwitchCase="states.RE_RECORD"></app-re-record>
+  <app-re-record *ngSwitchCase="states.RE_RECORD" [sequence]="sequenceToRecord" [settings]="settings"
+    (submit)="currentState = states.HOME"></app-re-record>
   <app-record *ngSwitchCase="states.RECORD" [sequence]="sequenceToRecord" [settings]="settings"
     (submit)="currentState = states.HOME"></app-record>
-  <app-settings *ngSwitchCase="states.SETTINGS" (close)="currentState = states.HOME"></app-settings>
+  <app-settings *ngSwitchCase="states.SETTINGS" (close)="currentState = states.HOME" [settings]="settings" (settingsEmitter)="onSettings($event)">
+  </app-settings>
   <app-home *ngSwitchDefault [project]="recentProject" [settings]="settings" (recordSequence)="onRecordSequence($event)"
     (settingsEmitter)="currentState = states.SETTINGS"></app-home>
 </div>

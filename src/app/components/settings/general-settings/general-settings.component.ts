@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SettingsService } from '../../../providers/settings.service';
 import { Settings } from '../../../model/settings';
 import { NgForm } from '@angular/forms';
@@ -12,6 +12,8 @@ export class GeneralSettingsComponent {
 
   @Input() settings: Settings;
 
+  @Output() settingsEmitter = new EventEmitter<Settings>();
+
   constructor(private settingsService: SettingsService) { }
 
   public onSubmit(form: NgForm): void {
@@ -19,6 +21,7 @@ export class GeneralSettingsComponent {
     this.settings.webviewWidth = form.value.webviewWidth;
     this.settings.webviewHeight = form.value.webviewHeight;
     this.settingsService.saveSettings(this.settings);
+    this.settingsEmitter.emit(this.settings);
   }
 
   public onReset(): void {

@@ -12,6 +12,7 @@ export class SettingsComponent {
   @Input() settings: Settings;
 
   @Output() close = new EventEmitter();
+  @Output() settingsEmitter = new EventEmitter<Settings>();
 
   generalSettings = 'General Settings';
   webdriverSettings = 'Webdriver Settings';
@@ -23,5 +24,10 @@ export class SettingsComponent {
 
   public onNavItem(component: string): void {
     this.currentComponent = component;
+  }
+
+  onSettings(settings: Settings) {
+    this.settings = settings;
+    this.settingsEmitter.emit(settings);
   }
 }

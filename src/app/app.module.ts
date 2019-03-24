@@ -24,7 +24,10 @@ import {
   faArrowLeft,
   faArrowRight,
   faSquare,
-  faSync
+  faSync,
+  faExclamation,
+  faExclamationTriangle,
+  faTrash
 } from '@fortawesome/free-solid-svg-icons';
 
 // Bootstrap
@@ -97,7 +100,10 @@ library.add(faCog,
   faArrowLeft,
   faArrowRight,
   faSquare,
-  faSync);
+  faSync,
+  faExclamationTriangle,
+  faTrash
+);
 library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
 
 @NgModule({

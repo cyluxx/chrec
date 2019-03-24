@@ -15,8 +15,8 @@
   </div>
   <div class="col-9">
     <div [ngSwitch]="currentComponent">
-      <app-webdriver-settings *ngSwitchCase="webdriverSettings" [settings]="settings"></app-webdriver-settings>
-      <app-general-settings *ngSwitchDefault [settings]="settings"></app-general-settings>
+      <app-webdriver-settings *ngSwitchCase="webdriverSettings" [settings]="settings" (settingsEmitter)="onSettings($event)"></app-webdriver-settings>
+      <app-general-settings *ngSwitchDefault [settings]="settings" (settingsEmitter)="onSettings($event)"></app-general-settings>
     </div>
   </div>
 </div>

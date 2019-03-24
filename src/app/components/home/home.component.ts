@@ -54,6 +54,10 @@ export class HomeComponent {
       const fileName = path.basename(absolutePath);
       const dirName = path.dirname(absolutePath);
       this.project = await this.projectService.readProject(fileName, dirName);
+
+      // save project to open on next startup
+      this.settings.recentlyOpenedPath = absolutePath;
+      this.settingsService.saveSettings(this.settings);
     }
   }
 

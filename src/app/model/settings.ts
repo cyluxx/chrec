@@ -1,5 +1,4 @@
 import { Browser } from 'chrec-core/lib/model/browser/browser';
-import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 
 export class Settings {
 

@@ -39,7 +39,7 @@ export class SettingsDao implements Dao<Settings> {
     }
     const newSettings: Settings = this.settingsFactory.fromStorageJson(settings);
     console.log('%cRead ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
-    console.log(settings);
+    console.log(newSettings);
     return newSettings;
   }
 
