@@ -18,9 +18,6 @@
 </div>
 <div class="row mt-1">
   <div class="col">
-    <webview #webview src="https://www.github.com/" style="display:inline-flex; width:800px; height:600px"></webview>
+    <webview #webview src="https://www.github.com/" [attr.preload]="preloadScriptPath"></webview>
   </div>
 </div>
-<!-- <div *ngIf="info" class="overlay">
-  <div class="overlay-text">{{info}}</div>
-</div> -->
