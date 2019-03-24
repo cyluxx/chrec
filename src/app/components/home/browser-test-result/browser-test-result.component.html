@@ -1,6 +1,6 @@
 <div *ngIf="browserTestResult" class="row">
   <div class="col-3">
-    <ul class="list-group list-group-flush">
+    <ul class="list-group">
       <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()" [class.active]="currentActionTestResult === actionTestResult"
         (click)="currentActionTestResult = actionTestResult" class="list-group-item list-group-item-action">
         <h5 class="mb-1">{{actionTestResult.getAction().getClassName()}}</h5>

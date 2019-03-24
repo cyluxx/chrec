@@ -6,7 +6,7 @@
                     Done <fa-icon icon="square"></fa-icon>
                 </button>
                 <h4>{{sequence.getName()}}</h4>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group">
                     <li *ngFor="let action of sequence.getActions(); let i = index" class="list-group-item">
                         <h5 class="mb-1">{{i}}: {{action.getClassName()}}</h5>
                     </li>

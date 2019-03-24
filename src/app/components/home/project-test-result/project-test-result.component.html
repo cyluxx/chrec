@@ -1,12 +1,35 @@
 <div *ngIf="projectTestResult" class="row">
   <div class="col">
-    <div class="alert alert-primary" role="alert">
-      <fa-icon icon="caret-down"></fa-icon> {{projectTestResult.getDate()}}
+    <div *ngIf="!currentSequenceTestResult">
+      <div class="d-flex align-items-center justify-content-between">
+        <h4 class="card-title">
+          {{projectTestResult.getDate()}}
+        </h4>
+        <div>
+          <button (click)="close.emit()" class="btn btn-sm btn-danger">
+            <fa-icon icon="times"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <table class="table table-warning table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()">
+            <td>{{sequenceTestResult.getDate()}}</td>
+            <td><button (click)="currentSequenceTestResult = sequenceTestResult"
+                class="btn btn-sm btn-outline-secondary">
+                <fa-icon icon="eye"></fa-icon> Details
+              </button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <ul class="nav nav-tabs">
-      <li *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()" class="nav-item">
-        <a class="nav-link active">{{sequenceTestResult.getDate()}} <fa-icon class="text-success" icon="check"></fa-icon></a>
-      </li>
-    </ul>
+    <app-sequence-test-result [sequenceTestResult]="currentSequenceTestResult"
+      (close)="currentSequenceTestResult = null"></app-sequence-test-result>
   </div>
 </div>

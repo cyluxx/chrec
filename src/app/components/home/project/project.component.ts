@@ -5,6 +5,7 @@ import { Settings } from '../../../model/settings';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Sequence } from 'chrec-core/lib/model/sequence';
 import { ProjectTestResult } from 'chrec-core/lib/model/test-result/project-test-result';
+import { SequenceTestResult } from 'chrec-core/lib/model/test-result/sequence-test-result';
 
 @Component({
   selector: 'app-project',
@@ -18,15 +19,20 @@ export class ProjectComponent {
 
   @Output() recordSequence = new EventEmitter<Sequence>();
 
+  currentProjectTestResult: ProjectTestResult;
   moreTestResults = false;
   newSequenceName: string;
 
   constructor(private modalService: NgbModal, private replayService: ReplayService) { }
 
+  onProject(project: Project) {
+    this.project = project;
+  }
+
   onNewSequence(newSequenceModalContent: any) {
     this.modalService.open(newSequenceModalContent).result.then(() => {
       if (this.newSequenceName) {
-        const sequence = new Sequence(this.newSequenceName, [], []);
+        const sequence = new Sequence(this.newSequenceName, []);
         this.project.addSequence(sequence);
         this.recordSequence.emit(sequence);
       }

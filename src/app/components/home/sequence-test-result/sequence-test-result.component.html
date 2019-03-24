@@ -1,13 +1,23 @@
 <div *ngIf="sequenceTestResult" class="row">
   <div class="col">
-    <h4>Test Results for Sequence</h4>
-    <ul class="nav nav-tabs">
-      <li *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()"
-        (click)="currentBrowserTestResult = browserTestResult" class="nav-item">
-        <a class="nav-link active">{{browserTestResult.getBrowser().getName()}} <fa-icon class="text-success"
-            [icon]="getIcon(browserTestResult.getBrowser())"></fa-icon></a>
-      </li>
-    </ul>
-    <app-browser-test-result [browserTestResult]="currentBrowserTestResult"></app-browser-test-result>
+    <div class="d-flex align-items-center justify-content-between">
+      <h4 class="card-title">
+        {{sequenceTestResult.getSequence().getName()}}
+      </h4>
+      <div>
+        <button (click)="close.emit()" class="btn btn-sm btn-danger">
+          <fa-icon icon="times"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <ngb-tabset>
+      <ngb-tab *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()">
+        <ng-template ngbTabTitle>{{browserTestResult.getBrowser().getName()}} <fa-icon class="text-success" [icon]="getIcon(browserTestResult.getBrowser())"></fa-icon>
+        </ng-template>
+        <ng-template ngbTabContent>
+            <app-browser-test-result [browserTestResult]="browserTestResult"></app-browser-test-result>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
   </div>
 </div>

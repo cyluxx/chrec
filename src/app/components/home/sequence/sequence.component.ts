@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ReplayService } from '../../../providers/replay.service';
 import { Sequence } from 'chrec-core/lib/model/sequence';
 import { Settings } from '../../../model/settings';
 import { Action } from 'chrec-core/lib/model/action/action';
 import { SequenceTestResult } from 'chrec-core/lib/model/test-result/sequence-test-result';
+import { Project } from 'chrec-core/lib/model/project';
 
 @Component({
   selector: 'app-sequence',
@@ -12,8 +13,11 @@ import { SequenceTestResult } from 'chrec-core/lib/model/test-result/sequence-te
 })
 export class SequenceComponent {
 
+  @Input() project: Project;
   @Input() sequence: Sequence;
   @Input() settings: Settings;
+
+  @Output() projectEmitter = new EventEmitter<Project>();
 
   currentAction: Action;
   currentSequenceTestResult: SequenceTestResult;
@@ -25,6 +29,6 @@ export class SequenceComponent {
   }
 
   async onTestSequence() {
-    this.sequence = await this.replayService.testSequence(this.sequence, this.settings);
+    this.projectEmitter.emit(await this.replayService.testSequence(this.project, this.sequence, this.settings));
   }
 }

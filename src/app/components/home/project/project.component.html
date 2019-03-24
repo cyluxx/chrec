@@ -23,9 +23,11 @@
         <ng-template ngbTabContent>
           <ngb-tabset>
             <ngb-tab *ngFor="let sequence of project.getSequences()">
-              <ng-template ngbTabTitle>{{sequence.getName()}} <fa-icon class="text-success" icon="check"></fa-icon></ng-template>
+              <ng-template ngbTabTitle>{{sequence.getName()}} <fa-icon class="text-success" icon="check"></fa-icon>
+              </ng-template>
               <ng-template ngbTabContent>
-                <app-sequence [sequence]="sequence" [settings]="settings"></app-sequence>
+                <app-sequence [project]="project" [sequence]="sequence" [settings]="settings"
+                  (projectEmitter)="onProject($event)"></app-sequence>
               </ng-template>
             </ngb-tab>
           </ngb-tabset>
@@ -36,9 +38,28 @@
           <fa-icon icon="flask"></fa-icon> Test Results
         </ng-template>
         <ng-template ngbTabContent>
-          <div *ngFor="let testResult of project.getTestResults()">
-            <app-project-test-result [projectTestResult]="testResult"></app-project-test-result>
+          <div *ngIf="!currentProjectTestResult">
+            Global Test Result details
+            <table class="table table-primary table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let projectTestResult of project.getTestResults()">
+                  <td>{{projectTestResult.getDate()}}</td>
+                  <td><button (click)="currentProjectTestResult = projectTestResult"
+                      class="btn btn-sm btn-outline-primary">
+                      <fa-icon icon="eye"></fa-icon> Details
+                    </button></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+          <app-project-test-result [projectTestResult]="currentProjectTestResult"
+            (close)="currentProjectTestResult = null"></app-project-test-result>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

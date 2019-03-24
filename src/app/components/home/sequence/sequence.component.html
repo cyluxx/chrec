@@ -17,7 +17,7 @@
     <p class="card-text">Sequence Stats</p>
     <div class="row">
       <div class="col-3">
-        <ul class="list-group list-group-flush">
+        <ul class="list-group">
           <li *ngFor="let action of sequence.getActions()" [class.active]="currentAction === action"
             (click)="currentAction = action" class="list-group-item list-group-item-action">
             <h5 class="mb-1">{{action.getClassName()}}</h5>

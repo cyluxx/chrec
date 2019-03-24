@@ -15,9 +15,9 @@ export class ReplayService {
     return await this.core.addProjectTest(project, this.toCoreSettings(settings));
   }
 
-  public async testSequence(sequence: Sequence, settings: UISettings): Promise<Sequence> {
+  public async testSequence(project: Project, sequence: Sequence, settings: UISettings): Promise<Project> {
     // TODO: Validation
-    return await this.core.addSequenceTest(sequence, this.toCoreSettings(settings));
+    return await this.core.addSequenceTest(project, sequence, this.toCoreSettings(settings));
   }
 
   private toCoreSettings(settings: UISettings): CoreSettings {
