@@ -15,48 +15,19 @@
       </div>
     </div>
     <p class="card-text">Sequence Stats</p>
-    <ngb-accordion #a="ngbAccordion">
-      <ngb-panel>
-        <ng-template ngbPanelHeader>
-          <button ngbPanelToggle class="btn btn-link">
-            <h5 class="m-0">
-              <fa-icon icon="caret-down"></fa-icon> Recorded Actions
-            </h5>
-          </button>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div class="row">
-            <div class="col-3">
-              <ul class="list-group list-group-flush">
-                <li *ngFor="let action of sequence.getActions()" [class.active]="currentAction === action"
-                  (click)="currentAction = action" class="list-group-item list-group-item-action">
-                  <h5 class="mb-1">{{action.getClassName()}}</h5>
-                  <small>Action Stats</small>
-                </li>
-              </ul>
-            </div>
-            <div class="col-9">
-              <app-action [action]="currentAction"></app-action>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-panel>
-      <ngb-panel>
-        <ng-template ngbPanelHeader>
-          <button ngbPanelToggle class="btn btn-link">
-            <h5 class="m-0">
-              <fa-icon icon="caret-down"></fa-icon> Sequence Test Results
-            </h5>
-          </button>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div *ngFor="let sequenceTestResult of sequence.getTestResults()"
-            (click)="currentSequenceTestResult = sequenceTestResult" class="alert alert-warning" role="alert">
-            {{sequenceTestResult.getDate()}}
-          </div>
-          <app-sequence-test-result [sequenceTestResult]="currentSequenceTestResult"></app-sequence-test-result>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
+    <div class="row">
+      <div class="col-3">
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let action of sequence.getActions()" [class.active]="currentAction === action"
+            (click)="currentAction = action" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">{{action.getClassName()}}</h5>
+            <small>Action Stats</small>
+          </li>
+        </ul>
+      </div>
+      <div class="col-9">
+        <app-action [action]="currentAction"></app-action>
+      </div>
+    </div>
   </div>
 </div>

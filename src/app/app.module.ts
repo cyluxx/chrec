@@ -25,9 +25,10 @@ import {
   faArrowRight,
   faSquare,
   faSync,
-  faExclamation,
   faExclamationTriangle,
-  faTrash
+  faTrash,
+  faStream,
+  faFlask
 } from '@fortawesome/free-solid-svg-icons';
 
 // Bootstrap
@@ -102,7 +103,9 @@ library.add(faCog,
   faSquare,
   faSync,
   faExclamationTriangle,
-  faTrash
+  faTrash,
+  faFlask,
+  faStream
 );
 library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
 

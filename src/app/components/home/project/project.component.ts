@@ -18,7 +18,6 @@ export class ProjectComponent {
 
   @Output() recordSequence = new EventEmitter<Sequence>();
 
-  currentSequence: Sequence;
   moreTestResults = false;
   newSequenceName: string;
 

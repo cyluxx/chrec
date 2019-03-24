@@ -36,15 +36,15 @@ export class WebdriverSettingsComponent {
     return browser instanceof Chrome;
   }
 
-  getIcon(browser: Browser): string {
+  getIcon(browser: Browser): string[] {
     if (browser instanceof Chrome) {
-      return `['fab', 'chrome']`;
+      return ['fab', 'chrome'];
     }
     if (browser instanceof Edge) {
-      return `['fab', 'edge']`;
+      return ['fab', 'edge'];
     }
     if (browser instanceof Firefox) {
-      return `['fab', 'firefox']`;
+      return ['fab', 'firefox'];
     }
   }
 

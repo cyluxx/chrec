@@ -15,44 +15,33 @@
       </div>
     </div>
     <p class="card-text">Project Stats</p>
-    <ngb-accordion #a="ngbAccordion">
-      <ngb-panel>
-        <ng-template ngbPanelHeader>
-          <button ngbPanelToggle class="btn btn-link">
-            <h5 class="m-0">
-              <fa-icon icon="caret-down"></fa-icon> Recorded Sequences
-            </h5>
-          </button>
+    <ngb-tabset type="pills" justify="justified">
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon icon="stream"></fa-icon> Recorded Sequences
         </ng-template>
-        <ng-template ngbPanelContent class="border-primary">
-          <ul class="nav nav-tabs mb-3">
-            <li *ngFor="let sequence of project.getSequences()" class="nav-item">
-              <a [class.active]="currentSequence === sequence" (click)="currentSequence = sequence"
-                class="nav-link">{{sequence.getName()}} <fa-icon class="text-success" icon="check"></fa-icon>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">Sequence 2 <fa-icon class="text-danger" icon="times"></fa-icon></a>
-            </li>
-          </ul>
-          <app-sequence [sequence]="currentSequence" [settings]="settings"></app-sequence>
+        <ng-template ngbTabContent>
+          <ngb-tabset>
+            <ngb-tab *ngFor="let sequence of project.getSequences()">
+              <ng-template ngbTabTitle>{{sequence.getName()}} <fa-icon class="text-success" icon="check"></fa-icon></ng-template>
+              <ng-template ngbTabContent>
+                <app-sequence [sequence]="sequence" [settings]="settings"></app-sequence>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
         </ng-template>
-      </ngb-panel>
-      <ngb-panel>
-        <ng-template ngbPanelHeader>
-          <button ngbPanelToggle class="btn btn-link">
-            <h5 class="m-0">
-              <fa-icon icon="caret-down"></fa-icon> Project Test Results
-            </h5>
-          </button>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon icon="flask"></fa-icon> Test Results
         </ng-template>
-        <ng-template ngbPanelContent>
+        <ng-template ngbTabContent>
           <div *ngFor="let testResult of project.getTestResults()">
             <app-project-test-result [projectTestResult]="testResult"></app-project-test-result>
           </div>
         </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
+      </ngb-tab>
+    </ngb-tabset>
   </div>
 </div>
 
