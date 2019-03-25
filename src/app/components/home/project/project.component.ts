@@ -17,6 +17,7 @@ export class ProjectComponent {
   @Input() project: Project;
   @Input() settings: Settings;
 
+  @Output() reRecordSequence = new EventEmitter<Sequence>();
   @Output() recordSequence = new EventEmitter<Sequence>();
 
   currentProjectTestResult: ProjectTestResult;

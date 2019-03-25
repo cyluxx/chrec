@@ -6,7 +6,7 @@
         </app-editable-input>
       </h4>
       <div>
-        <button (click)="onReRecordSequence()" class="btn btn-sm btn-outline-danger mr-1">
+        <button (click)="reRecordSequence.emit(sequence)" class="btn btn-sm btn-outline-danger mr-1">
           <fa-icon icon="circle"></fa-icon> Re-Record Sequence
         </button>
         <button (click)="onTestSequence()" class="btn btn-sm btn-outline-success">

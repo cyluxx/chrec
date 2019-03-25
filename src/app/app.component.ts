@@ -51,6 +51,11 @@ export class AppComponent implements OnInit {
     }
   }
 
+  onReRecordSequence(sequence: Sequence) {
+    this.sequenceToRecord = sequence;
+    this.currentState = this.states.RE_RECORD;
+  }
+
   onRecordSequence(sequence: Sequence) {
     this.sequenceToRecord = sequence;
     this.currentState = this.states.RECORD;

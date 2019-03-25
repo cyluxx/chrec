@@ -18,15 +18,12 @@ export class SequenceComponent {
   @Input() settings: Settings;
 
   @Output() projectEmitter = new EventEmitter<Project>();
+  @Output() reRecordSequence = new EventEmitter<Sequence>();
 
   currentAction: Action;
   currentSequenceTestResult: SequenceTestResult;
 
   constructor(private replayService: ReplayService) { }
-
-  onReRecordSequence() {
-
-  }
 
   async onTestSequence() {
     this.projectEmitter.emit(await this.replayService.testSequence(this.project, this.sequence, this.settings));

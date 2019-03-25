@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Sequence } from 'chrec-core/lib/model/sequence';
 import { Settings } from '../../model/settings';
+import { Action } from 'chrec-core/lib/model/action/action';
 
 @Component({
   selector: 'app-record',
@@ -11,6 +12,6 @@ export class RecordComponent {
 
   @Input() sequence: Sequence;
   @Input() settings: Settings;
-  @Output() submit = new EventEmitter();
 
+  @Output() submit = new EventEmitter();
 }

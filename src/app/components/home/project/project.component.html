@@ -25,7 +25,7 @@
               <ng-template ngbTabTitle>{{sequence.getName()}}</ng-template>
               <ng-template ngbTabContent>
                 <app-sequence [project]="project" [sequence]="sequence" [settings]="settings"
-                  (projectEmitter)="onProject($event)"></app-sequence>
+                  (projectEmitter)="onProject($event)" (reRecordSequence)="reRecordSequence.emit($event)"></app-sequence>
               </ng-template>
             </ngb-tab>
           </ngb-tabset>
