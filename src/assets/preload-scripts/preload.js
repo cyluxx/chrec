@@ -6,6 +6,10 @@ const optimalSelect = require('optimal-select').select;
 const selectorQuery = require('selector-query');
 const RobulaPlus = require('./robula-plus/robula-plus').RobulaPlus;
 
+const clickableElements = 'a, button, input[type=checkbox]';
+const readableElements = 'div, h1, h2, h3, h4, h5, h6, label, li, p, span';
+const typeableElements = 'input, textarea';
+
 global.myapi = {
   CssSelectorGenerator: CssSelectorGenerator,
   finder: finder,
@@ -22,13 +26,13 @@ const mutationObserver = new MutationObserver(() => {
   window.eventRecorder = new EventRecorder();
 });
 
-var eventTargetValueString = '';
-var previousEventTargetValueString = '';
-var currentSelection = '';
+let eventTargetValueString = '';
+let previousEventTargetValueString = '';
+let currentSelection = '';
 
-const sendClick = (e) => {
-  e = e || window.event;
-  var target = e.target || e.srcElement,
+const sendClick = (event) => {
+  event = event || window.event;
+  let target = event.target || event.srcElement,
     text = target.textContent || target.innerText;
   console.log(target);
   console.log(text);
@@ -41,14 +45,19 @@ const sendClick = (e) => {
 };
 
 const sendMouseup = (event) => {
+  event = event || window.event;
+  let target = event.target || event.srcElement,
+    text = target.textContent || target.innerText;
+  console.log(target);
+  console.log(text);
   event.stopPropagation();
-  let selection = window.getSelection().toString();
+  const selection = window.getSelection().toString();
   if (selection && selection !== currentSelection) {
     let message = {
-      action: 'read',
+      className: 'Read',
       locators: generateLocators(event),
-      value: selection,
-      boundingBox: event.target.getBoundingClientRect()
+      boundingBox: event.target.getBoundingClientRect(),
+      value: selection
     }
     sendAction(message);
     currentSelection = selection;
@@ -56,32 +65,45 @@ const sendMouseup = (event) => {
 };
 
 const sendKeyup = (event) => {
-  if (event.key === 'Enter' || event.key === 'Tab') {
-    let message = {
-      action: 'type',
+  event = event || window.event;
+  let target = event.target || event.srcElement,
+    text = target.textContent || target.innerText;
+  console.log(target);
+  console.log(text);
+  if (event.key === 'Enter') {
+    const message = {
+      className: 'Type',
       locators: generateLocators(event),
-      value: eventTargetValueString,
-      type: event.type,
-      key: event.key,
-      boundingBox: event.target.getBoundingClientRect()
-    }
+      boundingBox: target.getBoundingClientRect(),
+      value: target.value,
+      key: '\\ue007'
+    };
     if (previousEventTargetValueString !== eventTargetValueString) {
       sendAction(message);
     }
+  } else if (event.key === 'Tab') {
+    const message = {
+      className: 'Type',
+      locators: generateLocators(event),
+      boundingBox: target.getBoundingClientRect(),
+      value: target.value,
+      key: '\\ue004'
+    };
+    if (previousEventTargetValueString !== eventTargetValueString) {
+      sendAction(message);
+    }
+  } else {
+    eventTargetValueString = target.value;
   }
-  else {
-    eventTargetValueString = event.target.value;
-  }
-};
+}
 
 const sendFocusout = (event) => {
   let message = {
-    action: 'type',
+    className: 'Type',
     locators: generateLocators(event),
+    boundingBox: target.getBoundingClientRect(),
     value: eventTargetValueString,
-    type: event.type,
-    key: event.key,
-    boundingBox: event.target.getBoundingClientRect()
+    key: ''
   }
   if (previousEventTargetValueString !== eventTargetValueString) {
     sendAction(message);
@@ -121,15 +143,37 @@ function generateLocators(event) {
 
 class EventRecorder {
   constructor() {
+    this.clickableElements = document.querySelectorAll(clickableElements);
+    this.readableElements = document.querySelectorAll(readableElements);
+    this.typeableElements = document.querySelectorAll(typeableElements);
+
     this.addEventListeners();
   }
 
   addEventListeners() {
-    document.addEventListener('click', sendClick, false);
+    for (let element of this.clickableElements) {
+      element.addEventListener('click', sendClick);
+    }
+    for (let element of this.readableElements) {
+      element.addEventListener('mouseup', sendMouseup);
+    }
+    for (let element of this.typeableElements) {
+      element.addEventListener('keyup', sendKeyup);
+      element.addEventListener('focusout', sendFocusout);
+    }
   }
 
   removeEventListeners() {
-    document.removeEventListener('click', sendClick, false);
+    for (let element of this.clickableElements) {
+      element.removeEventListener('click', sendClick);
+    }
+    for (let element of this.readableElements) {
+      element.addEventListener('mouseup', sendMouseup);
+    }
+    for (let element of this.typeableElements) {
+      element.removeEventListener('keyup', sendKeyup);
+      element.removeEventListener('focusout', sendFocusout);
+    }
   }
 }
 
