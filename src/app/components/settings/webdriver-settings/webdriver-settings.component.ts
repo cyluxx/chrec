@@ -76,7 +76,13 @@ export class WebdriverSettingsComponent {
   }
 
   public onDeleteBrowser(browserToDelete: Browser): void {
-    this.settings.browsers.filter(browser => browser.getName() === browserToDelete.getName());
+    const browsers: Browser[] = [];
+    for (const browser of this.settings.browsers) {
+      if (browser.getName() !== browserToDelete.getName()) {
+        browsers.push(browser);
+      }
+    }
+    this.settings.browsers = browsers;
     this.settingsService.saveSettings(this.settings);
   }
 

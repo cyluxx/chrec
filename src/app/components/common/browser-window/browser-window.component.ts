@@ -107,7 +107,7 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
       this.autocorrectInputUrl();
       const action: Action = new GoTo(image, this.inputUrl);
       this.sequence.addAction(action);
-      this.webview.loadURL(this.inputUrl);
+      this.webview.loadURL(this.inputUrl, {'extraHeaders' : 'pragma: no-cache\n'});
     });
     this.updateNavigationPossibilities();
   }

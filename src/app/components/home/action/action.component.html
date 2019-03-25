@@ -6,9 +6,10 @@
     <div *ngIf="action.getImage()">
       <img [src]="action.getImage()">
     </div>
-    <app-editable-input *ngIf="isGoTo(action)" [value]="asGoTo(action).getUrl()"
-      (valueEmitter)="asGoTo(action).setUrl($event)">
-    </app-editable-input>
+    <p *ngIf="isGoTo(action)">
+      <app-editable-input [value]="asGoTo(action).getUrl()" (valueEmitter)="asGoTo(action).setUrl($event)">
+      </app-editable-input>
+    </p>
     <div *ngIf="isHtmlElementAction(action)">
       <p>
         boundingBox:
@@ -17,15 +18,18 @@
         width: {{asHtmlElementAction(action).getBoundingBox().width}},
         height: {{asHtmlElementAction(action).getBoundingBox().height}}
       </p>
-      <app-editable-input *ngIf="isRead(action)" [value]="asRead(action).getValue()"
-        (valueEmitter)="asRead(action).setValue($event)">
-      </app-editable-input>
-      <app-editable-input *ngIf="isType(action)" [value]="asType(action).getValue()"
-        (valueEmitter)="asType(action).setValue($event)">
-      </app-editable-input>
-      <app-editable-input *ngIf="isType(action)" [value]="asType(action).getKey()"
-        (valueEmitter)="asType(action).setKey($event)">
-      </app-editable-input>
+      <p *ngIf="isRead(action)">
+        <app-editable-input [value]="asRead(action).getValue()" (valueEmitter)="asRead(action).setValue($event)">
+        </app-editable-input>
+      </p>
+      <p *ngIf="isType(action)">
+        <app-editable-input [value]="asType(action).getValue()" (valueEmitter)="asType(action).setValue($event)">
+        </app-editable-input>
+      </p>
+      <p *ngIf="isType(action)">
+        <app-editable-input [value]="asType(action).getKey()" (valueEmitter)="asType(action).setKey($event)">
+        </app-editable-input>
+      </p>
       <div class="card-body p-0">
         <table class="table table-striped m-0">
           <thead>

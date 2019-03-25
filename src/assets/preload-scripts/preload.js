@@ -79,7 +79,7 @@ const sendKeyup = (event) => {
       className: 'Type',
       locators: generateLocators(event),
       boundingBox: target.getBoundingClientRect(),
-      value: target.value,
+      value: eventTargetValueString,
       key: '\\ue007'
     };
     if (previousEventTargetValueString !== eventTargetValueString) {
@@ -90,7 +90,7 @@ const sendKeyup = (event) => {
       className: 'Type',
       locators: generateLocators(event),
       boundingBox: target.getBoundingClientRect(),
-      value: target.value,
+      value: eventTargetValueString,
       key: '\\ue004'
     };
     if (previousEventTargetValueString !== eventTargetValueString) {

@@ -15,7 +15,7 @@ import { Project } from 'chrec-core/lib/model/project';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  recentProject: Project;
+  project: Project;
   sequenceToRecord: Sequence;
   settings: Settings;
   states = State;
@@ -47,8 +47,12 @@ export class AppComponent implements OnInit {
     if (this.settings.recentlyOpenedPath) {
       const fileName = path.basename(this.settings.recentlyOpenedPath);
       const dirName = path.dirname(this.settings.recentlyOpenedPath);
-      this.recentProject = await this.projectService.readProject(fileName, dirName);
+      this.project = await this.projectService.readProject(fileName, dirName);
     }
+  }
+
+  onProject(project: Project) {
+    this.project = project;
   }
 
   onReRecordSequence(sequence: Sequence) {

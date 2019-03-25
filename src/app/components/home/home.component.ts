@@ -17,6 +17,7 @@ export class HomeComponent {
   @Input() project: Project;
   @Input() settings: Settings;
 
+  @Output() projectEmitter = new EventEmitter<Project>();
   @Output() reRecordSequence = new EventEmitter();
   @Output() recordSequence = new EventEmitter();
   @Output() settingsEmitter = new EventEmitter();
@@ -45,6 +46,7 @@ export class HomeComponent {
     this.modalService.open(newProjectModalContent).result.then(() => {
       if (this.newProjectName) {
         this.project = this.projectService.newProject(this.newProjectName);
+        this.projectEmitter.emit(this.project);
       }
     }, () => { });
   }
@@ -55,6 +57,7 @@ export class HomeComponent {
       const fileName = path.basename(absolutePath);
       const dirName = path.dirname(absolutePath);
       this.project = await this.projectService.readProject(fileName, dirName);
+      this.projectEmitter.emit(this.project);
 
       // save project to open on next startup
       this.settings.recentlyOpenedPath = absolutePath;
