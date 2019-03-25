@@ -30,33 +30,40 @@ let eventTargetValueString = '';
 let previousEventTargetValueString = '';
 let currentSelection = '';
 
+let currentElement = null;
+
 const sendClick = (event) => {
   event = event || window.event;
-  let target = event.target || event.srcElement,
-    text = target.textContent || target.innerText;
-  console.log(target);
-  console.log(text);
-  const message = {
-    className: 'Click',
-    locators: generateLocators(event),
-    boundingBox: target.getBoundingClientRect()
+  let target = event.target || event.srcElement;
+  if (!currentElement) {
+    event.preventDefault();
+    console.log('ping');
+    target.style.outline = '#f00 solid 2px';
+    const message = {
+      className: 'Click',
+      locators: generateLocators(event),
+      boundingBox: target.getBoundingClientRect(),
+      target: target
+    }
+    sendAction(message);
+    currentElement = target;
+  } else {
+    console.log('poooong');
+    currentElement.style.outline = null;
+    currentElement = null;
   }
-  sendAction(message);
 };
 
 const sendMouseup = (event) => {
   event = event || window.event;
-  let target = event.target || event.srcElement,
-    text = target.textContent || target.innerText;
-  console.log(target);
-  console.log(text);
+  let target = event.target || event.srcElement;
   event.stopPropagation();
   const selection = window.getSelection().toString();
   if (selection && selection !== currentSelection) {
     let message = {
       className: 'Read',
       locators: generateLocators(event),
-      boundingBox: event.target.getBoundingClientRect(),
+      boundingBox: target.getBoundingClientRect(),
       value: selection
     }
     sendAction(message);
@@ -66,10 +73,7 @@ const sendMouseup = (event) => {
 
 const sendKeyup = (event) => {
   event = event || window.event;
-  let target = event.target || event.srcElement,
-    text = target.textContent || target.innerText;
-  console.log(target);
-  console.log(text);
+  let target = event.target || event.srcElement;
   if (event.key === 'Enter') {
     const message = {
       className: 'Type',
@@ -98,6 +102,7 @@ const sendKeyup = (event) => {
 }
 
 const sendFocusout = (event) => {
+  let target = event.target || event.srcElement;
   let message = {
     className: 'Type',
     locators: generateLocators(event),
@@ -189,4 +194,16 @@ if (document.attachEvent ? document.readyState === "complete" : document.readySt
 function ready() {
   window.eventRecorder = new EventRecorder();
   mutationObserver.observe(document, { attributes: true, childList: true, subtree: true });
+
+  ipcRenderer.on('pageCaptured', (event, args) => {
+    switch (args.className) {
+      case 'Click':
+        console.log('pingpong')
+        currentElement.click();
+        break;
+
+      default:
+        break;
+    }
+  });
 }

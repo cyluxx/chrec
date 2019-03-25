@@ -46,8 +46,12 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
     this.ipcMessageEventCallback = (ipcMessageEvent: IpcMessageEvent) => {
       const channelContent = JSON.parse(ipcMessageEvent.channel);
       console.log('%c Webview: Recieved Action of Type ' + channelContent.className, 'color: #4242ff; font-weight: bold');
-      const action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, '');
-      this.sequence.addAction(action);
+      this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
+        const image: string = nativeImage.toDataURL();
+        const action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, image);
+        this.sequence.addAction(action);
+        this.webview.send('pageCaptured', { className: channelContent.className });
+      });
     };
   }
 
