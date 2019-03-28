@@ -37,7 +37,6 @@ const sendClick = (event) => {
   let target = event.target || event.srcElement;
   if (!currentElement) {
     event.preventDefault();
-    console.log('ping');
     target.style.outline = '#f00 solid 2px';
     const message = {
       className: 'Click',
@@ -48,7 +47,6 @@ const sendClick = (event) => {
     sendAction(message);
     currentElement = target;
   } else {
-    console.log('poooong');
     currentElement.style.outline = null;
     currentElement = null;
   }
@@ -101,7 +99,7 @@ const sendKeyup = (event) => {
   }
 }
 
-const sendFocusout = (event) => {
+const sendBlur = (event) => {
   let target = event.target || event.srcElement;
   let message = {
     className: 'Type',
@@ -164,7 +162,7 @@ class EventRecorder {
     }
     for (let element of this.typeableElements) {
       element.addEventListener('keyup', sendKeyup);
-      element.addEventListener('focusout', sendFocusout);
+      element.addEventListener('blur', sendBlur);
     }
   }
 
@@ -177,9 +175,94 @@ class EventRecorder {
     }
     for (let element of this.typeableElements) {
       element.removeEventListener('keyup', sendKeyup);
-      element.removeEventListener('focusout', sendFocusout);
+      element.removeEventListener('blur', sendBlur);
     }
   }
+}
+
+function addMutationObserver(target) {
+  const mo = new MutationObserver((records, instance) => {
+    console.log(records);
+    records.forEach((record) => {
+      record.addedNodes.forEach((node) => {
+        if (node.nodeName !== '#text') {
+          node.querySelectorAll(clickableElements).forEach((element) => {
+            element.addEventListener('click', sendClick);
+          });
+          node.querySelectorAll(readableElements).forEach((element) => {
+            element.addEventListener('mouseup', sendMouseup);
+          });
+          node.querySelectorAll(typeableElements).forEach((element) => {
+            element.addEventListener('keyup', sendKeyup);
+            element.addEventListener('blur', sendBlur);
+          });
+        }
+      });
+    });
+  });
+  const options = {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    characterData: true,
+    attributeOldValue: true,
+    characterDataOldValue: true
+  };
+  mo.observe(target, options);
+}
+
+function initIframe(iframe) {
+  if (iframes.indexOf(iframe) > -1) {
+    return;
+  }
+
+  iframes.push(iframe);
+  addMutationObserver(iframe.contentDocument.body);
+
+  iframe.addEventListener('mouseenter', function (e) {
+    stack.unshift(this);
+    iframe.contentDocument.querySelectorAll('iframe').forEach(initIframe);
+  });
+
+  iframe.addEventListener('mouseleave', function (e) {
+    console.log(`switch to ${stack.length > 1 ? 'parent' : 'default content'}`);
+
+    stack.shift();
+  });
+
+  waitUntilIframeIsLoaded(iframe, () => {
+    const doc = iframe.contentDocument;
+    doc.querySelectorAll(clickableElements).forEach((element) => {
+      element.addEventListener('click', sendClick);
+    });
+    doc.querySelectorAll(readableElements).forEach((element) => {
+      element.addEventListener('mouseup', sendMouseup);
+    });
+    doc.querySelectorAll(typeableElements).forEach((element) => {
+      element.addEventListener('keyup', sendKeyup);
+      element.addEventListener('blur', sendBlur);
+    });
+  });
+}
+
+function trackMouseMovements(el) {
+  el.addEventListener('mousemove', function (e) {
+    if (currentTarget !== e.target) {
+      currentTarget = e.target;
+    }
+  });
+}
+
+function waitUntilIframeIsLoaded(iframe, fn) {
+  const win = iframe.contentWindow;
+  if (win && win.document && win.document.body && win.document.body.innerHTML) {
+    fn();
+    return;
+  }
+
+  window.setTimeout(() => {
+    waitUntilIframeIsLoaded(iframe, fn);
+  }, 100);
 }
 
 // wait for document ready (without jQuery)
@@ -194,11 +277,12 @@ if (document.attachEvent ? document.readyState === "complete" : document.readySt
 function ready() {
   window.eventRecorder = new EventRecorder();
   mutationObserver.observe(document, { attributes: true, childList: true, subtree: true });
+  document.body.querySelectorAll('iframe').forEach(initIframe);
+  trackMouseMovements(document.body);
 
   ipcRenderer.on('pageCaptured', (event, args) => {
     switch (args.className) {
       case 'Click':
-        console.log('pingpong')
         currentElement.click();
         break;
 
