@@ -14,7 +14,7 @@
               <fa-icon icon="times"></fa-icon> Failed
             </span>
             <span class="badge badge-warning ml-1">SuccessfulLocators:
-              ({{sequenceTestResult.getSuccessfulLocatorCount()}}/{{sequenceTestResult.getSuccessfulLocatorCount()}})</span>
+              ({{sequenceTestResult.getSuccessfulLocatorCount()}}/{{sequenceTestResult.getTotalLocatorCount()}})</span>
           </div>
           <div>
             <button (click)="close.emit()" class="btn btn-sm btn-danger">

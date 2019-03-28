@@ -1,11 +1,12 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { SettingsService } from '../../../providers/settings.service';
-import { Settings } from '../../../model/settings';
-import { Browser } from 'chrec-core/lib/model/browser/browser';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Browser } from 'chrec-core/lib/model/browser/browser';
 import { Chrome } from 'chrec-core/lib/model/browser/chrome';
-import { Firefox } from 'chrec-core/lib/model/browser/firefox';
 import { Edge } from 'chrec-core/lib/model/browser/edge';
+import { Firefox } from 'chrec-core/lib/model/browser/firefox';
+import { InternetExplorer } from 'chrec-core/lib/model/browser/internet-explorer';
+import { Settings } from '../../../model/settings';
+import { SettingsService } from '../../../providers/settings.service';
 
 @Component({
   selector: 'app-webdriver-settings',
@@ -46,6 +47,9 @@ export class WebdriverSettingsComponent {
     if (browser instanceof Firefox) {
       return ['fab', 'firefox'];
     }
+    if (browser instanceof InternetExplorer) {
+      return ['fab', 'internet-explorer'];
+    }
   }
 
   public onAddBrowser(): void {
@@ -60,17 +64,39 @@ export class WebdriverSettingsComponent {
       let newBrowser: Browser;
       switch (this.newBrowserType) {
         case 'Chrome':
-          newBrowser = new Chrome(this.newBrowserName, this.newBrowserWidth, this.newBrowserHeight, this.newBrowserHeadless);
+          newBrowser = new Chrome(
+            this.newBrowserName,
+            this.newBrowserWidth,
+            this.newBrowserHeight,
+            this.newBrowserSleepTimeBetweenActions,
+            this.newBrowserHeadless);
           break;
         case 'Edge':
-          newBrowser = new Edge(this.newBrowserName, this.newBrowserWidth, this.newBrowserHeight);
+          newBrowser = new Edge(
+            this.newBrowserName,
+            this.newBrowserWidth,
+            this.newBrowserHeight,
+            this.newBrowserSleepTimeBetweenActions);
           break;
         case 'Firefox':
-          newBrowser = new Firefox(this.newBrowserName, this.newBrowserWidth, this.newBrowserHeight);
+          newBrowser = new Firefox(
+            this.newBrowserName,
+            this.newBrowserWidth,
+            this.newBrowserHeight,
+            this.newBrowserSleepTimeBetweenActions);
+          break;
+        case 'InternetExplorer':
+          newBrowser = new InternetExplorer(
+            this.newBrowserName,
+            this.newBrowserWidth,
+            this.newBrowserHeight,
+            this.newBrowserSleepTimeBetweenActions);
           break;
       }
 
-      this.settings.browsers.push(newBrowser);
+      for (let i = 0; i < this.newBrowserNumberIterations; i++) {
+        this.settings.browsers.push(newBrowser);
+      }
       this.settingsService.saveSettings(this.settings);
     }
   }

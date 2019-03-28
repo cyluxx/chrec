@@ -25,8 +25,6 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
 
   @Output() actionEmitter: EventEmitter<Action> = new EventEmitter<Action>();
 
-  canGoBack = false;
-  canGoForward = false;
   inputUrl: string;
   preloadScriptPath: string;
 
@@ -39,6 +37,9 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
     console.log(this.preloadScriptPath);
 
     this.domReadyCallback = () => {
+      this.webview.getWebContents().session.clearCache(function () {
+        console.log('Cleared Webview Cache');
+      });
       this.inputUrl = this.webview.getURL();
       this.webview.openDevTools();
     };
@@ -51,6 +52,7 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
         const action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, image);
         this.sequence.addAction(action);
         this.webview.send('pageCaptured', { className: channelContent.className });
+        this.actionEmitter.emit(action);
       });
     };
   }
@@ -68,27 +70,23 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
   }
 
   public onBack(): void {
-    if (this.canGoBack) {
-      this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-        const image: string = nativeImage.toDataURL();
-        const action: Action = new Back(image);
-        this.sequence.addAction(action);
-        this.webview.goBack();
-      });
-    }
-    this.updateNavigationPossibilities();
+    this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
+      const image: string = nativeImage.toDataURL();
+      const action: Action = new Back(image);
+      this.sequence.addAction(action);
+      this.webview.goBack();
+      this.actionEmitter.emit(action);
+    });
   }
 
   public onForward(): void {
-    if (this.canGoForward) {
-      this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-        const image: string = nativeImage.toDataURL();
-        const action: Action = new Forward(image);
-        this.sequence.addAction(action);
-        this.webview.goForward();
-      });
-    }
-    this.updateNavigationPossibilities();
+    this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
+      const image: string = nativeImage.toDataURL();
+      const action: Action = new Forward(image);
+      this.sequence.addAction(action);
+      this.webview.goForward();
+      this.actionEmitter.emit(action);
+    });
   }
 
   public onRefresh(): void {
@@ -97,8 +95,8 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
       const action: Action = new Refresh(image);
       this.sequence.addAction(action);
       this.webview.reload();
+      this.actionEmitter.emit(action);
     });
-    this.updateNavigationPossibilities();
   }
 
   public onLoadUrl(): void {
@@ -107,9 +105,9 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
       this.autocorrectInputUrl();
       const action: Action = new GoTo(image, this.inputUrl);
       this.sequence.addAction(action);
-      this.webview.loadURL(this.inputUrl, {'extraHeaders' : 'pragma: no-cache\n'});
+      this.webview.loadURL(this.inputUrl, { 'extraHeaders': 'pragma: no-cache\n' });
+      this.actionEmitter.emit(action);
     });
-    this.updateNavigationPossibilities();
   }
 
   private autocorrectInputUrl(): void {
@@ -118,10 +116,5 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
     if (https !== 'https://' && http !== 'http://') {
       this.inputUrl = 'https://' + this.inputUrl;
     }
-  }
-
-  private updateNavigationPossibilities() {
-    this.canGoBack = this.webview.canGoBack();
-    this.canGoForward = this.webview.canGoForward();
   }
 }

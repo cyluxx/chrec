@@ -14,7 +14,7 @@
               <fa-icon icon="times"></fa-icon> Failed
             </span>
             <span class="badge badge-primary ml-1">SuccessfulLocators:
-              ({{projectTestResult.getSuccessfulLocatorCount()}}/{{projectTestResult.getSuccessfulLocatorCount()}})</span>
+              ({{projectTestResult.getSuccessfulLocatorCount()}}/{{projectTestResult.getTotalLocatorCount()}})</span>
           </div>
           <div>
             <button (click)="close.emit()" class="btn btn-sm btn-danger">
@@ -32,7 +32,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()">
+            <tr *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults().slice().reverse()">
               <td>{{sequenceTestResult.getSequence().getName()}}</td>
               <td>{{sequenceTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}</td>
               <td>

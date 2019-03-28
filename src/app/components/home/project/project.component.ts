@@ -21,6 +21,7 @@ export class ProjectComponent {
   @Output() recordSequence = new EventEmitter<Sequence>();
 
   currentProjectTestResult: ProjectTestResult;
+  errorSequence: Sequence;
   moreTestResults = false;
   newSequenceName: string;
 
@@ -40,7 +41,23 @@ export class ProjectComponent {
     }, () => { });
   }
 
-  async onTestProject() {
+  async onTestProject(reRecordSequenceModalContent: any) {
     this.project = await this.replayService.testProject(this.project, this.settings);
+    const testResults = this.project.getTestResults();
+    if (testResults.length > 0 && !testResults[testResults.length - 1].isReplayable()) {
+      for (const sequenceTestResult of testResults[testResults.length - 1].getSequenceTestResults()) {
+        if (!sequenceTestResult.isReplayable()) {
+          this.errorSequence = sequenceTestResult.getSequence();
+          break;
+        }
+      }
+      this.showReRecordModal(reRecordSequenceModalContent);
+    }
+  }
+
+  showReRecordModal(reRecordSequenceModalContent: any) {
+    this.modalService.open(reRecordSequenceModalContent).result.then(() => {
+      this.reRecordSequence.emit(this.errorSequence);
+    }, () => { });
   }
 }

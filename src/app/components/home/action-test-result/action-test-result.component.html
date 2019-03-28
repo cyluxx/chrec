@@ -14,6 +14,9 @@
             <span *ngIf="!isHtmlElementActionTestResult(actionTestResult)" class="badge badge-info ml-1">
               No Locators
             </span>
+            <span *ngIf="isHtmlElementActionTestResult(actionTestResult)" class="badge badge-info ml-1">
+                SuccessfulLocators: ({{actionTestResult.getSuccessfulLocatorCount()}}/{{actionTestResult.getTotalLocatorCount()}})
+            </span>
           </div>
         </div>
         <div *ngIf="actionTestResult.getAction().getImage()">

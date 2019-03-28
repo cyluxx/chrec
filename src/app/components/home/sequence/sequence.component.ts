@@ -5,6 +5,7 @@ import { Settings } from '../../../model/settings';
 import { Action } from 'chrec-core/lib/model/action/action';
 import { SequenceTestResult } from 'chrec-core/lib/model/test-result/sequence-test-result';
 import { Project } from 'chrec-core/lib/model/project';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-sequence',
@@ -22,10 +23,27 @@ export class SequenceComponent {
 
   currentAction: Action;
   currentSequenceTestResult: SequenceTestResult;
+  errorSequence: Sequence;
 
-  constructor(private replayService: ReplayService) { }
+  constructor(private modalService: NgbModal, private replayService: ReplayService) { }
 
-  async onTestSequence() {
+  async onTestSequence(reRecordSequenceModalContent: any) {
     this.projectEmitter.emit(await this.replayService.testSequence(this.project, this.sequence, this.settings));
+    const testResults = this.project.getTestResults();
+    if (testResults.length > 0 && !testResults[testResults.length - 1].isReplayable()) {
+      for (const sequenceTestResult of testResults[testResults.length - 1].getSequenceTestResults()) {
+        if (!sequenceTestResult.isReplayable()) {
+          this.errorSequence = sequenceTestResult.getSequence();
+          break;
+        }
+      }
+      this.showReRecordModal(reRecordSequenceModalContent);
+    }
+  }
+
+  showReRecordModal(reRecordSequenceModalContent: any) {
+    this.modalService.open(reRecordSequenceModalContent).result.then(() => {
+      this.reRecordSequence.emit(this.errorSequence);
+    }, () => { });
   }
 }

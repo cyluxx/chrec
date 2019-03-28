@@ -19,7 +19,7 @@ export class SettingsService {
       800,
       600,
       'http://localhost:4444/wd/hub',
-      [new Chrome('default', 800, 600, false)]
+      [new Chrome('default', 800, 600, 0, false)]
     );
   }
 

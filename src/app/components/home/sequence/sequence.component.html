@@ -30,3 +30,26 @@
     </div>
   </div>
 </div>
+
+<ng-template #reRecordSequenceModalContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Failed to Replay Project</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert">
+          at Sequence {{errorSequence.getName()}}!
+      </div>
+      <p>Do you want to re-record the sequence?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+        <fa-icon icon="times"></fa-icon> Cancel
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="modal.close()">
+        <fa-icon icon="circle"></fa-icon> Re-Record
+      </button>
+    </div>
+  </ng-template>

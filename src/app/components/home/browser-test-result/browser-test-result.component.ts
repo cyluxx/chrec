@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BrowserTestResult } from 'chrec-core/lib/model/test-result/browser-test-result';
 import { ActionTestResult } from 'chrec-core/lib/model/test-result/action-test-result';
 import { Browser } from 'chrec-core/lib/model/browser/browser';
 import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 import { Edge } from 'chrec-core/lib/model/browser/edge';
 import { Firefox } from 'chrec-core/lib/model/browser/firefox';
+import { InternetExplorer } from 'chrec-core/lib/model/browser/internet-explorer';
 
 @Component({
   selector: 'app-browser-test-result',
@@ -28,6 +29,9 @@ export class BrowserTestResultComponent {
     }
     if (browser instanceof Firefox) {
       return ['fab', 'firefox'];
+    }
+    if (browser instanceof InternetExplorer) {
+      return ['fab', 'internet-explorer'];
     }
   }
 }
