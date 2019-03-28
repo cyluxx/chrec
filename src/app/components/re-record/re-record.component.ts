@@ -21,7 +21,7 @@ export class ReRecordComponent implements OnInit {
 
   currentAction: Action;
   newSequence: Sequence;
-  recorderActive = false;
+  recorderActive = true;
   showBrowserWindow = false;
 
   public ngOnInit(): void {

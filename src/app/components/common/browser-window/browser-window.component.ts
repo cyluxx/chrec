@@ -42,7 +42,6 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
         console.log('Cleared Webview Cache');
       });
       this.inputUrl = this.webview.getURL();
-      this.webview.openDevTools();
     };
 
     this.ipcMessageEventCallback = (ipcMessageEvent: IpcMessageEvent) => {
