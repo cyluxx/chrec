@@ -13,8 +13,28 @@
             <span *ngIf="!projectTestResult.isReplayable()" class="badge badge-danger">
               <fa-icon icon="times"></fa-icon> Failed
             </span>
-            <span class="badge badge-primary ml-1">SuccessfulLocators:
-              ({{projectTestResult.getSuccessfulLocatorCount()}}/{{projectTestResult.getTotalLocatorCount()}})</span>
+            <span class="badge badge-primary ml-1">
+              SuccessfulLocators:
+              ({{projectTestResult.getSuccessfulLocatorCount()}}/{{projectTestResult.getTotalLocatorCount()}})
+            </span>
+            <span class="badge badge-primary ml-1">
+              CssSelectorGenerator: {{projectTestResult.getSuccessfulCssSelectorGeneratorCount()}}
+            </span>
+            <span class="badge badge-primary ml-1">
+              Finder: {{projectTestResult.getSuccessfulFinderCount()}}
+            </span>
+            <span class="badge badge-primary ml-1">
+              GetQuerySelector: {{projectTestResult.getSuccessfulGetQuerySelectorCount()}}
+            </span>
+            <span class="badge badge-primary ml-1">
+              OptimalSelect: {{projectTestResult.getSuccessfulOptimalSelectCount()}}
+            </span>
+            <span class="badge badge-primary ml-1">
+              SelectorQuery: {{projectTestResult.getSuccessfulSelectorQueryCount()}}
+            </span>
+            <span class="badge badge-primary ml-1">
+              RobulaPlus: {{projectTestResult.getSuccessfulRobulaPlusCount()}}
+            </span>
           </div>
           <div>
             <button (click)="close.emit()" class="btn btn-sm btn-danger">

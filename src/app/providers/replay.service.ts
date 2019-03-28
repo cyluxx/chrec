@@ -20,6 +20,10 @@ export class ReplayService {
     return await this.core.addSequenceTest(project, sequence, this.toCoreSettings(settings));
   }
 
+  public setRecommendedLocators(project: Project): void {
+    this.core.setRecommendedLocators(project);
+  }
+
   private toCoreSettings(settings: UISettings): CoreSettings {
     return new CoreSettings(settings.seleniumGridUrl, settings.browsers);
   }

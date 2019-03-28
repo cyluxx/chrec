@@ -5,7 +5,6 @@ import { Settings } from '../../../model/settings';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Sequence } from 'chrec-core/lib/model/sequence';
 import { ProjectTestResult } from 'chrec-core/lib/model/test-result/project-test-result';
-import { SequenceTestResult } from 'chrec-core/lib/model/test-result/sequence-test-result';
 
 @Component({
   selector: 'app-project',
@@ -43,6 +42,7 @@ export class ProjectComponent {
 
   async onTestProject(reRecordSequenceModalContent: any) {
     this.project = await this.replayService.testProject(this.project, this.settings);
+    this.replayService.setRecommendedLocators(this.project);
     const testResults = this.project.getTestResults();
     if (testResults.length > 0 && !testResults[testResults.length - 1].isReplayable()) {
       for (const sequenceTestResult of testResults[testResults.length - 1].getSequenceTestResults()) {

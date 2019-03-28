@@ -20,6 +20,7 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
   @ViewChild('webview') webviewRef: ElementRef;
   webview: WebviewTag;
 
+  @Input() recorderActive: boolean;
   @Input() sequence: Sequence;
   @Input() settings: Settings;
 
@@ -48,11 +49,13 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
       const channelContent = JSON.parse(ipcMessageEvent.channel);
       console.log('%c Webview: Recieved Action of Type ' + channelContent.className, 'color: #4242ff; font-weight: bold');
       this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-        const image: string = nativeImage.toDataURL();
-        const action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, image);
-        this.sequence.addAction(action);
         this.webview.send('pageCaptured', { className: channelContent.className });
-        this.actionEmitter.emit(action);
+        if (this.recorderActive) {
+          const image: string = nativeImage.toDataURL();
+          const action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, image);
+          this.sequence.addAction(action);
+          this.actionEmitter.emit(action);
+        }
       });
     };
   }
@@ -71,42 +74,50 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
 
   public onBack(): void {
     this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-      const image: string = nativeImage.toDataURL();
-      const action: Action = new Back(image);
-      this.sequence.addAction(action);
+      if (this.recorderActive) {
+        const image: string = nativeImage.toDataURL();
+        const action: Action = new Back(image);
+        this.sequence.addAction(action);
+        this.actionEmitter.emit(action);
+      }
       this.webview.goBack();
-      this.actionEmitter.emit(action);
     });
   }
 
   public onForward(): void {
     this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-      const image: string = nativeImage.toDataURL();
-      const action: Action = new Forward(image);
-      this.sequence.addAction(action);
+      if (this.recorderActive) {
+        const image: string = nativeImage.toDataURL();
+        const action: Action = new Forward(image);
+        this.sequence.addAction(action);
+        this.actionEmitter.emit(action);
+      }
       this.webview.goForward();
-      this.actionEmitter.emit(action);
     });
   }
 
   public onRefresh(): void {
     this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-      const image: string = nativeImage.toDataURL();
-      const action: Action = new Refresh(image);
-      this.sequence.addAction(action);
+      if (this.recorderActive) {
+        const image: string = nativeImage.toDataURL();
+        const action: Action = new Refresh(image);
+        this.sequence.addAction(action);
+        this.actionEmitter.emit(action);
+      }
       this.webview.reload();
-      this.actionEmitter.emit(action);
     });
   }
 
   public onLoadUrl(): void {
     this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-      const image: string = nativeImage.toDataURL();
       this.autocorrectInputUrl();
-      const action: Action = new GoTo(image, this.inputUrl);
-      this.sequence.addAction(action);
-      this.webview.loadURL(this.inputUrl, { 'extraHeaders': 'pragma: no-cache\n' });
-      this.actionEmitter.emit(action);
+      if (this.recorderActive) {
+        const image: string = nativeImage.toDataURL();
+        const action: Action = new GoTo(image, this.inputUrl);
+        this.sequence.addAction(action);
+        this.actionEmitter.emit(action);
+      }
+      this.webview.loadURL(this.inputUrl);
     });
   }
 

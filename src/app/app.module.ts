@@ -28,7 +28,8 @@ import {
   faExclamationTriangle,
   faTrash,
   faStream,
-  faFlask
+  faFlask,
+  faHandPointRight
 } from '@fortawesome/free-solid-svg-icons';
 
 // Bootstrap

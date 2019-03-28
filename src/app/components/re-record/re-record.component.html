@@ -6,6 +6,10 @@
     <button (click)="onSubmit()" class="btn btn-sm btn-success ml-1">
       Done <fa-icon icon="square"></fa-icon>
     </button>
+    <button [class.btn-outline-danger]="!recorderActive" [class.btn-danger]="recorderActive"
+      (click)="recorderActive = !recorderActive" class="btn btn-block">
+      Record <fa-icon icon="circle"></fa-icon>
+    </button>
     <h4 class="mt-2">{{sequence.getName()}}: Old</h4>
     <ul class="list-group list-group-flush">
       <li *ngFor="let action of sequence.getActions(); let i = index" class="list-group-item"
@@ -18,7 +22,7 @@
     <div class="row mb-3">
       <div class="col-2">
         <button (click)="showBrowserWindow = true" class="btn btn-sm btn-block btn-primary">
-          Do Step <fa-icon icon="arrow-right"></fa-icon>
+            <fa-icon icon="hand-point-right"></fa-icon> Do Step
         </button>
       </div>
       <div class="col-10">
@@ -57,12 +61,13 @@
   <div class="col-9">
     <div class="row mb-3">
       <div class="col-2">
-        <button (click)="showBrowserWindow = false" class="btn btn-sm btn-block btn-primary" [class.disabled]="!currentAction">
-          <fa-icon icon="arrow-left"></fa-icon> View Step
+        <button (click)="showBrowserWindow = false" class="btn btn-sm btn-block btn-primary"
+          [class.disabled]="!currentAction">
+          <fa-icon icon="eye"></fa-icon> View Step
         </button>
       </div>
     </div>
-    <app-browser-window [settings]="settings" [sequence]="newSequence" (actionEmitter)="onNextAction()">
+    <app-browser-window [recorderActive]="recorderActive" [settings]="settings" [sequence]="newSequence" (actionEmitter)="onNextAction()">
     </app-browser-window>
   </div>
 </div>

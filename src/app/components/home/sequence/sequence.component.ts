@@ -29,6 +29,7 @@ export class SequenceComponent {
 
   async onTestSequence(reRecordSequenceModalContent: any) {
     this.projectEmitter.emit(await this.replayService.testSequence(this.project, this.sequence, this.settings));
+    this.replayService.setRecommendedLocators(this.project);
     const testResults = this.project.getTestResults();
     if (testResults.length > 0 && !testResults[testResults.length - 1].isReplayable()) {
       for (const sequenceTestResult of testResults[testResults.length - 1].getSequenceTestResults()) {

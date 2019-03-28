@@ -22,6 +22,7 @@
       <option>Chrome</option>
       <option>Edge</option>
       <option>Firefox</option>
+      <option>InternetExplorer</option>
     </select>
   </div>
 </div>
@@ -66,7 +67,6 @@
       <th scope="col">Name</th>
       <th scope="col">Type</th>
       <th scope="col">Resolution</th>
-      <th scope="col">#Iterations</th>
       <th scope="col">SleepTime(ms)</th>
       <th scope="col">Headless</th>
       <th scope="col">Options</th>
@@ -78,8 +78,7 @@
       <td>{{browser.getClassName()}} <fa-icon [icon]="getIcon(browser)"></fa-icon>
       </td>
       <td>{{browser.getWidth()}} <fa-icon icon="times"></fa-icon> {{browser.getHeight()}}</td>
-      <td>#Iter</td>
-      <td>#Sleep</td>
+      <td>{{browser.getSleepMsBetweenActions()}}</td>
       <td><span *ngIf="isChrome(browser) && asChrome(browser).isHeadless()" class="badge badge-primary">Headless</span>
       </td>
       <td>

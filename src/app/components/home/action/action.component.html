@@ -19,15 +19,15 @@
         height: {{asHtmlElementAction(action).getBoundingBox().height}}
       </p>
       <p *ngIf="isRead(action)">
-        <app-editable-input [value]="asRead(action).getValue()" (valueEmitter)="asRead(action).setValue($event)">
+        Value: <app-editable-input [value]="asRead(action).getValue()" (valueEmitter)="asRead(action).setValue($event)">
         </app-editable-input>
       </p>
       <p *ngIf="isType(action)">
-        <app-editable-input [value]="asType(action).getValue()" (valueEmitter)="asType(action).setValue($event)">
+        Value: <app-editable-input [value]="asType(action).getValue()" (valueEmitter)="asType(action).setValue($event)">
         </app-editable-input>
       </p>
       <p *ngIf="isType(action)">
-        <app-editable-input [value]="asType(action).getKey()" (valueEmitter)="asType(action).setKey($event)">
+        Key: <app-editable-input [value]="asType(action).getKey()" (valueEmitter)="asType(action).setKey($event)">
         </app-editable-input>
       </p>
       <div class="card-body p-0">
