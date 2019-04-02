@@ -2,51 +2,35 @@
 Visually Stabilizing **Ch**romium Selenium Web **Rec**order for Automated User Acceptance Tests.
 
 ## Installation Instructions for Development
-Make sure to have the newest versions of Node.js and npm.
+Make sure to have the newest versions of [_Node.js_ and _npm_](https://nodejs.org/en/).
 
-### 1. OpenCV
-CMake is required. You can get it from: https://cmake.org/download/. Add it's *bin* folder to **PATH**.
+### 1. Selenium Server
+For replaying sequences you will need the _Selenium_ standalone server or a configured _Selenium_ grid. You can download it from: https://www.seleniumhq.org/download/.
 
-On **Windows** you will need Windows Build Tools to compile OpenCV, which is a critical dependency of this project. If you don't have Visual Studio or Windows Build Tools installed, you can easily install the VS2015 build tools. Just run the following command as administrator:
+Depending on which browsers you want to use for testing, you should install and configure their corresponding webdrivers:
+* [Chrome](http://chromedriver.chromium.org/)
+* [Edge](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/)
+* [Firefox](https://github.com/mozilla/geckodriver)
+* [Internet Explorer](https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver)
 
-```
-npm install --global windows-build-tools --vs2015
-```
-
-### 2. Selenium Server
-For replaying sequences you will need the selenium standalone server. You can download it from: https://www.seleniumhq.org/download/.
-
-To start the _Java_ version of Selenium, type:
+To start the _Java_ version of _Selenium_, type:
 ```
 java -jar .\selenium-server-standalone-3.9.1.jar
 ```
 
 Selenium should now run on port 4444.
 
-### 3. ChRec
+### 2. ChRec
 Clone this repository:
 ```
 git clone https://github.com/cyluxx/chrec.git
 ```
 
-Navigate to installed location and install dependencies (this REALLY might take a while). Then let electron rebuild native modules.
+Navigate to the installed location and install dependencies (this REALLY might take a while).
 ```
 cd chrec
 npm install
-npm run electron-rebuild
 ```
-> **Note:** Use 'npm run electron-rebuild' after 'npm install' if you are adding or modifying native modules during development.
-
-### 3.1 Temporary Ugly Solution for OpenCV: 
-use 
-```
-let cv = require('../build/Release/opencv4nodejs.node')
-```
-instead of
-```
-//let cv = isElectronWebpack ? require('../build/Release/opencv4nodejs.node') : require('./cv')
-```
-in _node_modules/opencv4nodejs/lib/opencv4nodejs.js_
 
 To start the application in development mode, type:
 ```
