@@ -1,1 +1,13 @@
-<router-outlet></router-outlet>
+<div [ngSwitch]="currentState" class="container-fluid pr-0 pl-0">
+  <app-re-record *ngSwitchCase="states.RE_RECORD" [sequence]="sequenceToRecord" [settings]="settings"
+    (cancel)="currentState = states.HOME" (submit)="currentState = states.HOME"></app-re-record>
+  <app-record *ngSwitchCase="states.RECORD" [sequence]="sequenceToRecord" [settings]="settings"
+    (submit)="currentState = states.HOME"></app-record>
+  <app-settings *ngSwitchCase="states.SETTINGS" (close)="currentState = states.HOME" [settings]="settings"
+    (settingsEmitter)="onSettings($event)">
+  </app-settings>
+  <app-home *ngSwitchDefault [project]="project" [settings]="settings"
+    (reRecordSequence)="onReRecordSequence($event)" (recordSequence)="onRecordSequence($event)"
+    (settingsEmitter)="currentState = states.SETTINGS" (projectEmitter)="onProject($event)"></app-home>
+</div>
+<!-- <app-statusbar></app-statusbar> -->

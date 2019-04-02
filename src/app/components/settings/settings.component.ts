@@ -1,36 +1,33 @@
-import { Component, OnInit } from "@angular/core";
-import { SettingsService } from "../../providers/settings.service";
-import { Settings } from "../../model/settings";
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { SettingsService } from '../../providers/settings.service';
+import { Settings } from '../../model/settings';
 
 @Component({
-    selector: 'settings',
-    templateUrl: './settings.component.html'
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
-    //alexSettings: string = 'Alex Settings';
-    generalSettings: string = 'General Settings';
-    //stabilitySettings: string = 'Stability Settings';
-    webdriverSettings: string = 'Webdriver Settings';
+export class SettingsComponent {
 
-    //components: string[] = [this.alexSettings, this.generalSettings, this.stabilitySettings, this.webdriverSettings];
-    components: string[] = [this.generalSettings, this.webdriverSettings];
-    currentComponent: string = this.generalSettings;
+  @Input() settings: Settings;
 
-    private settingsService: SettingsService;
+  @Output() close = new EventEmitter();
+  @Output() settingsEmitter = new EventEmitter<Settings>();
 
-    settings: Settings;
+  generalSettings = 'General Settings';
+  webdriverSettings = 'Webdriver Settings';
 
-    constructor(settingsService: SettingsService) {
-        this.settingsService = settingsService;
+  components: string[] = [this.generalSettings, this.webdriverSettings];
+  currentComponent: string = this.generalSettings;
 
-        this.settings = new Settings();
-    }
+  constructor() { }
 
-    public async ngOnInit(): Promise<void> {
-        this.settings = await this.settingsService.getDefaultSettings();
-    }
+  public onNavItem(component: string): void {
+    this.currentComponent = component;
+  }
 
-    public onNavItem(component: string): void {
-        this.currentComponent = component;
-    }
+  onSettings(settings: Settings) {
+    this.settings = settings;
+    this.settingsEmitter.emit(settings);
+  }
 }

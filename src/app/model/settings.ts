@@ -1,32 +1,32 @@
-import { Browser } from "./browser";
+import { Browser } from 'chrec-core/lib/model/browser/browser';
 
 export class Settings {
-    //General Settings
-    homeUrl: string;
-    webviewWidth: number;
-    webviewHeight: number;
 
-    //Webdriver Settings
-    seleniumGridUrl: string;
-    browsers: Browser[];
+  constructor(
+    // General Settings
+    public homeUrl: string,
+    public recentlyOpenedPath: string,
+    public webviewWidth: number,
+    public webviewHeight: number,
 
-    //Stability Settings
-    useCssSelectorGenerator: boolean;
-    useFinder: boolean;
-    useGetQuerySelector: boolean;
-    useOptimalSelect: boolean;
-    useSelectorQuery: boolean;
-    useBoundingBox: boolean;
-    useBoundingBoxTransposition: boolean;
-    useTemplateMatching: boolean;
-    useFeatureMatching: boolean;
+    // Webdriver Settings
+    public seleniumGridUrl: string,
+    public browsers: Browser[]
 
-    //Alex Settings
-    alexUrl: string;
-    alexEmail: string;
-    alexPassword: string;
+    // Stability Settings
+    // useCssSelectorGenerator: boolean;
+    // useFinder: boolean;
+    // useGetQuerySelector: boolean;
+    // useOptimalSelect: boolean;
+    // useSelectorQuery: boolean;
+    // useBoundingBox: boolean;
+    // useBoundingBoxTransposition: boolean;
+    // useTemplateMatching: boolean;
+    // useFeatureMatching: boolean;
 
-    constructor(){
-        this.browsers = [];
-    }
+    // Alex Settings
+    // alexUrl: string;
+    // alexEmail: string;
+    // alexPassword: string;
+  ) { }
 }

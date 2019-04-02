@@ -1,56 +1,53 @@
-import { Injectable } from "@angular/core";
-import { Settings } from "../model/settings";
+import { Injectable } from '@angular/core';
+import { Settings } from '../model/settings';
 import * as util from 'util';
-import * as storage from 'electron-json-storage';
+import { set, get, remove, getDefaultDataPath, DataOptions } from 'electron-json-storage';
+import { SettingsFactory } from '../factory/settings.factory';
+
+const CHREC_SETTINGS = 'chrec-settings';
 
 @Injectable()
-export class SettingsDao implements Dao<Settings>{
+export class SettingsDao implements Dao<Settings> {
 
-    private set: (fileName: string, object: object, options?: object) => Promise<void>;
-    private get: (fileName: string, options?: object) => Promise<Settings>;
-    private remove: (fileName: string, options?: object) => Promise<void>;
+  private set: (fileName: string, settings: Settings, options?: DataOptions, error?: any) => Promise<void>;
+  private get: (fileName: string, options?: DataOptions, error?: any) => Promise<Settings>;
+  private remove: (fileName: string, options?: DataOptions, error?: any) => Promise<void>;
 
-    constructor() {
-        this.set = util.promisify(storage.set);
-        this.get = util.promisify(storage.get);
-        this.remove = util.promisify(storage.remove);
+  constructor(private settingsFactory: SettingsFactory) {
+    this.set = util.promisify(set);
+    this.get = util.promisify(get);
+    this.remove = util.promisify(remove);
 
-        console.log('%cDefault Settings Storage Data Path: ' + storage.getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
+    console.log('%cDefault Settings Storage Data Path: ' + getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
+  }
+
+  public async createOrUpdate(fileName: string, settings: Settings, path?: string): Promise<any> {
+    if (path) {
+      await this.set(CHREC_SETTINGS, settings, { dataPath: path });
     }
+    await this.set(CHREC_SETTINGS, settings);
+    console.log('%cCreate or Update ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
+    console.log(settings);
+  }
 
-    public async create(fileName: string, settings: Settings, path?: string): Promise<any> {
-        console.log('%cCreate ' + fileName, 'font-weight:bold; color:#42ff42');
-        console.log(settings);
-        return await this.update(fileName, settings, path);
+  public async read(fileName: string, path?: string): Promise<Settings> {
+    let settings: any;
+    if (path) {
+      settings = await this.get(CHREC_SETTINGS, { dataPath: path }) as Settings;
+    } else {
+      settings = await this.get(CHREC_SETTINGS) as Settings;
     }
+    const newSettings: Settings = this.settingsFactory.fromStorageJson(settings);
+    console.log('%cRead ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
+    console.log(newSettings);
+    return newSettings;
+  }
 
-    public async read(fileName: string, path?: string): Promise<Settings> {
-        console.log('%cRead ' + fileName, 'font-weight:bold; color:#42ff42');
-        let settings: Settings;
-        if (path) {
-            settings = await this.get(fileName, { dataPath: path }) as Settings;
-        }
-        else {
-            settings = await this.get(fileName) as Settings;
-        }
-        console.log(settings);
-        return settings;
+  public async delete(fileName: string, path?: string): Promise<any> {
+    if (path) {
+      await this.remove(CHREC_SETTINGS, { dataPath: path });
     }
-
-    public async update(fileName: string, settings: Settings, path?: string): Promise<any> {
-        console.log('%cUpdate ' + fileName, 'font-weight:bold; color:#42ff42');
-        console.log(settings);
-        if (path) {
-            return await this.set(fileName, settings, { dataPath: path });
-        }
-        return await this.set(fileName, settings);
-    }
-
-    public async delete(fileName: string, path?: string): Promise<any> {
-        console.log('%cDelete ' + fileName, 'font-weight:bold; color:#42ff42');
-        if (path) {
-            return await this.remove(fileName, { dataPath: path });
-        }
-        return await this.remove(fileName);
-    }
+    await this.remove(CHREC_SETTINGS);
+    console.log('%cDelete ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
+  }
 }

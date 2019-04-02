@@ -1,25 +1,13 @@
-import { Injectable } from "@angular/core";
-import { Project } from "../model/project";
-import { SequenceFactory } from "./sequence.factory";
+import { Injectable } from '@angular/core';
+import { Project } from 'chrec-core/lib/model/project';
+import { ModelFactory } from 'chrec-core/lib/factory/model.factory';
 
 @Injectable()
 export class ProjectFactory {
 
-    private sequenceFactory: SequenceFactory;
+  private modelFactory: ModelFactory = new ModelFactory();
 
-    constructor(sequenceFactory: SequenceFactory) {
-        this.sequenceFactory = sequenceFactory;
-    }
-
-    public fromAny(project: any): Project {
-        let newProject: Project = new Project(project.name);
-
-        if (project.sequences) {
-            for (let sequence of project.sequences) {
-                newProject.sequences.push(this.sequenceFactory.fromAny(sequence));
-            }
-        }
-
-        return newProject;
-    }
+  public fromStorageJson(parsedJson: any): Project {
+    return this.modelFactory.projectFromChrecJson(parsedJson);
+  }
 }

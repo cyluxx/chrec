@@ -1,71 +1,37 @@
-import { Injectable } from "@angular/core";
-import { Settings } from "../model/settings";
-import { Browser, Type } from "../model/browser";
-import { SettingsDao } from "../dao/settings.dao";
-
-const DEFAULT_SETTINGS = 'settings';
+import { Injectable } from '@angular/core';
+import { Settings } from '../model/settings';
+import { SettingsDao } from '../dao/settings.dao';
+import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 
 @Injectable()
 export class SettingsService {
 
-    private settingsDao: SettingsDao;
+  private settingsDao: SettingsDao;
 
-    constructor(settingsDao: SettingsDao) {
-        this.settingsDao = settingsDao;
-    }
+  constructor(settingsDao: SettingsDao) {
+    this.settingsDao = settingsDao;
+  }
 
-    public newDefaultSettings(): Settings {
-        let settings: Settings = new Settings();
-        this.buildDefaultSettings(settings);
-        return settings;
-    }
+  public newDefaultSettings(): Settings {
+    return new Settings(
+      'https://github.com/cyluxx/chrec',
+      '',
+      800,
+      600,
+      'http://localhost:4444/wd/hub',
+      [new Chrome('default', 800, 600, 0, false)]
+    );
+  }
 
-    public async getDefaultSettings(): Promise<Settings> {
-        return this.settingsDao.read(DEFAULT_SETTINGS);
-    }
+  public resetSettings(): void {
+    this.settingsDao.createOrUpdate('chrec-settings', this.newDefaultSettings());
+  }
 
-    public setDefaultSettings(settings: Settings): void {
-        this.settingsDao.create(DEFAULT_SETTINGS, settings);
-    }
+  public async readSettings(): Promise<Settings> {
+    return this.settingsDao.read('chrec-settings');
+  }
 
-    public resetDefaultSettings(): void {
-        let settings: Settings = new Settings();
-        this.buildDefaultSettings(settings);
-        this.setDefaultSettings(settings);
-    }
-
-    private buildDefaultSettings(settings: Settings): void {
-        //General Settings
-        settings.seleniumGridUrl = 'localhost:4444';
-        settings.webviewWidth = 800;
-        settings.webviewHeight = 600;
-
-        //Webdriver Settings
-        settings.browsers = [];
-        let browser: Browser = new Browser();
-        browser.name = 'default';
-        browser.type = Type.chrome;
-        browser.width = 800;
-        browser.height = 600;
-        browser.headless = false;
-        browser.numberIterations = 1;
-        browser.sleepTimeBetweenActions = 0;
-        settings.browsers.push(browser);
-
-        //Stability Settings
-        settings.useCssSelectorGenerator = true;
-        settings.useFinder = true;
-        settings.useGetQuerySelector = true;
-        settings.useOptimalSelect = true;
-        settings.useSelectorQuery = true;
-        settings.useBoundingBox = true;
-        settings.useBoundingBoxTransposition = true;
-        settings.useTemplateMatching = true;
-        settings.useFeatureMatching = true;
-
-        //Alex Settings
-        settings.alexUrl = 'localhost:8000';
-        settings.alexEmail = 'admin@alex.example';
-        settings.alexPassword = 'admin';
-    }
+  public saveSettings(settings: Settings): void {
+    this.settingsDao.createOrUpdate('chrec-settings', settings);
+  }
 }

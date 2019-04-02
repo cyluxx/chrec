@@ -1,0 +1,55 @@
+<div *ngIf="sequence" class="row">
+  <div class="col">
+    <div class="d-flex align-items-center justify-content-between">
+      <h4 class="card-title">
+        <app-editable-input [value]="sequence.getName()" (valueEmitter)="sequence.setName($event)">
+        </app-editable-input>
+      </h4>
+      <div>
+        <button (click)="reRecordSequence.emit(sequence)" class="btn btn-sm btn-outline-danger mr-1">
+          <fa-icon icon="circle"></fa-icon> Re-Record Sequence
+        </button>
+        <button (click)="onTestSequence()" class="btn btn-sm btn-outline-success">
+          <fa-icon icon="play"></fa-icon> Test Sequence
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <ul class="list-group">
+          <li *ngFor="let action of sequence.getActions()" [class.active]="currentAction === action"
+            (click)="currentAction = action" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">{{action.getClassName()}}</h5>
+            <small>Action Stats</small>
+          </li>
+        </ul>
+      </div>
+      <div class="col-9">
+        <app-action [action]="currentAction"></app-action>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #reRecordSequenceModalContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Failed to Replay Project</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert">
+          at Sequence {{errorSequence.getName()}}!
+      </div>
+      <p>Do you want to re-record the sequence?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+        <fa-icon icon="times"></fa-icon> Cancel
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="modal.close()">
+        <fa-icon icon="circle"></fa-icon> Re-Record
+      </button>
+    </div>
+  </ng-template>

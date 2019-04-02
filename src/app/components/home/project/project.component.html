@@ -1,0 +1,120 @@
+<div *ngIf="project" class="row">
+  <div class="col">
+    <div class="d-flex align-items-center justify-content-between">
+      <h4 class="card-title">
+        <app-editable-input [value]="project.getName()" (valueEmitter)="project.setName($event)">
+        </app-editable-input>
+      </h4>
+      <div>
+        <button (click)="onNewSequence(newSequenceModalContent)" class="btn btn-sm btn-outline-primary mr-1">
+          <fa-icon icon="plus"></fa-icon> New Sequence
+        </button>
+        <button (click)="onTestProject(reRecordSequenceModalContent)" class="btn btn-sm btn-outline-success">
+          <fa-icon icon="play"></fa-icon> Test Project
+        </button>
+      </div>
+    </div>
+    <ngb-tabset type="pills" justify="justified">
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon icon="stream"></fa-icon> Recorded Sequences
+        </ng-template>
+        <ng-template ngbTabContent>
+          <ngb-tabset>
+            <ngb-tab *ngFor="let sequence of project.getSequences()">
+              <ng-template ngbTabTitle>{{sequence.getName()}}</ng-template>
+              <ng-template ngbTabContent>
+                <app-sequence [project]="project" [sequence]="sequence" [settings]="settings"
+                  (projectEmitter)="onProject($event)" (reRecordSequence)="reRecordSequence.emit($event)">
+                </app-sequence>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon icon="flask"></fa-icon> Test Results
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div *ngIf="!currentProjectTestResult">
+            <table class="table table-primary table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let projectTestResult of project.getTestResults().slice().reverse()">
+                  <td>{{projectTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}</td>
+                  <td>
+                    <span *ngIf="projectTestResult.isReplayable()" class="badge badge-success">
+                      <fa-icon icon="check"></fa-icon> Successful
+                    </span>
+                    <span *ngIf="!projectTestResult.isReplayable()" class="badge badge-danger">
+                      <fa-icon icon="times"></fa-icon> Failed
+                    </span>
+                  </td>
+                  <td><button (click)="currentProjectTestResult = projectTestResult"
+                      class="btn btn-sm btn-outline-primary">
+                      <fa-icon icon="eye"></fa-icon> Details
+                    </button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <app-project-test-result [projectTestResult]="currentProjectTestResult"
+            (close)="currentProjectTestResult = null"></app-project-test-result>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>
+
+<ng-template #newSequenceModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add Sequence</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Sequence Name:</label>
+      <input [(ngModel)]="newSequenceName" type="text" class="form-control" placeholder="Sequence Name" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      <fa-icon icon="times"></fa-icon> Cancel
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close()">
+      <fa-icon icon="circle"></fa-icon> Record
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #reRecordSequenceModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Failed to Replay Project</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert">
+      at Sequence {{errorSequence.getName()}}!
+    </div>
+    <p>Do you want to re-record the sequence?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      <fa-icon icon="times"></fa-icon> Cancel
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close()">
+      <fa-icon icon="circle"></fa-icon> Re-Record
+    </button>
+  </div>
+</ng-template>

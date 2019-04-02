@@ -1,37 +1,13 @@
-import { Injectable } from "@angular/core";
-import { Browser } from "../model/browser";
-import { ActionFactory } from "./action.factory";
+import { Injectable } from '@angular/core';
+import { ModelFactory } from 'chrec-core/lib/factory/model.factory';
+import { Browser } from 'chrec-core/lib/model/browser/browser';
 
 @Injectable()
 export class BrowserFactory {
 
-    private actionFactory: ActionFactory;
+  private modelFactory: ModelFactory = new ModelFactory();
 
-    constructor(actionFactory: ActionFactory){
-        this.actionFactory = actionFactory;
-    }
-
-    public fromAny(browser: any): Browser {
-        let newBrowser: Browser = new Browser();
-
-        if (browser.actions) {
-            for (let action of browser.actions) {
-                newBrowser.actions.push(this.actionFactory.fromAny(action));
-            }
-        }
-        
-        newBrowser.name = browser.name;
-        newBrowser.type = browser.type;
-        newBrowser.width = browser.width;
-        newBrowser.height = browser.height;
-        newBrowser.headless = browser.headless;
-        newBrowser.numberIterations = browser.numberIterations;
-        newBrowser.successfulIterations = browser.successfulIterations;
-        newBrowser.sleepTimeBetweenActions = browser.sleepTimeBetweenActions;
-        return newBrowser;
-    }
-
-    public fromBrowser(browser: Browser): Browser {
-        return this.fromAny(browser);
-    }
+  public fromStorageJson(parsedJson: any): Browser {
+    return this.modelFactory.browserFromChrecJson(parsedJson);
+  }
 }

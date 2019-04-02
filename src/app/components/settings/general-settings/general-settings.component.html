@@ -1,0 +1,26 @@
+<h2>General Settings</h2>
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+  <div class="form-group">
+    <label>Home Url</label>
+    <input type="url" class="form-control" placeholder="Home Url" name="homeUrl" [ngModel]="settings.homeUrl"
+      #homeUrl="ngModel">
+    <small class="form-text text-muted">Leave empty for blank page.</small>
+  </div>
+  <label>Recorder Window Resolution</label>
+  <div class="row">
+    <div class="col">
+      <input type="number" min="1" class="form-control" placeholder="width" name="webviewWidth"
+        [(ngModel)]="settings.webviewWidth" #webviewWidth="ngModel">
+    </div>
+    <div class="col">
+      <input type="number" min="1" class="form-control" placeholder="height" name="webviewHeight"
+        [(ngModel)]="settings.webviewHeight" #webviewHeight="ngModel">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary mt-3">
+    <fa-icon icon="save"></fa-icon> Save
+  </button>
+</form>
+<button class="btn btn-danger mt-3" (click)="onReset()">
+  <fa-icon icon="exclamation-triangle"></fa-icon> Reset Settings to Default <fa-icon icon="exclamation-triangle"></fa-icon>
+</button>

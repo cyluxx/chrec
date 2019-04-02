@@ -1,109 +1,82 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Project } from 'chrec-core/lib/model/project';
 import { ProjectService } from '../../providers/project.service';
-import { Project } from '../../model/project';
-import { Sequence } from '../../model/sequence';
-import { Settings } from '../../model/settings';
+import { ElectronService } from '../../providers/electron.service';
 import { SettingsService } from '../../providers/settings.service';
-import { AlexExportService } from '../../providers/alex-export.service';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Settings } from '../../model/settings';
+import * as path from 'path';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
-  private projectService: ProjectService;
-  private settingsService: SettingsService;
-  private alexExportService: AlexExportService;
-  private modalService: NgbModal;
+  @Input() project: Project;
+  @Input() settings: Settings;
 
-  project: Project;
-  settings: Settings;
+  @Output() projectEmitter = new EventEmitter<Project>();
+  @Output() reRecordSequence = new EventEmitter();
+  @Output() recordSequence = new EventEmitter();
+  @Output() settingsEmitter = new EventEmitter();
 
-  currentSequence: Sequence;
+  newProjectName: string;
 
-  screenshotFilename: string;
-  newSequenceName: string;
+  constructor(
+    private electronService: ElectronService,
+    private modalService: NgbModal,
+    private projectService: ProjectService,
+    private settingsService: SettingsService
+  ) { }
 
-  recording: boolean;
-  rerecording: boolean;
-
-  constructor(projectService: ProjectService, settingsService: SettingsService, alexExportService: AlexExportService, modalService: NgbModal) {
-    this.projectService = projectService;
-    this.settingsService = settingsService;
-    this.alexExportService = alexExportService;
-    this.modalService = modalService;
-
-    this.project = projectService.newDefaultProject();
-    this.settings = settingsService.newDefaultSettings();
-  }
-
-  async ngOnInit(): Promise<void> {
-    this.project = await this.projectService.getDefaultProject();
-    this.settings = await this.settingsService.getDefaultSettings();
-  }
-
-  public onSave(): void {
-    console.log('home onSave');
-    console.log(this.project);
-    this.projectService.setDefaultProject(this.project);
-  }
-
-  public onClearProject(): void {
-    this.projectService.removeDefaultProject();
-  }
-
-  public onNewSequence(): void {
-    if (this.newSequenceName) {
-      let sequence: Sequence = new Sequence(this.newSequenceName);
-      this.project.sequences.push(sequence);
-      this.currentSequence = sequence;
-      this.newSequenceName = '';
+  onExportProject() {
+    if (this.project) {
+      const absolutePath = this.electronService.getPathFromSaveDialog();
+      if (absolutePath) {
+        const fileName = path.basename(absolutePath);
+        const dirName = path.dirname(absolutePath);
+        this.projectService.exportToAlexJson(fileName, this.project, dirName);
+      }
     }
   }
 
-  public onSelectSequence(sequence: Sequence): void {
-    this.currentSequence = sequence;
-  }
-
-  public onRecordSequence(): void {
-    this.recording = true;
-  }
-
-  public onSubmitRecording(): void {
-    this.recording = false;
-  }
-
-  public onRerecordSequence(): void {
-    this.rerecording = true;
-  }
-
-  public onCancleRerecording(): void {
-    this.rerecording = false;
-  }
-
-  public onSubmitRerecording(): void {
-    this.rerecording = false;
-  }
-
-  public onExportToAlex(): void {
-    const modalRef = this.modalService.open(ExportToAlexModal, { centered: true });
-    modalRef.result.then((result) => {
-      this.alexExportService.export(result.fileName, this.project, result.path);
+  onNewProject(newProjectModalContent: any) {
+    this.modalService.open(newProjectModalContent).result.then(() => {
+      if (this.newProjectName) {
+        this.project = this.projectService.newProject(this.newProjectName);
+        this.projectEmitter.emit(this.project);
+      }
     }, () => { });
   }
-}
 
-@Component({
-  selector: 'export-to-alex-modal',
-  templateUrl: './export-to-alex.modal.html'
-})
-export class ExportToAlexModal {
+  async onOpenProject() {
+    const absolutePath = this.electronService.getPathFromOpenDialog();
+    if (absolutePath) {
+      const fileName = path.basename(absolutePath);
+      const dirName = path.dirname(absolutePath);
+      this.project = await this.projectService.readProject(fileName, dirName);
+      this.projectEmitter.emit(this.project);
 
-  fileName: string;
-  path: string;
+      // save project to open on next startup
+      this.settings.recentlyOpenedPath = absolutePath;
+      this.settingsService.saveSettings(this.settings);
+    }
+  }
 
-  constructor(public activeModal: NgbActiveModal) { }
+  onSaveProject() {
+    if (this.project) {
+      const absolutePath = this.electronService.getPathFromSaveDialog();
+      if (absolutePath) {
+        const fileName = path.basename(absolutePath);
+        const dirName = path.dirname(absolutePath);
+        this.projectService.saveProject(fileName, this.project, dirName);
+
+        // save project to open on next startup
+        this.settings.recentlyOpenedPath = absolutePath;
+        this.settingsService.saveSettings(this.settings);
+      }
+    }
+  }
 }

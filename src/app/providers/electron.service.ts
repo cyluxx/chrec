@@ -27,8 +27,16 @@ export class ElectronService {
     }
   }
 
-  isElectron = () => {
+  public isElectron(): boolean {
     return window && window.process && window.process.type;
   }
 
+  public getPathFromOpenDialog(): string {
+    const paths = remote.dialog.showOpenDialog(null);
+    return paths && paths.length === 1 ? paths[0] : '';
+  }
+
+  public getPathFromSaveDialog(): string {
+    return remote.dialog.showSaveDialog(null);
+  }
 }

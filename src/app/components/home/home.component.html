@@ -1,50 +1,54 @@
-<div class="container-fluid">
-    <div *ngIf="!recording && !rerecording" class="row mt-1">
-        <div class="col">
-            <div class="d-flex">
-                <a class="btn btn-sm btn-primary mr-1" routerLink="/settings">
-                    <fa-icon icon="cog"></fa-icon>
-                </a>
-                <button (click)="onSave()" class="btn btn-sm btn-outline-secondary mr-1">
-                    <fa-icon icon="save"></fa-icon>
-                </button>
-                <button (click)="onClearProject()" class="btn btn-sm btn-danger mr-1">
-                    <fa-icon icon="database"></fa-icon>
-                </button>
-                <button (click)="onExportToAlex()" class="btn btn-sm btn-outline-secondary mr-1">
-                    <fa-icon icon="file-export"></fa-icon>
-                </button>
-            </div>
-        </div>
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex align-items-center justify-content-between">
+      <h4 class="card-title m-0">
+        ChRec
+      </h4>
+      <div>
+        <button (click)="settingsEmitter.emit()" class="btn btn-sm btn-outline-secondary mr-1">
+          <fa-icon icon="cog"></fa-icon>
+        </button>
+        <button (click)="onNewProject(newProjectModalContent)" class="btn btn-sm btn-outline-secondary mr-1">
+          <fa-icon icon="file"></fa-icon>
+        </button>
+        <button [class.disabled]="!project" (click)="onSaveProject()" class="btn btn-sm btn-outline-secondary mr-1">
+          <fa-icon icon="save"></fa-icon>
+        </button>
+        <button (click)="onOpenProject()" class="btn btn-sm btn-outline-secondary mr-1">
+          <fa-icon icon="folder-open"></fa-icon>
+        </button>
+        <button [class.disabled]="!project" (click)="onExportProject()" class="btn btn-sm btn-outline-secondary">
+          <fa-icon icon="file-export"></fa-icon>
+        </button>
+      </div>
     </div>
-    <div *ngIf="!recording && !rerecording" class="row mt-1">
-        <div class="col-3">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <button (click)="onNewSequence()" class="btn btn-outline-secondary">
-                        <fa-icon icon="plus"></fa-icon>
-                    </button>
-                </div>
-                <input type="text" class="form-control" placeholder="sequence name" [(ngModel)]="newSequenceName">
-            </div>
-        </div>
-        <div class="col-9">
-            <ul class="nav nav-tabs">
-                <li *ngFor="let sequence of project.sequences" class="nav-item">
-                    <a class="nav-link" [class.active]="sequence === currentSequence" (click)="onSelectSequence(sequence)"
-                        [class.text-success]="sequence.isExecutable()" [class.text-danger]="!sequence.isExecutable()"
-                        [class.text-warning]="!sequence.isTested()">{{sequence.name}}</a>
-                </li>
-            </ul>
-        </div>
+  </div>
+  <div class="card-body">
+    <div *ngIf="project">
+      <app-project [project]="project" [settings]="settings" (recordSequence)="recordSequence.emit($event)"
+        (reRecordSequence)="reRecordSequence.emit($event)">
+      </app-project>
     </div>
-    <div class="row mt-1">
-        <div class="col">
-            <sequence-info *ngIf="!recording && !rerecording && currentSequence" [sequence]="currentSequence"
-                [settings]="settings" (recordSequenceEmitter)="onRecordSequence()" (rerecordSequenceEmitter)="onRerecordSequence()"></sequence-info>
-            <record-sequence *ngIf="recording" [sequence]="currentSequence" [settings]="settings" (submitEmitter)="onSubmitRecording()"></record-sequence>
-            <rerecord-sequence *ngIf="rerecording" [sequence]="currentSequence" [settings]="settings" (cancleEmitter)="onCancleRerecording()"
-                (submitEmitter)="onSubmitRerecording()"></rerecord-sequence>
-        </div>
-    </div>
+  </div>
 </div>
+
+<ng-template #newProjectModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">New Project</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Project Name:</label>
+      <input [(ngModel)]="newProjectName" type="text" class="form-control" placeholder="Project Name" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancel <fa-icon icon="times"></fa-icon>
+    </button>
+    <button type="button" class="btn btn-primary" (click)="modal.close()">Create <fa-icon icon="plus"></fa-icon>
+    </button>
+  </div>
+</ng-template>
