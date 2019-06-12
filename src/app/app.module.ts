@@ -2,6 +2,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+import {MatTreeModule} from '@angular/material/tree';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 // Font Awesome
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -135,6 +139,7 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     TranslateModule.forRoot({
@@ -146,6 +151,9 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     }),
     NgbModule.forRoot(),
     FontAwesomeModule,
+
+    MatTreeModule,
+    MatSidenavModule
   ],
   providers: [
     ElectronService,

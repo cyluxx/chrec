@@ -37,6 +37,10 @@
           <fa-icon icon="flask"></fa-icon> Test Results
         </ng-template>
         <ng-template ngbTabContent>
+          <mat-sidenav-container>
+            <mat-sidenav mode="side" opened>Start</mat-sidenav>
+            <mat-sidenav-content>Main</mat-sidenav-content>
+          </mat-sidenav-container>
           <div *ngIf="!currentProjectTestResult">
             <table class="table table-primary table-striped">
               <thead>
