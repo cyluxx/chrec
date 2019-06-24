@@ -152,8 +152,8 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     NgbModule.forRoot(),
     FontAwesomeModule,
 
-    MatTreeModule,
-    MatSidenavModule
+    BrowserAnimationsModule,
+    MatTreeModule
   ],
   providers: [
     ElectronService,

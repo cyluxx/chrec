@@ -37,10 +37,16 @@
           <fa-icon icon="flask"></fa-icon> Test Results
         </ng-template>
         <ng-template ngbTabContent>
-          <mat-sidenav-container>
-            <mat-sidenav mode="side" opened>Start</mat-sidenav>
-            <mat-sidenav-content>Main</mat-sidenav-content>
-          </mat-sidenav-container>
+          <div class="row">
+            <div class="col-3">
+              <mat-tree>
+                <mat-tree-node> parent node </mat-tree-node>
+                <mat-tree-node> -- child node1 </mat-tree-node>
+                <mat-tree-node> -- child node2 </mat-tree-node>
+              </mat-tree>
+            </div>
+            <div class="col-9"></div>
+          </div>
           <div *ngIf="!currentProjectTestResult">
             <table class="table table-primary table-striped">
               <thead>
@@ -51,7 +57,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let projectTestResult of project.getTestResults().slice().reverse()">
+                <tr *ngFor="let projectTestResult of project.getTestResults().slice().reverse()">J
                   <td>{{projectTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}</td>
                   <td>
                     <span *ngIf="projectTestResult.isReplayable()" class="badge badge-success">
