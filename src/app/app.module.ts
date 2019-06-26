@@ -4,9 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-import {MatTreeModule} from '@angular/material/tree';
-import {MatSidenavModule} from '@angular/material/sidenav';
-
 // Font Awesome
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -33,7 +30,7 @@ import {
   faTrash,
   faStream,
   faFlask,
-  faHandPointRight
+  faCaretRight
 } from '@fortawesome/free-solid-svg-icons';
 
 // Bootstrap
@@ -150,10 +147,7 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
       }
     }),
     NgbModule.forRoot(),
-    FontAwesomeModule,
-
-    BrowserAnimationsModule,
-    MatTreeModule
+    FontAwesomeModule
   ],
   providers: [
     ElectronService,
