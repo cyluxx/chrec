@@ -39,13 +39,33 @@
         <ng-template ngbTabContent>
           <div class="row">
             <div class="col-3">
-              <mat-tree>
-                <mat-tree-node> parent node </mat-tree-node>
-                <mat-tree-node> -- child node1 </mat-tree-node>
-                <mat-tree-node> -- child node2 </mat-tree-node>
-              </mat-tree>
+              <ul class="list-group">
+                <li *ngFor="let projectTestResult of project.getTestResults()" class="list-group-item">
+                  <fa-icon icon="caret-down"></fa-icon> {{projectTestResult.getDate()}}
+                  <ul class="list-group">
+                    <li *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()"
+                      class="list-group-item">
+                      <fa-icon icon="caret-down"></fa-icon> {{sequenceTestResult.getSequence().getName()}}
+                      <ul class="list-group">
+                          <li *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()"
+                          class="list-group-item">
+                          <fa-icon icon="caret-down"></fa-icon> {{browserTestResult.getBrowser().getName()}}
+                          <ul class="list-group">
+                              <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()"
+                              class="list-group-item">
+                              <fa-icon icon="caret-down"></fa-icon> {{actionTestResult.getAction().getClassName()}}
+                              </li>
+                          </ul>
+                          </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </div>
-            <div class="col-9"></div>
+            <div class="col-9">
+
+            </div>
           </div>
           <div *ngIf="!currentProjectTestResult">
             <table class="table table-primary table-striped">
