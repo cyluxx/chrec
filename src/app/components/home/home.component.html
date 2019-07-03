@@ -1,10 +1,33 @@
 <div class="card">
   <div class="card-header">
-    <div class="d-flex align-items-center justify-content-between">
-      <h4 class="card-title m-0">
-        ChRec
-      </h4>
-      <div>
+    <div class="row">
+      <div class="col-5">
+        <h4 class="card-title m-0">
+          <app-editable-input *ngIf="project" [value]="project.getName()" (valueEmitter)="project.setName($event)">
+          </app-editable-input>
+        </h4>
+      </div>
+      <div class="col-5">
+        <div *ngIf="project">
+          <div class="btn-group mr-1">
+            <button (click)="showTestResults = false" [class.active]="!showTestResults"
+              class="btn btn-sm btn-outline-secondary">
+              <fa-icon icon="stream"></fa-icon> Recorded Sequences
+            </button>
+            <button (click)="showTestResults = true" [class.active]="showTestResults"
+              class="btn btn-sm btn-outline-secondary">
+              <fa-icon icon="flask"></fa-icon> Test Results
+            </button>
+          </div>
+          <button (click)="onNewSequence(newSequenceModalContent)" class="btn btn-sm btn-outline-primary mr-1">
+            <fa-icon icon="plus"></fa-icon> New Sequence
+          </button>
+          <button (click)="onTestProject(reRecordSequenceModalContent)" class="btn btn-sm btn-outline-success">
+            <fa-icon icon="play"></fa-icon> Test Project
+          </button>
+        </div>
+      </div>
+      <div class="col-2 d-flex justify-content-end">
         <button (click)="settingsEmitter.emit()" class="btn btn-sm btn-outline-secondary mr-1">
           <fa-icon icon="cog"></fa-icon>
         </button>
@@ -24,11 +47,9 @@
     </div>
   </div>
   <div class="card-body">
-    <div *ngIf="project">
-      <app-project [project]="project" [settings]="settings" (recordSequence)="recordSequence.emit($event)"
-        (reRecordSequence)="reRecordSequence.emit($event)">
-      </app-project>
-    </div>
+    <app-recorded-sequences *ngIf="!showTestResults" [project]="project" [settings]="settings"
+    (projectEmitter)="onProject($event)" (reRecordSequence)="reRecordSequence.emit($event)"></app-recorded-sequences>
+    <app-test-results *ngIf="showTestResults" [project]="project"></app-test-results>
   </div>
 </div>
 
@@ -49,6 +70,52 @@
     <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancel <fa-icon icon="times"></fa-icon>
     </button>
     <button type="button" class="btn btn-primary" (click)="modal.close()">Create <fa-icon icon="plus"></fa-icon>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #newSequenceModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add Sequence</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Sequence Name:</label>
+      <input [(ngModel)]="newSequenceName" type="text" class="form-control" placeholder="Sequence Name" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      <fa-icon icon="times"></fa-icon> Cancel
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close()">
+      <fa-icon icon="circle"></fa-icon> Record
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #reRecordSequenceModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Failed to Replay Project</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert">
+      at Sequence {{errorSequence.getName()}}!
+    </div>
+    <p>Do you want to re-record the sequence?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      <fa-icon icon="times"></fa-icon> Cancel
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close()">
+      <fa-icon icon="circle"></fa-icon> Re-Record
     </button>
   </div>
 </ng-template>

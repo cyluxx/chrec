@@ -52,7 +52,6 @@ import { ActionComponent } from './components/home/action/action.component';
 import { BrowserTestResultComponent } from './components/home/browser-test-result/browser-test-result.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProjectTestResultComponent } from './components/home/project-test-result/project-test-result.component';
-import { ProjectComponent } from './components/home/project/project.component';
 import { SequenceTestResultComponent } from './components/home/sequence-test-result/sequence-test-result.component';
 import { SequenceComponent } from './components/home/sequence/sequence.component';
 import { ReRecordComponent } from './components/re-record/re-record.component';
@@ -79,6 +78,8 @@ import { ElectronService } from './providers/electron.service';
 import { ProjectService } from './providers/project.service';
 import { ReplayService } from './providers/replay.service';
 import { SettingsService } from './providers/settings.service';
+import { RecordedSequencesComponent } from './components/home/recorded-sequences/recorded-sequences.component';
+import { TestResultsComponent } from './components/home/test-results/test-results.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -119,7 +120,6 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     WebviewDirective,
     BrowserWindowComponent,
     ActionComponent,
-    ProjectComponent,
     SequenceComponent,
     RecordComponent,
     ReRecordComponent,
@@ -130,7 +130,9 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     ActionTestResultComponent,
     EditableInputComponent,
     GeneralSettingsComponent,
-    WebdriverSettingsComponent
+    WebdriverSettingsComponent,
+    RecordedSequencesComponent,
+    TestResultsComponent
   ],
   entryComponents: [
   ],
