@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { BrowserTestResult } from 'chrec-core/lib/model/test-result/browser-test-result';
-import { ActionTestResult } from 'chrec-core/lib/model/test-result/action-test-result';
 import { Browser } from 'chrec-core/lib/model/browser/browser';
 import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 import { Edge } from 'chrec-core/lib/model/browser/edge';
@@ -15,8 +14,6 @@ import { InternetExplorer } from 'chrec-core/lib/model/browser/internet-explorer
 export class BrowserTestResultComponent {
 
   @Input() browserTestResult: BrowserTestResult;
-
-  currentActionTestResult: ActionTestResult;
 
   constructor() { }
 

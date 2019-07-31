@@ -33,7 +33,7 @@ import {
   faCaretRight,
   faCube,
   faCubes,
-  faStickyNote
+  faAdjust
 } from '@fortawesome/free-solid-svg-icons';
 
 // Bootstrap
@@ -116,7 +116,7 @@ library.add(faCog,
   faStream,
   faCube,
   faCubes,
-  faStickyNote
+  faAdjust
 );
 library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
 

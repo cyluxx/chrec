@@ -1,78 +1,24 @@
-<div *ngIf="projectTestResult" class="row">
+<div class="row">
   <div class="col">
-    <div *ngIf="!currentSequenceTestResult" class="card border-primary mt-3">
-      <div class="card-body">
-        <div class="d-flex align-items-center justify-content-between">
-          <h4 class="card-title">
-            {{projectTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}
-          </h4>
-          <div>
-            <span *ngIf="projectTestResult.isReplayable()" class="badge badge-success">
-              <fa-icon icon="check"></fa-icon> Successful
-            </span>
-            <span *ngIf="!projectTestResult.isReplayable()" class="badge badge-danger">
-              <fa-icon icon="times"></fa-icon> Failed
-            </span>
-            <span class="badge badge-primary ml-1">
-              SuccessfulLocators:
-              ({{projectTestResult.getSuccessfulLocatorCount()}}/{{projectTestResult.getTotalLocatorCount()}})
-            </span>
-            <span class="badge badge-primary ml-1">
-              CssSelectorGenerator: {{projectTestResult.getSuccessfulCssSelectorGeneratorCount()}}
-            </span>
-            <span class="badge badge-primary ml-1">
-              Finder: {{projectTestResult.getSuccessfulFinderCount()}}
-            </span>
-            <span class="badge badge-primary ml-1">
-              GetQuerySelector: {{projectTestResult.getSuccessfulGetQuerySelectorCount()}}
-            </span>
-            <span class="badge badge-primary ml-1">
-              OptimalSelect: {{projectTestResult.getSuccessfulOptimalSelectCount()}}
-            </span>
-            <span class="badge badge-primary ml-1">
-              SelectorQuery: {{projectTestResult.getSuccessfulSelectorQueryCount()}}
-            </span>
-            <span class="badge badge-primary ml-1">
-              RobulaPlus: {{projectTestResult.getSuccessfulRobulaPlusCount()}}
-            </span>
-          </div>
-          <div>
-            <button (click)="close.emit()" class="btn btn-sm btn-danger">
-              <fa-icon icon="times"></fa-icon>
-            </button>
-          </div>
-        </div>
-        <table class="table table-warning table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Sequence</th>
-              <th scope="col">Date</th>
-              <th scope="col">Status</th>
-              <th scope="col">Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults().slice().reverse()">
-              <td>{{sequenceTestResult.getSequence().getName()}}</td>
-              <td>{{sequenceTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}</td>
-              <td>
-                <span *ngIf="sequenceTestResult.isReplayable()" class="badge badge-success">
-                  <fa-icon icon="check"></fa-icon> Successful
-                </span>
-                <span *ngIf="!sequenceTestResult.isReplayable()" class="badge badge-danger">
-                  <fa-icon icon="times"></fa-icon> Failed
-                </span>
-              </td>
-              <td><button (click)="currentSequenceTestResult = sequenceTestResult"
-                  class="btn btn-sm btn-outline-secondary">
-                  <fa-icon icon="eye"></fa-icon> Details
-                </button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="d-flex justify-content-between">
+      <h4>
+        <fa-icon icon="cubes"></fa-icon>
+        Project: {{projectTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}
+      </h4>
+      <h4>
+        <app-status-badge [success]="projectTestResult.isReplayable()"></app-status-badge>
+      </h4>
     </div>
-    <app-sequence-test-result [sequenceTestResult]="currentSequenceTestResult"
-      (close)="currentSequenceTestResult = null"></app-sequence-test-result>
+    <small>
+      SuccessfulLocators:
+      ({{projectTestResult.getSuccessfulLocatorCount()}}/{{projectTestResult.getTotalLocatorCount()}}),
+      CssSelectorGenerator: {{projectTestResult.getSuccessfulCssSelectorGeneratorCount()}},
+      Finder: {{projectTestResult.getSuccessfulFinderCount()}},
+      GetQuerySelector: {{projectTestResult.getSuccessfulGetQuerySelectorCount()}},
+      OptimalSelect: {{projectTestResult.getSuccessfulOptimalSelectCount()}},
+      SelectorQuery: {{projectTestResult.getSuccessfulSelectorQueryCount()}},
+      RobulaPlus: {{projectTestResult.getSuccessfulRobulaPlusCount()}}
+    </small>
   </div>
 </div>
+<hr>
