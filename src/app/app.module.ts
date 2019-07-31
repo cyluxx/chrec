@@ -30,7 +30,10 @@ import {
   faTrash,
   faStream,
   faFlask,
-  faCaretRight
+  faCaretRight,
+  faCube,
+  faCubes,
+  faStickyNote
 } from '@fortawesome/free-solid-svg-icons';
 
 // Bootstrap
@@ -100,6 +103,7 @@ library.add(faCog,
   faEye,
   faEdit,
   faCaretDown,
+  faCaretRight,
   faFile,
   faArrowLeft,
   faArrowRight,
@@ -108,7 +112,10 @@ library.add(faCog,
   faExclamationTriangle,
   faTrash,
   faFlask,
-  faStream
+  faStream,
+  faCube,
+  faCubes,
+  faStickyNote
 );
 library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
 

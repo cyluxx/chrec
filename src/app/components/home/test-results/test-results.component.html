@@ -1,17 +1,28 @@
 <div class="row">
   <div class="col-3">
-    <ul class="list-group">
-      <li *ngFor="let projectTestResult of project.getTestResults(); index as i" class="list-group-item">
-        <fa-icon icon="caret-down"></fa-icon> {{projectTestResult.getDate()}}
-        <ul class="list-group">
-          <li *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()" class="list-group-item">
-            <fa-icon icon="caret-down"></fa-icon> {{sequenceTestResult.getSequence().getName()}}
-            <ul class="list-group">
-              <li *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()" class="list-group-item">
-                <fa-icon icon="caret-down"></fa-icon> {{browserTestResult.getBrowser().getName()}}
-                <ul class="list-group">
-                  <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()" class="list-group-item">
-                    <fa-icon icon="caret-down"></fa-icon> {{actionTestResult.getAction().getClassName()}}
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let projectTestResult of this.getTreeviewProjectTestResults()" class="list-group-item pr-0">
+        <div (click)="projectTestResult.expanded = !projectTestResult.expanded" class="cursor-pointer">
+          <fa-icon [icon]="getCaret(projectTestResult.expanded)"></fa-icon>&nbsp;
+          <fa-icon icon="cubes"></fa-icon>
+          {{projectTestResult.getDate()}}
+        </div>
+        <ul *ngIf="projectTestResult.expanded" class="list-group list-group-flush">
+          <li *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()" class="list-group-item pr-0">
+            <div (click)="sequenceTestResult.expanded = !sequenceTestResult.expanded" class="cursor-pointer">
+              <fa-icon [icon]="getCaret(sequenceTestResult.expanded)"></fa-icon>&nbsp;
+              <fa-icon icon="cube"></fa-icon> {{sequenceTestResult.getSequence().getName()}}
+            </div>
+            <ul *ngIf="sequenceTestResult.expanded" class="list-group list-group-flush">
+              <li *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()" class="list-group-item pr-0">
+                <div (click)="browserTestResult.expanded = !browserTestResult.expanded" class="cursor-pointer">
+                  <fa-icon [icon]="getCaret(browserTestResult.expanded)"></fa-icon>&nbsp;
+                  <fa-icon [icon]="getBrowserIcon(browserTestResult.getBrowser())"></fa-icon>
+                  {{browserTestResult.getBrowser().getName()}}
+                </div>
+                <ul *ngIf="browserTestResult.expanded" class="list-group list-group-flush">
+                  <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()" class="list-group-item pr-0">
+                    <fa-icon icon="sticky-note"></fa-icon> {{actionTestResult.getAction().getClassName()}}
                   </li>
                 </ul>
               </li>
