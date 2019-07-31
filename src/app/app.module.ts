@@ -83,6 +83,7 @@ import { ReplayService } from './providers/replay.service';
 import { SettingsService } from './providers/settings.service';
 import { RecordedSequencesComponent } from './components/home/recorded-sequences/recorded-sequences.component';
 import { TestResultsComponent } from './components/home/test-results/test-results.component';
+import { StatusBadgeComponent } from './components/common/status-badge/status-badge.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -139,7 +140,8 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     GeneralSettingsComponent,
     WebdriverSettingsComponent,
     RecordedSequencesComponent,
-    TestResultsComponent
+    TestResultsComponent,
+    StatusBadgeComponent
   ],
   entryComponents: [
   ],
