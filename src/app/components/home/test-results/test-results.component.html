@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-3">
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let projectTestResult of this.getTreeviewProjectTestResults()" class="list-group-item pr-0">
+        <div [class.selected]="projectTestResult === currentProjectTestResult"
+          (click)="onProjectTestResult(projectTestResult)" class="cursor-pointer">
+          <fa-icon [icon]="getCaret(projectTestResult.expanded)"></fa-icon>&nbsp;
+          <fa-icon [ngClass]="projectTestResult.isReplayable()?'text-success':'text-danger'" icon="cubes"></fa-icon>
+          {{projectTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}
+        </div>
+        <ul *ngIf="projectTestResult.expanded" class="list-group list-group-flush">
+          <li *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()"
+            class="list-group-item pr-0">
+            <div [class.selected]="sequenceTestResult === currentSequenceTestResult"
+              (click)="onSequenceTestResult(sequenceTestResult)" class="cursor-pointer">
+              <fa-icon [icon]="getCaret(sequenceTestResult.expanded)"></fa-icon>&nbsp;
+              <fa-icon [ngClass]="sequenceTestResult.isReplayable()?'text-success':'text-danger'" icon="cube"></fa-icon>
+              {{sequenceTestResult.getSequence().getName()}}
+            </div>
+            <ul *ngIf="sequenceTestResult.expanded" class="list-group list-group-flush">
+              <li *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()"
+                class="list-group-item pr-0">
+                <div [class.selected]="browserTestResult === currentBrowserTestResult"
+                  (click)="onBrowserTestResult(browserTestResult)" class="cursor-pointer">
+                  <fa-icon [icon]="getCaret(browserTestResult.expanded)"></fa-icon>&nbsp;
+                  <fa-icon [ngClass]="browserTestResult.isReplayable()?'text-success':'text-danger'"
+                    [icon]="getBrowserIcon(browserTestResult.getBrowser())"></fa-icon>
+                  {{browserTestResult.getBrowser().getName()}}
+                </div>
+                <ul *ngIf="browserTestResult.expanded" class="list-group list-group-flush">
+                  <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()"
+                    class="list-group-item pr-0">
+                    <div [class.selected]="actionTestResult === currentActionTestResult"
+                      (click)="onActionTestResult(actionTestResult)" class="cursor-pointer">
+                      <fa-icon [ngClass]="actionTestResult.isReplayable()?'text-success':'text-danger'" icon="adjust">
+                      </fa-icon>
+                      {{actionTestResult.getAction().getClassName()}}
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="col-9">
+    <app-project-test-result *ngIf="currentProjectTestResult" [projectTestResult]="currentProjectTestResult">
+    </app-project-test-result>
+    <app-sequence-test-result *ngIf="currentSequenceTestResult" [sequenceTestResult]="currentSequenceTestResult">
+    </app-sequence-test-result>
+    <app-browser-test-result *ngIf="currentBrowserTestResult" [browserTestResult]="currentBrowserTestResult">
+    </app-browser-test-result>
+    <app-action-test-result *ngIf="currentActionTestResult" [actionTestResult]="currentActionTestResult">
+    </app-action-test-result>
+  </div>
+</div>
