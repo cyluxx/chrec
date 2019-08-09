@@ -4,7 +4,6 @@ import { Project } from 'chrec-core/lib/model/project';
 import { Settings as CoreSettings } from 'chrec-core/lib/model/settings';
 import { Sequence } from 'chrec-core/lib/model/sequence';
 import { Settings as UISettings } from '../model/settings';
-import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 
 @Injectable()
 export class ReplayService {

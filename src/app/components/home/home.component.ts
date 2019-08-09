@@ -6,6 +6,8 @@ import { ElectronService } from '../../providers/electron.service';
 import { SettingsService } from '../../providers/settings.service';
 import { Settings } from '../../model/settings';
 import * as path from 'path';
+import { ReplayService } from '../../providers/replay.service';
+import { Sequence } from 'chrec-core/lib/model/sequence';
 
 @Component({
   selector: 'app-home',
@@ -23,12 +25,16 @@ export class HomeComponent {
   @Output() settingsEmitter = new EventEmitter();
 
   newProjectName: string;
+  errorSequence: Sequence;
+  newSequenceName: string;
+  showTestResults = false;
 
   constructor(
     private electronService: ElectronService,
     private modalService: NgbModal,
     private projectService: ProjectService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private replayService: ReplayService
   ) { }
 
   onExportProject() {
@@ -42,6 +48,16 @@ export class HomeComponent {
     }
   }
 
+  onNewSequence(newSequenceModalContent: any) {
+    this.modalService.open(newSequenceModalContent).result.then(() => {
+      if (this.newSequenceName) {
+        const sequence = new Sequence(this.newSequenceName, []);
+        this.project.addSequence(sequence);
+        this.recordSequence.emit(sequence);
+      }
+    }, () => { });
+  }
+
   onNewProject(newProjectModalContent: any) {
     this.modalService.open(newProjectModalContent).result.then(() => {
       if (this.newProjectName) {
@@ -49,6 +65,21 @@ export class HomeComponent {
         this.projectEmitter.emit(this.project);
       }
     }, () => { });
+  }
+
+  async onTestProject(reRecordSequenceModalContent: any) {
+    this.project = await this.replayService.testProject(this.project, this.settings);
+    this.replayService.setRecommendedLocators(this.project);
+    const testResults = this.project.getTestResults();
+    if (testResults.length > 0 && !testResults[testResults.length - 1].isReplayable()) {
+      for (const sequenceTestResult of testResults[testResults.length - 1].getSequenceTestResults()) {
+        if (!sequenceTestResult.isReplayable()) {
+          this.errorSequence = sequenceTestResult.getSequence();
+          break;
+        }
+      }
+      this.showReRecordModal(reRecordSequenceModalContent);
+    }
   }
 
   async onOpenProject() {
@@ -65,6 +96,10 @@ export class HomeComponent {
     }
   }
 
+  onProject(project: Project) {
+    this.project = project;
+  }
+
   onSaveProject() {
     if (this.project) {
       const absolutePath = this.electronService.getPathFromSaveDialog();
@@ -78,5 +113,11 @@ export class HomeComponent {
         this.settingsService.saveSettings(this.settings);
       }
     }
+  }
+
+  showReRecordModal(reRecordSequenceModalContent: any) {
+    this.modalService.open(reRecordSequenceModalContent).result.then(() => {
+      this.reRecordSequence.emit(this.errorSequence);
+    }, () => { });
   }
 }

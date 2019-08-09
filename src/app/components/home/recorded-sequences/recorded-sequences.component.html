@@ -1,0 +1,10 @@
+<ngb-tabset *ngIf="project">
+  <ngb-tab *ngFor="let sequence of project.getSequences()">
+    <ng-template ngbTabTitle>{{sequence.getName()}}</ng-template>
+    <ng-template ngbTabContent>
+      <app-sequence [project]="project" [sequence]="sequence" [settings]="settings" (projectEmitter)="projectEmitter.emit($event)"
+        (reRecordSequence)="reRecordSequence.emit($event)">
+      </app-sequence>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
