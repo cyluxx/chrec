@@ -1,6 +1,8 @@
 # ChRec
 Visually Stabilizing **Ch**romium Selenium Web **Rec**order for Automated User Acceptance Tests.
 
+[![Build Status](https://travis-ci.org/cyluxx/chrec.svg?branch=master)](https://travis-ci.org/cyluxx/chrec)
+
 ## Installation Instructions for Development
 Make sure to have the newest versions of [_Node.js_ and _npm_](https://nodejs.org/en/).
 
@@ -8,6 +10,7 @@ Make sure to have the newest versions of [_Node.js_ and _npm_](https://nodejs.or
 For replaying sequences you will need the _Selenium_ standalone server or a configured _Selenium_ grid. You can download it from: https://www.seleniumhq.org/download/.
 
 Depending on which browsers you want to use for testing, you should install and configure their corresponding webdrivers:
+
 * [Chrome](http://chromedriver.chromium.org/)
 * [Edge](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/)
 * [Firefox](https://github.com/mozilla/geckodriver)
