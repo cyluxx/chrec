@@ -25,18 +25,18 @@ export class ReRecordComponent implements OnInit {
   showBrowserWindow = false;
 
   public ngOnInit(): void {
-    this.newSequence = new Sequence(this.sequence.getName(), []);
-    this.currentAction = this.sequence.getActions()[0];
+    this.newSequence = new Sequence(this.sequence.name, []);
+    this.currentAction = this.sequence.actions[0];
   }
 
   public onSubmit(): void {
-    this.sequence.setActions(this.newSequence.getActions());
+    this.sequence.actions = this.newSequence.actions;
     this.submit.emit();
   }
 
   public onNextAction(): void {
-    if (this.sequence.getActions().length > this.newSequence.getActions().length) {
-      this.currentAction = this.sequence.getActions()[this.newSequence.getActions().length];
+    if (this.sequence.actions.length > this.newSequence.actions.length) {
+      this.currentAction = this.sequence.actions[this.newSequence.actions.length];
     } else {
       this.currentAction = null;
     }

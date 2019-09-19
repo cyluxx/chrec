@@ -9,10 +9,10 @@
           (click)="recorderActive = !recorderActive" class="btn btn-block">
           Record <fa-icon icon="circle"></fa-icon>
         </button>
-        <h4>{{sequence.getName()}}</h4>
+        <h4>{{sequence.name}}</h4>
         <ul class="list-group">
-          <li *ngFor="let action of sequence.getActions(); let i = index" class="list-group-item">
-            <h5 class="mb-1">{{i}}: {{action.getClassName()}}</h5>
+          <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item">
+            <h5 class="mb-1">{{i}}: {{action.constructor.name}}</h5>
           </li>
         </ul>
       </div>

@@ -56,7 +56,7 @@ export class WebdriverSettingsComponent {
     if (this.newBrowserName && this.newBrowserWidth && this.newBrowserHeight) {
 
       for (const browser of this.settings.browsers) {
-        if (this.newBrowserName === browser.getName()) {
+        if (this.newBrowserName === browser.name) {
           return;
         }
       }
@@ -104,7 +104,7 @@ export class WebdriverSettingsComponent {
   public onDeleteBrowser(browserToDelete: Browser): void {
     const browsers: Browser[] = [];
     for (const browser of this.settings.browsers) {
-      if (browser.getName() !== browserToDelete.getName()) {
+      if (browser.name !== browserToDelete.name) {
         browsers.push(browser);
       }
     }

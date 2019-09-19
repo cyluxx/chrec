@@ -7,12 +7,12 @@ import { LocatorFactory } from './locator.factory';
 import { HtmlElementAction } from 'chrec-core/lib/model/action/html-element-action/html-element-action';
 import { BoundingBoxFactory } from './bounding-box.factory';
 import { Action } from 'chrec-core/lib/model/action/action';
-import { ModelFactory } from 'chrec-core/lib/factory/model.factory';
+import { ImportService } from 'chrec-core/lib/service/import.service';
 
 @Injectable()
 export class ActionFactory {
 
-  private modelFactory: ModelFactory = new ModelFactory();
+  private importService: ImportService = new ImportService();
 
   constructor(private locatorFactory: LocatorFactory, private boundingBoxFactory: BoundingBoxFactory) { }
 
@@ -44,6 +44,6 @@ export class ActionFactory {
   }
 
   public fromStorageJson(parsedJson: any): Action {
-    return this.modelFactory.actionFromChrecJson(parsedJson);
+    return this.importService.reviveAction(parsedJson);
   }
 }

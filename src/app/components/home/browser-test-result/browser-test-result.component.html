@@ -2,8 +2,8 @@
   <div class="col">
     <div class="d-flex justify-content-between">
       <h4>
-        <fa-icon [icon]="getIcon(browserTestResult.getBrowser())"></fa-icon>
-        Browser: {{browserTestResult.getBrowser().getName()}} ({{browserTestResult.getBrowser().getClassName()}})
+        <fa-icon [icon]="getIcon(browserTestResult.browser)"></fa-icon>
+        Browser: {{browserTestResult.browser.name}} ({{browserTestResult.browser.constuctor.name}})
       </h4>
       <h4>
         <app-status-badge [success]="browserTestResult.isReplayable()"></app-status-badge>

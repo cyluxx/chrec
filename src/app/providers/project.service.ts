@@ -25,14 +25,14 @@ export class ProjectService {
     this.projectDao.createOrUpdate(fileName, project, absolutePath);
   }
 
-  public exportToAlexJson(fileName: string, project: Project, dirName: string): void {
+  public exportAlexJson(fileName: string, project: Project, dirName: string): void {
     const alexExport = this.exportService.convertToAlex(project);
     this.alexExportDao.createOrUpdate(fileName, alexExport, dirName);
   }
 
-  public exportToChrecJson(project: Project, dirName: string): void {
+  public exportChrecJson(project: Project, dirName: string): void {
     // TODO: Validation
-    this.core.exportToChrecJson(project, dirName);
+    this.core.exportChrecJson(project, dirName);
   }
 
   public async  importFromChrecJson(absolutePath: string): Promise<Project> {

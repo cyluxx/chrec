@@ -6,16 +6,16 @@
           (click)="onProjectTestResult(projectTestResult)" class="cursor-pointer">
           <fa-icon [icon]="getCaret(projectTestResult.expanded)"></fa-icon>&nbsp;
           <fa-icon [ngClass]="projectTestResult.isReplayable()?'text-success':'text-danger'" icon="cubes"></fa-icon>
-          {{projectTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}
+          {{projectTestResult.date | date:'d MMMM yyyy @H:mm:ss'}}
         </div>
         <ul *ngIf="projectTestResult.expanded" class="list-group list-group-flush">
-          <li *ngFor="let sequenceTestResult of projectTestResult.getSequenceTestResults()"
+          <li *ngFor="let sequenceTestResult of projectTestResult.sequenceTestResults"
             class="list-group-item pr-0">
             <div [class.selected]="sequenceTestResult === currentSequenceTestResult"
               (click)="onSequenceTestResult(sequenceTestResult)" class="cursor-pointer">
               <fa-icon [icon]="getCaret(sequenceTestResult.expanded)"></fa-icon>&nbsp;
               <fa-icon [ngClass]="sequenceTestResult.isReplayable()?'text-success':'text-danger'" icon="cube"></fa-icon>
-              {{sequenceTestResult.getSequence().getName()}}
+              {{sequenceTestResult.sequence.name}}
             </div>
             <ul *ngIf="sequenceTestResult.expanded" class="list-group list-group-flush">
               <li *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()"
@@ -24,8 +24,8 @@
                   (click)="onBrowserTestResult(browserTestResult)" class="cursor-pointer">
                   <fa-icon [icon]="getCaret(browserTestResult.expanded)"></fa-icon>&nbsp;
                   <fa-icon [ngClass]="browserTestResult.isReplayable()?'text-success':'text-danger'"
-                    [icon]="getBrowserIcon(browserTestResult.getBrowser())"></fa-icon>
-                  {{browserTestResult.getBrowser().getName()}}
+                    [icon]="getBrowserIcon(browserTestResult.browser)"></fa-icon>
+                  {{browserTestResult.browser.name}}
                 </div>
                 <ul *ngIf="browserTestResult.expanded" class="list-group list-group-flush">
                   <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()"
@@ -34,7 +34,7 @@
                       (click)="onActionTestResult(actionTestResult)" class="cursor-pointer">
                       <fa-icon [ngClass]="actionTestResult.isReplayable()?'text-success':'text-danger'" icon="adjust">
                       </fa-icon>
-                      {{actionTestResult.getAction().getClassName()}}
+                      {{actionTestResult.action.constructor.name}}
                     </div>
                   </li>
                 </ul>

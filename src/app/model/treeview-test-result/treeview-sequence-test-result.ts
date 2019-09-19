@@ -5,7 +5,7 @@ import { TreeviewBrowserTestResult } from './treeview-browser-test-result';
 export class TreeviewSequenceTestResult extends SequenceTestResult implements TreeviewTestResult {
   public expanded = false;
 
-  public getBrowserTestResults(): TreeviewBrowserTestResult[] {
-    return super.getBrowserTestResults() as TreeviewBrowserTestResult[];
+  get browserTestResults(): TreeviewBrowserTestResult[] {
+    return this.browserTestResults as TreeviewBrowserTestResult[];
   }
 }

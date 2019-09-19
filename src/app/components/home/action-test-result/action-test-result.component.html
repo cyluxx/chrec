@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
       <h4 class="mb-1">
         <fa-icon icon="adjust"></fa-icon>
-        Action: {{actionTestResult.getAction().getClassName()}}
+        Action: {{actionTestResult.constructor.name}}
       </h4>
       <h4>
         <app-status-badge [success]="actionTestResult.isReplayable()"></app-status-badge>
@@ -18,19 +18,19 @@
         ({{actionTestResult.getSuccessfulLocatorCount()}}/{{actionTestResult.getTotalLocatorCount()}})
       </small>
     </div>
-    <div *ngIf="actionTestResult.getAction().getImage()">
-      <img [src]="actionTestResult.getAction().getImage()">
+    <div *ngIf="actionTestResult.action.image">
+      <img [src]="actionTestResult.action.image">
     </div>
-    <p *ngIf="isGoTo(actionTestResult.getAction())">
-      Url: {{asGoTo(actionTestResult.getAction()).getUrl()}}
+    <p *ngIf="isGoTo(actionTestResult.action)">
+      Url: {{asGoTo(actionTestResult.action).url}}
     </p>
     <div *ngIf="isHtmlElementActionTestResult(actionTestResult)">
       <p>
         boundingBox:
-        x: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().x}},
-        y: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().y}},
-        width: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().width}},
-        height: {{asHtmlElementAction(actionTestResult.getAction()).getBoundingBox().height}}
+        x: {{asHtmlElementAction(actionTestResult.action).boundingBox.x}},
+        y: {{asHtmlElementAction(actionTestResult.action).boundingBox.y}},
+        width: {{asHtmlElementAction(actionTestResult.action).boundingBox.width}},
+        height: {{asHtmlElementAction(actionTestResult.action).boundingBox.height}}
       </p>
       <div class="card-body p-0">
         <table class="table table-striped m-0">
@@ -43,12 +43,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let locatorTestResult of asHtmlElementActionTestResult(actionTestResult).getLocatorTestResults()"
+            <tr *ngFor="let locatorTestResult of asHtmlElementActionTestResult(actionTestResult).locatorTestResults"
               [class.table-success]="displayRecommendedLocator(locatorTestResult)">
-              <td>{{locatorTestResult.getLocator().getMethodName()}}</td>
-              <td>{{locatorTestResult.getLocator().getClassName()}}</td>
-              <td>{{locatorTestResult.getLocator().getValue()}}</td>
+              <td>{{locatorTestResult.locator.method}}</td>
+              <td>{{locatorTestResult.locator.constructor.name}}</td>
+              <td>{{locatorTestResult.locator.value}}</td>
               <td>
                 <app-status-badge [success]="locatorTestResult.isReplayable()"></app-status-badge>
               </td>

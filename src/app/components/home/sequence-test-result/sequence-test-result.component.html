@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
       <h4>
         <fa-icon icon="cube"></fa-icon>
-        Sequence: {{sequenceTestResult.getSequence().getName()}}
+        Sequence: {{sequenceTestResult.sequence.name}}
       </h4>
       <h4>
         <app-status-badge [success]="sequenceTestResult.isReplayable()"></app-status-badge>

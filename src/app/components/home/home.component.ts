@@ -43,7 +43,7 @@ export class HomeComponent {
       if (absolutePath) {
         const fileName = path.basename(absolutePath);
         const dirName = path.dirname(absolutePath);
-        this.projectService.exportToAlexJson(fileName, this.project, dirName);
+        this.projectService.exportAlexJson(fileName, this.project, dirName);
       }
     }
   }
@@ -70,11 +70,11 @@ export class HomeComponent {
   async onTestProject(reRecordSequenceModalContent: any) {
     this.project = await this.replayService.testProject(this.project, this.settings);
     this.replayService.setRecommendedLocators(this.project);
-    const testResults = this.project.getTestResults();
+    const testResults = this.project.projectTestResults;
     if (testResults.length > 0 && !testResults[testResults.length - 1].isReplayable()) {
-      for (const sequenceTestResult of testResults[testResults.length - 1].getSequenceTestResults()) {
+      for (const sequenceTestResult of testResults[testResults.length - 1].sequenceTestResults) {
         if (!sequenceTestResult.isReplayable()) {
-          this.errorSequence = sequenceTestResult.getSequence();
+          this.errorSequence = sequenceTestResult.sequence;
           break;
         }
       }

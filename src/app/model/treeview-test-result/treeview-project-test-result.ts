@@ -5,7 +5,7 @@ import { TreeviewSequenceTestResult } from './treeview-sequence-test-result';
 export class TreeviewProjectTestResult extends ProjectTestResult implements TreeviewTestResult {
   public expanded = false;
 
-  public getSequenceTestResults(): TreeviewSequenceTestResult[] {
-    return super.getSequenceTestResults() as TreeviewSequenceTestResult[];
+  get sequenceTestResults(): TreeviewSequenceTestResult[] {
+    return this.sequenceTestResults as TreeviewSequenceTestResult[];
   }
 }

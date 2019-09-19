@@ -49,7 +49,7 @@ export class TestResultsComponent {
   }
 
   getTreeviewProjectTestResults(): TreeviewProjectTestResult[] {
-    return this.project.getTestResults() as TreeviewProjectTestResult[];
+    return this.project.projectTestResults as TreeviewProjectTestResult[];
   }
 
   onProjectTestResult(projectTestResult: TreeviewProjectTestResult) {

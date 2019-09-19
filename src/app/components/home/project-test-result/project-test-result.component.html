@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
       <h4>
         <fa-icon icon="cubes"></fa-icon>
-        Project: {{projectTestResult.getDate() | date:'d MMMM yyyy @H:mm:ss'}}
+        Project: {{projectTestResult.date | date:'d MMMM yyyy @H:mm:ss'}}
       </h4>
       <h4>
         <app-status-badge [success]="projectTestResult.isReplayable()"></app-status-badge>

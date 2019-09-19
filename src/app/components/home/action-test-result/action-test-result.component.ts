@@ -42,9 +42,9 @@ export class ActionTestResultComponent {
   }
 
   displayRecommendedLocator(locatorTestResult: LocatorTestResult): boolean {
-    const recommendedLocator = this.asHtmlElementActionTestResult(this.actionTestResult).getAction().getRecommendedLocator();
+    const recommendedLocator = (this.actionTestResult.action as HtmlElementAction).recommendedLocator;
     if (recommendedLocator) {
-      return locatorTestResult.getLocator().getMethodName() === recommendedLocator.getMethodName();
+      return locatorTestResult.locator.method === recommendedLocator.method;
     }
   }
 }

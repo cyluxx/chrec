@@ -73,8 +73,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let browser of settings.browsers">
-      <th scope="row">{{browser.getName()}}</th>
-      <td>{{browser.getClassName()}} <fa-icon [icon]="getIcon(browser)"></fa-icon>
+      <th scope="row">{{browser.name}}</th>
+      <td>{{browser.constructor.name}} <fa-icon [icon]="getIcon(browser)"></fa-icon>
       </td>
       <td>{{browser.getWidth()}} <fa-icon icon="times"></fa-icon> {{browser.getHeight()}}</td>
       <td>{{browser.getSleepMsBetweenActions()}}</td>

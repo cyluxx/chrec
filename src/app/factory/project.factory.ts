@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Project } from 'chrec-core/lib/model/project';
-import { ModelFactory } from 'chrec-core/lib/factory/model.factory';
+import { ImportService } from 'chrec-core/lib/service/import.service';
 
 @Injectable()
 export class ProjectFactory {
 
-  private modelFactory: ModelFactory = new ModelFactory();
+  private importService: ImportService = new ImportService();
 
   public fromStorageJson(parsedJson: any): Project {
-    return this.modelFactory.projectFromChrecJson(parsedJson);
+    return this.importService.reviveProject(parsedJson);
   }
 }

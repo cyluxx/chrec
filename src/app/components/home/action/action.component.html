@@ -1,33 +1,33 @@
 <div *ngIf="action" class="row">
   <div class="col">
     <div class="d-flex justify-content-between">
-      <h4 class="mb-1">{{action.getClassName()}}</h4>
+      <h4 class="mb-1">{{action.constructor.name}}</h4>
     </div>
-    <div *ngIf="action.getImage()">
-      <img [src]="action.getImage()">
+    <div *ngIf="action.image">
+      <img [src]="action.image">
     </div>
     <p *ngIf="isGoTo(action)">
-      <app-editable-input [value]="asGoTo(action).getUrl()" (valueEmitter)="asGoTo(action).setUrl($event)">
+      <app-editable-input [value]="asGoTo(action).url" (valueEmitter)="asGoTo(action).url = $event">
       </app-editable-input>
     </p>
     <div *ngIf="isHtmlElementAction(action)">
       <p>
         boundingBox:
-        x: {{asHtmlElementAction(action).getBoundingBox().x}},
-        y: {{asHtmlElementAction(action).getBoundingBox().y}},
-        width: {{asHtmlElementAction(action).getBoundingBox().width}},
-        height: {{asHtmlElementAction(action).getBoundingBox().height}}
+        x: {{asHtmlElementAction(action).boundingBox.x}},
+        y: {{asHtmlElementAction(action).boundingBox.y}},
+        width: {{asHtmlElementAction(action).boundingBox.width}},
+        height: {{asHtmlElementAction(action).boundingBox.height}}
       </p>
       <p *ngIf="isRead(action)">
-        Value: <app-editable-input [value]="asRead(action).getValue()" (valueEmitter)="asRead(action).setValue($event)">
+        Value: <app-editable-input [value]="asRead(action).value" (valueEmitter)="asRead(action).value = ($event)">
         </app-editable-input>
       </p>
       <p *ngIf="isType(action)">
-        Value: <app-editable-input [value]="asType(action).getValue()" (valueEmitter)="asType(action).setValue($event)">
+        Value: <app-editable-input [value]="asType(action).value" (valueEmitter)="asType(action).value = ($event)">
         </app-editable-input>
       </p>
       <p *ngIf="isType(action)">
-        Key: <app-editable-input [value]="asType(action).getKey()" (valueEmitter)="asType(action).setKey($event)">
+        Key: <app-editable-input [value]="asType(action).key" (valueEmitter)="asType(action).value = ($event)">
         </app-editable-input>
       </p>
       <div class="card-body p-0">
@@ -40,10 +40,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let locator of asHtmlElementAction(action).getLocators()">
-              <td>{{locator.getMethodName()}}</td>
-              <td>{{locator.getClassName()}}</td>
-              <td>{{locator.getValue()}}</td>
+            <tr *ngFor="let locator of asHtmlElementAction(action).locators">
+              <td>{{locator.method}}</td>
+              <td>{{locator.constructor.name}}</td>
+              <td>{{locator.value}}</td>
             </tr>
           </tbody>
         </table>
