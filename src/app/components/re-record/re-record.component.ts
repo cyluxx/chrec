@@ -66,4 +66,8 @@ export class ReRecordComponent implements OnInit {
   public asType(action: Action): Type {
     return action as Type;
   }
+
+  getActionName(action: Action) {
+    return action.constructor.name;
+  }
 }

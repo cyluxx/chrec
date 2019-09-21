@@ -10,7 +10,7 @@
     <ul class="list-group list-group-flush">
       <li *ngFor="let action of sequence.actions; let i = index" class="list-group-item"
         [class.active]="action === currentAction">
-        <h5 class="mb-1">{{i}}: {{action.constructor.name}}</h5>
+        <h5 class="mb-1">{{i}}: {{getActionName(action)}}</h5>
       </li>
     </ul>
   </div>
@@ -23,7 +23,7 @@
       </div>
       <div class="col-10">
         <span class="badge badge-dark mr-1">
-          Action Type: {{currentAction.constructor.name}}
+          Action Type: {{getActionName(currentAction)}}
         </span>
         <span *ngIf="isGoTo(currentAction)" class="badge badge-dark mr-1">
           Url: {{asGoTo(currentAction).url}}
@@ -50,7 +50,7 @@
     <h4 class="mt-2">{{newSequence.name}}: New</h4>
     <ul class="list-group list-group-flush">
       <li *ngFor="let action of newSequence.actions; let i = index" class="list-group-item">
-        <h5 class="mb-1">{{i}}: {{action.constructor.name}}</h5>
+        <h5 class="mb-1">{{i}}: {{getActionName(action)}}</h5>
       </li>
     </ul>
   </div>

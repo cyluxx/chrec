@@ -74,11 +74,11 @@
   <tbody>
     <tr *ngFor="let browser of settings.browsers">
       <th scope="row">{{browser.name}}</th>
-      <td>{{browser.constructor.name}} <fa-icon [icon]="getIcon(browser)"></fa-icon>
+      <td>{{getBrowserType(browser)}} <fa-icon [icon]="getIcon(browser)"></fa-icon>
       </td>
-      <td>{{browser.getWidth()}} <fa-icon icon="times"></fa-icon> {{browser.getHeight()}}</td>
-      <td>{{browser.getSleepMsBetweenActions()}}</td>
-      <td><span *ngIf="isChrome(browser) && asChrome(browser).isHeadless()" class="badge badge-primary">Headless</span>
+      <td>{{browser.width}} <fa-icon icon="times"></fa-icon> {{browser.height}}</td>
+      <td>{{browser.sleepMsBetweenActions}}</td>
+      <td><span *ngIf="isChrome(browser) && asChrome(browser).headless" class="badge badge-primary">Headless</span>
       </td>
       <td>
         <button class="btn btn-sm btn-danger" (click)="onDeleteBrowser(browser)">

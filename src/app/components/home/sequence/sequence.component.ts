@@ -47,4 +47,8 @@ export class SequenceComponent {
       this.reRecordSequence.emit(this.errorSequence);
     }, () => { });
   }
+
+  getActionName(action: Action): string {
+    return action.constructor.name;
+  }
 }

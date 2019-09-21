@@ -1,7 +1,7 @@
 <div *ngIf="action" class="row">
   <div class="col">
     <div class="d-flex justify-content-between">
-      <h4 class="mb-1">{{action.constructor.name}}</h4>
+      <h4 class="mb-1">{{getActionName(action)}}</h4>
     </div>
     <div *ngIf="action.image">
       <img [src]="action.image">
@@ -42,7 +42,7 @@
           <tbody>
             <tr *ngFor="let locator of asHtmlElementAction(action).locators">
               <td>{{locator.method}}</td>
-              <td>{{locator.constructor.name}}</td>
+              <td>{{getLocatorType(locator)}}</td>
               <td>{{locator.value}}</td>
             </tr>
           </tbody>

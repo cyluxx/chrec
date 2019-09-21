@@ -31,4 +31,8 @@ export class BrowserTestResultComponent {
       return ['fab', 'internet-explorer'];
     }
   }
+
+  getBrowserType(browser: Browser): string {
+    return browser.constructor.name;
+  }
 }

@@ -4,6 +4,7 @@ import { GoTo } from 'chrec-core/lib/model/action/go-to';
 import { HtmlElementAction } from 'chrec-core/lib/model/action/html-element-action/html-element-action';
 import { Read } from 'chrec-core/lib/model/action/html-element-action/read';
 import { Type } from 'chrec-core/lib/model/action/html-element-action/type';
+import { Locator } from 'chrec-core/lib/model/locator/locator';
 
 @Component({
   selector: 'app-action',
@@ -46,5 +47,13 @@ export class ActionComponent {
 
   public asType(action: Action): Type {
     return action as Type;
+  }
+
+  getActionName(action: Action): string {
+    return action.constructor.name;
+  }
+
+  getLocatorType(locator: Locator): string {
+    return locator.constructor.name;
   }
 }

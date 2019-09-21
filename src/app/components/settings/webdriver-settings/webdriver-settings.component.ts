@@ -116,4 +116,8 @@ export class WebdriverSettingsComponent {
     this.settings.seleniumGridUrl = form.value.seleniumGridUrl;
     this.settingsService.saveSettings(this.settings);
   }
+
+  getBrowserType(browser: Browser): string {
+    return browser.constructor.name;
+  }
 }

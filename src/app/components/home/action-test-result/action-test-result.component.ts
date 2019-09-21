@@ -5,6 +5,7 @@ import { GoTo } from 'chrec-core/lib/model/action/go-to';
 import { HtmlElementAction } from 'chrec-core/lib/model/action/html-element-action/html-element-action';
 import { HtmlElementActionTestResult } from 'chrec-core/lib/model/test-result/html-element-action-test-result';
 import { LocatorTestResult } from 'chrec-core/lib/model/test-result/locator-test-result';
+import { Locator } from 'chrec-core/lib/model/locator/locator';
 
 @Component({
   selector: 'app-action-test-result',
@@ -46,5 +47,13 @@ export class ActionTestResultComponent {
     if (recommendedLocator) {
       return locatorTestResult.locator.method === recommendedLocator.method;
     }
+  }
+
+  getActionName(action: Action): string {
+    return action.constructor.name;
+  }
+
+  getLocatorType(locator: Locator): string {
+    return locator.constructor.name;
   }
 }

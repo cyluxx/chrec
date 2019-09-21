@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
       <h4>
         <fa-icon [icon]="getIcon(browserTestResult.browser)"></fa-icon>
-        Browser: {{browserTestResult.browser.name}} ({{browserTestResult.browser.constuctor.name}})
+        Browser: {{browserTestResult.browser.name}} ({{getBrowserType(browserTestResult.browser)}})
       </h4>
       <h4>
         <app-status-badge [success]="browserTestResult.isReplayable()"></app-status-badge>

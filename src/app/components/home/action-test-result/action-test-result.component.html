@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
       <h4 class="mb-1">
         <fa-icon icon="adjust"></fa-icon>
-        Action: {{actionTestResult.constructor.name}}
+        Action: {{getActionName(actionTestResult.action)}}
       </h4>
       <h4>
         <app-status-badge [success]="actionTestResult.isReplayable()"></app-status-badge>
@@ -46,7 +46,7 @@
             <tr *ngFor="let locatorTestResult of asHtmlElementActionTestResult(actionTestResult).locatorTestResults"
               [class.table-success]="displayRecommendedLocator(locatorTestResult)">
               <td>{{locatorTestResult.locator.method}}</td>
-              <td>{{locatorTestResult.locator.constructor.name}}</td>
+              <td>{{getLocatorType(locatorTestResult.locator)}}</td>
               <td>{{locatorTestResult.locator.value}}</td>
               <td>
                 <app-status-badge [success]="locatorTestResult.isReplayable()"></app-status-badge>

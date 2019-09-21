@@ -19,7 +19,7 @@
         <ul class="list-group">
           <li *ngFor="let action of sequence.actions" [class.active]="currentAction === action"
             (click)="currentAction = action" class="list-group-item list-group-item-action">
-            <h5 class="mb-1">{{action.constructor.name}}</h5>
+            <h5 class="mb-1">{{getActionName(action)}}</h5>
             <small>Action Stats</small>
           </li>
         </ul>
