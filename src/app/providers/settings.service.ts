@@ -1,15 +1,23 @@
+import { Chrome } from 'chrec-core/lib/model/browser/chrome';
 import { Injectable } from '@angular/core';
 import { Settings } from '../model/settings';
-import { SettingsDao } from '../dao/settings.dao';
-import { Chrome } from 'chrec-core/lib/model/browser/chrome';
+import * as util from 'util';
+import { set, get, getDefaultDataPath, DataOptions } from 'electron-json-storage';
+import { SettingsFactory } from '../factory/settings.factory';
+
+const CHREC_SETTINGS = 'chrec-settings';
 
 @Injectable()
 export class SettingsService {
 
-  private settingsDao: SettingsDao;
+  private set: (fileName: string, settings: Settings, options?: DataOptions, error?: any) => Promise<void>;
+  private get: (fileName: string, options?: DataOptions, error?: any) => Promise<Settings>;
 
-  constructor(settingsDao: SettingsDao) {
-    this.settingsDao = settingsDao;
+  constructor(private settingsFactory: SettingsFactory) {
+    this.set = util.promisify(set);
+    this.get = util.promisify(get);
+
+    console.log('%cDefault Settings Storage Data Path: ' + getDefaultDataPath(), 'color: #36f9c2; font-weight: bold');
   }
 
   public newDefaultSettings(): Settings {
@@ -23,15 +31,24 @@ export class SettingsService {
     );
   }
 
-  public resetSettings(): void {
-    this.settingsDao.createOrUpdate('chrec-settings', this.newDefaultSettings());
+  public async resetSettings(): Promise<void> {
+    const settings = this.newDefaultSettings();
+    await this.set(CHREC_SETTINGS, settings);
+    console.log('%cCreate or Update ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
+    console.log(settings);
   }
 
   public async readSettings(): Promise<Settings> {
-    return this.settingsDao.read('chrec-settings');
+    const settings = await this.get(CHREC_SETTINGS) as Settings;
+    const newSettings: Settings = this.settingsFactory.fromStorageJson(settings);
+    console.log('%cRead ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
+    console.log(newSettings);
+    return newSettings;
   }
 
-  public saveSettings(settings: Settings): void {
-    this.settingsDao.createOrUpdate('chrec-settings', settings);
+  public async saveSettings(settings: Settings): Promise<void> {
+    await this.set(CHREC_SETTINGS, settings);
+    console.log('%cCreate or Update ' + CHREC_SETTINGS, 'font-weight:bold; color:#42ff42');
+    console.log(settings);
   }
 }
