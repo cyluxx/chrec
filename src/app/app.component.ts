@@ -6,7 +6,6 @@ import { Sequence } from 'chrec-core/lib/model/sequence';
 import { Settings } from './model/settings';
 import { ProjectService } from './providers/project.service';
 import { SettingsService } from './providers/settings.service';
-import * as path from 'path';
 import { Project } from 'chrec-core/lib/model/project';
 
 @Component({
@@ -45,9 +44,7 @@ export class AppComponent implements OnInit {
     }
 
     if (this.settings.recentlyOpenedPath) {
-      const fileName = path.basename(this.settings.recentlyOpenedPath);
-      const dirName = path.dirname(this.settings.recentlyOpenedPath);
-      this.project = await this.projectService.readProject(fileName, dirName);
+      this.project = await this.projectService.readProject(this.settings.recentlyOpenedPath);
     }
   }
 

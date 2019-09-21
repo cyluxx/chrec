@@ -65,7 +65,6 @@ import { GeneralSettingsComponent } from './components/settings/general-settings
 import { WebdriverSettingsComponent } from './components/settings/webdriver-settings/webdriver-settings.component';
 
 import { AlexExportDao } from './dao/alex-export.dao';
-import { ProjectDao } from './dao/project.dao';
 import { SettingsDao } from './dao/settings.dao';
 
 import { WebviewDirective } from './directives/webview.directive';
@@ -157,7 +156,7 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
         deps: [HttpClient]
       }
     }),
-    NgbModule.forRoot(),
+    NgbModule,
     FontAwesomeModule
   ],
   providers: [
@@ -166,7 +165,6 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     ReplayService,
     SettingsService,
     AlexExportDao,
-    ProjectDao,
     SettingsDao,
     ActionFactory,
     BoundingBoxFactory,

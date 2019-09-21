@@ -84,10 +84,8 @@ export class HomeComponent {
 
   async onOpenProject() {
     const absolutePath = this.electronService.getPathFromOpenDialog();
-    if (absolutePath) {
-      const fileName = path.basename(absolutePath);
-      const dirName = path.dirname(absolutePath);
-      this.project = await this.projectService.readProject(fileName, dirName);
+    if (absolutePath && path.isAbsolute(absolutePath)) {
+      this.project = await this.projectService.readProject(absolutePath);
       this.projectEmitter.emit(this.project);
 
       // save project to open on next startup
@@ -103,10 +101,8 @@ export class HomeComponent {
   onSaveProject() {
     if (this.project) {
       const absolutePath = this.electronService.getPathFromSaveDialog();
-      if (absolutePath) {
-        const fileName = path.basename(absolutePath);
-        const dirName = path.dirname(absolutePath);
-        this.projectService.saveProject(fileName, this.project, dirName);
+      if (absolutePath && path.isAbsolute(absolutePath)) {
+        this.projectService.saveProject(this.project, absolutePath);
 
         // save project to open on next startup
         this.settings.recentlyOpenedPath = absolutePath;
