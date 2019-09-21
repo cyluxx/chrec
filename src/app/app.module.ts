@@ -66,13 +66,7 @@ import { WebdriverSettingsComponent } from './components/settings/webdriver-sett
 
 import { WebviewDirective } from './directives/webview.directive';
 
-import { ActionFactory } from './factory/action.factory';
-import { BoundingBoxFactory } from './factory/bounding-box.factory';
-import { BrowserFactory } from './factory/browser.factory';
-import { LocatorFactory } from './factory/locator.factory';
-import { ProjectFactory } from './factory/project.factory';
-import { SettingsFactory } from './factory/settings.factory';
-
+import { BrowserService } from './providers/browser.service';
 import { ElectronService } from './providers/electron.service';
 import { ProjectService } from './providers/project.service';
 import { ReplayService } from './providers/replay.service';
@@ -80,6 +74,7 @@ import { SettingsService } from './providers/settings.service';
 import { RecordedSequencesComponent } from './components/home/recorded-sequences/recorded-sequences.component';
 import { TestResultsComponent } from './components/home/test-results/test-results.component';
 import { StatusBadgeComponent } from './components/common/status-badge/status-badge.component';
+import { ActionService } from './providers/action.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -157,16 +152,12 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     FontAwesomeModule
   ],
   providers: [
+    ActionService,
+    BrowserService,
     ElectronService,
     ProjectService,
     ReplayService,
-    SettingsService,
-    ActionFactory,
-    BoundingBoxFactory,
-    BrowserFactory,
-    LocatorFactory,
-    ProjectFactory,
-    SettingsFactory
+    SettingsService
   ],
   bootstrap: [AppComponent]
 })

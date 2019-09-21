@@ -167,7 +167,7 @@ function addMutationObserver(target) {
       record.addedNodes.forEach((node) => {
 
         sendToHost({
-          className: 'WaitForAddedNode',
+          className: 'WaitForAddedHtmlElement',
           locators: generateLocators(node),
           boundingBox: node.getBoundingClientRect(),
           maxWaitTime: 3000
@@ -198,24 +198,24 @@ function addMutationObserver(target) {
 
       record.removedNodes.forEach((node) => {
         sendToHost({
-          className: 'WaitForRemovedNode',
+          className: 'WaitForRemovedHtmlElement',
           locators: generateLocators(node),
           boundingBox: node.getBoundingClientRect(),
           maxWaitTime: 3000
         });
       });
 
-      if (record.attributeName != null) {
-        const node = record.target;
-        sendToHost({
-          className: 'WaitForNodeAttribute',
-          locators: generateLocators(node),
-          boundingBox: node.getBoundingClientRect(),
-          attribute: record.attributeName,
-          value: node.getAttribute(record.attributeName),
-          maxWaitTime: 3000
-        });
-      }
+      // if (record.attributeName != null) {
+      //   const node = record.target;
+      //   sendToHost({
+      //     className: 'WaitForHtmlElementAttribute',
+      //     locators: generateLocators(node),
+      //     boundingBox: node.getBoundingClientRect(),
+      //     attribute: record.attributeName,
+      //     value: node.getAttribute(record.attributeName),
+      //     maxWaitTime: 3000
+      //   });
+      // }
     });
   });
   const options = {
@@ -251,13 +251,13 @@ function generateBasicCssSelector(el) {
 function generateLocators(el) {
   let locators = [];
 
-  locators.push({ methodName: 'Basic', className: 'CssLocator', value: generateBasicCssSelector(el) });
-  locators.push({ methodName: 'CssSelectorGenerator', className: 'CssLocator', value: cssSelectorGenerator.getSelector(el) });
-  locators.push({ methodName: 'Finder', className: 'CssLocator', value: myapi.finder(el) });
-  locators.push({ methodName: 'GetQuerySelector', className: 'CssLocator', value: myapi.getQuerySelector(el) });
-  locators.push({ methodName: 'OptimalSelect', className: 'CssLocator', value: myapi.select(el) });
-  locators.push({ methodName: 'SelectorQuery', className: 'CssLocator', value: myapi.selectorQuery(el) });
-  locators.push({ methodName: 'RobulaPlus', className: 'XpathLocator', value: robulaPlus.getRobustXPath(el, document) });
+  locators.push({ method: 'Basic', className: 'CssLocator', value: generateBasicCssSelector(el) });
+  locators.push({ method: 'CssSelectorGenerator', className: 'CssLocator', value: cssSelectorGenerator.getSelector(el) });
+  locators.push({ method: 'Finder', className: 'CssLocator', value: myapi.finder(el) });
+  locators.push({ method: 'GetQuerySelector', className: 'CssLocator', value: myapi.getQuerySelector(el) });
+  locators.push({ method: 'OptimalSelect', className: 'CssLocator', value: myapi.select(el) });
+  locators.push({ method: 'SelectorQuery', className: 'CssLocator', value: myapi.selectorQuery(el) });
+  locators.push({ method: 'RobulaPlus', className: 'XpathLocator', value: robulaPlus.getRobustXPath(el, document) });
 
   return locators;
 }

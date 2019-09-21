@@ -8,8 +8,8 @@ import { Forward } from 'chrec-core/lib/model/action/forward';
 import { GoTo } from 'chrec-core/lib/model/action/go-to';
 import { Refresh } from 'chrec-core/lib/model/action/refresh';
 import { HtmlElementAction } from 'chrec-core/lib/model/action/html-element-action/html-element-action';
-import { ActionFactory } from '../../../factory/action.factory';
 import { IpcMessageEvent, WebviewTag, NativeImage } from 'electron';
+import { ActionService } from '../../../providers/action.service';
 
 @Component({
   selector: 'app-browser-window',
@@ -32,7 +32,7 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
   domReadyCallback: () => void;
   ipcMessageEventCallback: (ipcMessageEvent: IpcMessageEvent) => void;
 
-  constructor(private actionFactory: ActionFactory) {
+  constructor(private actionService: ActionService) {
     // TODO: resolve path hell and package preload scripts properly
     this.preloadScriptPath = path.resolve(__dirname, '../../../../../../src/assets/preload-scripts/preload.js');
     console.log(this.preloadScriptPath);
@@ -51,7 +51,7 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
         this.webview.send('pageCaptured', { className: channelContent.className });
         if (this.recorderActive) {
           const image: string = nativeImage.toDataURL();
-          const action: HtmlElementAction = this.actionFactory.fromChannelContent(channelContent, image);
+          const action: HtmlElementAction = this.actionService.reviveHtmlElementAction(Object.assign(channelContent, { image }));
           this.sequence.addAction(action);
           this.actionEmitter.emit(action);
         }
