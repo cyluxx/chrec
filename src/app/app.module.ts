@@ -64,8 +64,6 @@ import { EditableInputComponent } from './components/common/editable-input/edita
 import { GeneralSettingsComponent } from './components/settings/general-settings/general-settings.component';
 import { WebdriverSettingsComponent } from './components/settings/webdriver-settings/webdriver-settings.component';
 
-import { AlexExportDao } from './dao/alex-export.dao';
-
 import { WebviewDirective } from './directives/webview.directive';
 
 import { ActionFactory } from './factory/action.factory';
@@ -163,7 +161,6 @@ library.add(faChrome, faFirefox, faEdge, faInternetExplorer);
     ProjectService,
     ReplayService,
     SettingsService,
-    AlexExportDao,
     ActionFactory,
     BoundingBoxFactory,
     BrowserFactory,

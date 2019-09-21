@@ -40,10 +40,8 @@ export class HomeComponent {
   onExportProject() {
     if (this.project) {
       const absolutePath = this.electronService.getPathFromSaveDialog();
-      if (absolutePath) {
-        const fileName = path.basename(absolutePath);
-        const dirName = path.dirname(absolutePath);
-        this.projectService.exportAlexJson(fileName, this.project, dirName);
+      if (absolutePath && path.isAbsolute(absolutePath)) {
+        this.projectService.exportAlexJson(this.project, absolutePath);
       }
     }
   }

@@ -1,17 +1,14 @@
 import * as path from 'path';
 import { Core } from 'chrec-core';
-import { ExportService } from 'chrec-core/lib/service/export.service';
 import { Injectable } from '@angular/core';
-import { AlexExportDao } from '../dao/alex-export.dao';
 import { Project } from 'chrec-core/lib/model/project';
 
 @Injectable()
 export class ProjectService {
 
   private core: Core = new Core();
-  private exportService: ExportService = new ExportService();
 
-  constructor(private alexExportDao: AlexExportDao) { }
+  constructor() { }
 
   public newProject(name: string): Project {
     return new Project(name, [], []);
@@ -25,8 +22,7 @@ export class ProjectService {
     this.core.exportChrecJson(project, path.resolve(absolutePath));
   }
 
-  public exportAlexJson(fileName: string, project: Project, dirName: string): void {
-    const alexExport = this.exportService.convertToAlex(project);
-    this.alexExportDao.createOrUpdate(fileName, alexExport, dirName);
+  public exportAlexJson(project: Project, absolutePath: string): void {
+    this.core.exportAlexJson(project, path.resolve(absolutePath));
   }
 }
