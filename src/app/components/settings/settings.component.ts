@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { SettingsService } from '../../providers/settings.service';
 import { Settings } from '../../model/settings';
 
 @Component({
@@ -14,10 +13,15 @@ export class SettingsComponent {
   @Output() close = new EventEmitter();
   @Output() settingsEmitter = new EventEmitter<Settings>();
 
-  generalSettings = 'General Settings';
-  webdriverSettings = 'Webdriver Settings';
+  browserSettings = 'Browser';
+  generalSettings = 'General';
+  webdriverSettings = 'Webdriver';
 
-  components: string[] = [this.generalSettings, this.webdriverSettings];
+  components: string[] = [
+    this.generalSettings,
+    this.browserSettings,
+    this.webdriverSettings
+  ];
   currentComponent: string = this.generalSettings;
 
   constructor() { }

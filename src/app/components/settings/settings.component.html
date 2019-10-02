@@ -1,22 +1,36 @@
-<div class="d-flex justify-content-between mt-3">
-  <h1 class="ml-3">Settings</h1>
-  <button (click)="close.emit()" class="btn btn-sm btn-primary mr-1">
-    <fa-icon icon="cog"></fa-icon>
-  </button>
-</div>
-<div class="row">
-  <div class="col-3">
-    <ul class="list-group list-group-flush">
-      <li *ngFor="let component of components" class="list-group-item list-group-item-action"
-        (click)="onNavItem(component)">
-        <h5>{{component}}</h5>
-      </li>
-    </ul>
+<div class="card full-vertical">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-6">
+        <h4 class="card-title m-0">
+          Settings
+        </h4>
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <button (click)="close.emit()" class="btn btn-sm btn-outline-secondary">
+          <fa-icon icon="times"></fa-icon>
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="col-9">
-    <div [ngSwitch]="currentComponent">
-      <app-webdriver-settings *ngSwitchCase="webdriverSettings" [settings]="settings" (settingsEmitter)="onSettings($event)"></app-webdriver-settings>
-      <app-general-settings *ngSwitchDefault [settings]="settings" (settingsEmitter)="onSettings($event)"></app-general-settings>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-3">
+        <ul class="nav nav-pills nav-fill flex-column">
+          <li *ngFor="let component of components" (click)="onNavItem(component)" class="nav-item">
+            <a [class.active]="currentComponent === component" class="nav-link" href="#">{{component}}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-9">
+        <div [ngSwitch]="currentComponent">
+          <app-browser-settings *ngSwitchCase="browserSettings" [settings]="settings" (settingsEmitter)="onSettings($event)"></app-browser-settings>
+          <app-webdriver-settings *ngSwitchCase="webdriverSettings" [settings]="settings"
+            (settingsEmitter)="onSettings($event)"></app-webdriver-settings>
+          <app-general-settings *ngSwitchDefault [settings]="settings" (settingsEmitter)="onSettings($event)">
+          </app-general-settings>
+        </div>
+      </div>
     </div>
   </div>
 </div>
