@@ -1,11 +1,12 @@
 <h2>General</h2>
 <hr>
+<h5>Recorder</h5>
 <form #form="ngForm" (ngSubmit)="onSubmit(form)">
   <div class="form-group">
     <label>Home Url</label>
     <input type="url" class="form-control" placeholder="Home Url" name="homeUrl" [ngModel]="settings.homeUrl"
       #homeUrl="ngModel">
-    <small class="form-text text-muted">Leave empty for blank page.</small>
+    <small class="form-text text-muted">Every new recorded Sequence will start with a GoTo Action to this URL. Leave empty, if you want to record the first Action yourself.</small>
   </div>
   <label>Recorder Window Resolution</label>
   <div class="row">
@@ -22,6 +23,8 @@
     <fa-icon icon="save"></fa-icon> Save
   </button>
 </form>
+<hr>
+<h5>Danger Zone</h5>
 <button class="btn btn-danger mt-3" (click)="onReset()">
-  <fa-icon icon="exclamation-triangle"></fa-icon> Reset Settings to Default <fa-icon icon="exclamation-triangle"></fa-icon>
+  <fa-icon icon="exclamation-triangle"></fa-icon> Reset all Settings to Default
 </button>
