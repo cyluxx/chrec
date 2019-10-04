@@ -8,6 +8,7 @@ export class Settings {
     public recentlyOpenedPath: string,
     public webviewWidth: number,
     public webviewHeight: number,
+    public shouldMaximizeWebviewSize: boolean,
 
     // Webdriver Settings
     public seleniumGridUrl: string,

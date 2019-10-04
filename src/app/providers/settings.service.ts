@@ -27,6 +27,7 @@ export class SettingsService {
       '',
       800,
       600,
+      true,
       'http://localhost:4444/wd/hub',
       [new Chrome('default', 800, 600, 0, false)]
     );
@@ -63,6 +64,7 @@ export class SettingsService {
       parsedJson.recentlyOpenedPath,
       parsedJson.webviewWidth,
       parsedJson.webviewHeight,
+      parsedJson.shouldMaximizeWebviewSize,
       parsedJson.seleniumGridUrl,
       browsers
     );
