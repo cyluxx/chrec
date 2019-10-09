@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-3">
     <ul class="list-group list-group-flush">
-      <li *ngFor="let projectTestResult of this.getTreeviewProjectTestResults()" class="list-group-item pr-0">
+      <li *ngFor="let projectTestResult of this.treeviewProjectTestResults" class="list-group-item pr-0">
         <div [class.selected]="projectTestResult === currentProjectTestResult"
           (click)="onProjectTestResult(projectTestResult)" class="cursor-pointer">
           <fa-icon [icon]="getCaret(projectTestResult.expanded)"></fa-icon>&nbsp;
@@ -18,7 +18,7 @@
               {{sequenceTestResult.sequence.name}}
             </div>
             <ul *ngIf="sequenceTestResult.expanded" class="list-group list-group-flush">
-              <li *ngFor="let browserTestResult of sequenceTestResult.getBrowserTestResults()"
+              <li *ngFor="let browserTestResult of sequenceTestResult.browserTestResults"
                 class="list-group-item pr-0">
                 <div [class.selected]="browserTestResult === currentBrowserTestResult"
                   (click)="onBrowserTestResult(browserTestResult)" class="cursor-pointer">
@@ -28,7 +28,7 @@
                   {{browserTestResult.browser.name}}
                 </div>
                 <ul *ngIf="browserTestResult.expanded" class="list-group list-group-flush">
-                  <li *ngFor="let actionTestResult of browserTestResult.getActionTestResults()"
+                  <li *ngFor="let actionTestResult of browserTestResult.actionTestResults"
                     class="list-group-item pr-0">
                     <div [class.selected]="actionTestResult === currentActionTestResult"
                       (click)="onActionTestResult(actionTestResult)" class="cursor-pointer">
