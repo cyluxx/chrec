@@ -51,7 +51,11 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
         this.webview.send('pageCaptured', { className: channelContent.className });
         if (this.recorderActive) {
           const image: string = nativeImage.toDataURL();
-          const action: HtmlElementAction = this.actionService.reviveHtmlElementAction(Object.assign(channelContent, { image }));
+          const channelContentWithImage = Object.assign(channelContent, { image });
+          const action: HtmlElementAction = this.actionService.reviveHtmlElementAction(channelContentWithImage);
+
+          // filter locators with empty values
+          action.locators = action.locators.filter(locator => locator.value);
           this.sequence.addAction(action);
           this.actionEmitter.emit(action);
         }
