@@ -20,7 +20,6 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
   @ViewChild('webview') webviewRef: ElementRef;
   webview: WebviewTag;
 
-  @Input() recorderActive: boolean;
   @Input() sequence: Sequence;
   @Input() settings: Settings;
 
@@ -49,16 +48,14 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
       console.log('%c Webview: Recieved Action of Type ' + channelContent.className, 'color: #4242ff; font-weight: bold');
       this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
         this.webview.send('pageCaptured', { className: channelContent.className });
-        if (this.recorderActive) {
-          const image: string = nativeImage.toDataURL();
-          const channelContentWithImage = Object.assign(channelContent, { image });
-          const action: HtmlElementAction = this.actionService.reviveHtmlElementAction(channelContentWithImage);
+        const image: string = nativeImage.toDataURL();
+        const channelContentWithImage = Object.assign(channelContent, { image });
+        const action: HtmlElementAction = this.actionService.reviveHtmlElementAction(channelContentWithImage);
 
-          // filter locators with empty values
-          action.locators = action.locators.filter(locator => locator.value);
-          this.sequence.addAction(action);
-          this.actionEmitter.emit(action);
-        }
+        // filter locators with empty values
+        action.locators = action.locators.filter(locator => locator.value);
+        this.sequence.addAction(action);
+        this.actionEmitter.emit(action);
       });
     };
   }
@@ -77,36 +74,30 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
 
   public onBack(): void {
     this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-      if (this.recorderActive) {
-        const image: string = nativeImage.toDataURL();
-        const action: Action = new Back(image);
-        this.sequence.addAction(action);
-        this.actionEmitter.emit(action);
-      }
+      const image: string = nativeImage.toDataURL();
+      const action: Action = new Back(image);
+      this.sequence.addAction(action);
+      this.actionEmitter.emit(action);
       this.webview.goBack();
     });
   }
 
   public onForward(): void {
     this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-      if (this.recorderActive) {
-        const image: string = nativeImage.toDataURL();
-        const action: Action = new Forward(image);
-        this.sequence.addAction(action);
-        this.actionEmitter.emit(action);
-      }
+      const image: string = nativeImage.toDataURL();
+      const action: Action = new Forward(image);
+      this.sequence.addAction(action);
+      this.actionEmitter.emit(action);
       this.webview.goForward();
     });
   }
 
   public onRefresh(): void {
     this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
-      if (this.recorderActive) {
-        const image: string = nativeImage.toDataURL();
-        const action: Action = new Refresh(image);
-        this.sequence.addAction(action);
-        this.actionEmitter.emit(action);
-      }
+      const image: string = nativeImage.toDataURL();
+      const action: Action = new Refresh(image);
+      this.sequence.addAction(action);
+      this.actionEmitter.emit(action);
       this.webview.reload();
     });
   }
@@ -114,12 +105,10 @@ export class BrowserWindowComponent implements OnInit, OnDestroy {
   public onLoadUrl(): void {
     this.webview.getWebContents().capturePage((nativeImage: NativeImage) => {
       this.autocorrectInputUrl();
-      if (this.recorderActive) {
-        const image: string = nativeImage.toDataURL();
-        const action: Action = new GoTo(image, this.inputUrl);
-        this.sequence.addAction(action);
-        this.actionEmitter.emit(action);
-      }
+      const image: string = nativeImage.toDataURL();
+      const action: Action = new GoTo(image, this.inputUrl);
+      this.sequence.addAction(action);
+      this.actionEmitter.emit(action);
       this.webview.loadURL(this.inputUrl);
     });
   }

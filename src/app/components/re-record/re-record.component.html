@@ -1,3 +1,6 @@
+<nav class="navbar navbar-light bg-light">
+  <span class="navbar-brand">Navbar</span>
+</nav>
 <div class="row" *ngIf="!showBrowserWindow && currentAction">
   <div class="col-3">
     <button (click)="cancel.emit()" class="btn btn-sm btn-danger">
@@ -63,7 +66,7 @@
         </button>
       </div>
     </div>
-    <app-browser-window [recorderActive]="recorderActive" [settings]="settings" [sequence]="newSequence" (actionEmitter)="onNextAction()">
+    <app-browser-window [settings]="settings" [sequence]="newSequence" (actionEmitter)="onNextAction()">
     </app-browser-window>
   </div>
 </div>
