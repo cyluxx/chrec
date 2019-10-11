@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Action } from 'chrec-core/lib/model/action/action';
 import { GoTo } from 'chrec-core/lib/model/action/go-to';
 import { HtmlElementAction } from 'chrec-core/lib/model/action/html-element-action/html-element-action';
 import { Read } from 'chrec-core/lib/model/action/html-element-action/read';
 import { Type } from 'chrec-core/lib/model/action/html-element-action/type';
 import { Locator } from 'chrec-core/lib/model/locator/locator';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-action',
@@ -15,7 +16,15 @@ export class ActionComponent {
 
   @Input() action: Action;
 
-  constructor() { }
+  @Output() deleteAction = new EventEmitter<Action>();
+
+  constructor(private modalService: NgbModal) { }
+
+  showDeleteModal(deleteSequenceModalContent: any) {
+    this.modalService.open(deleteSequenceModalContent).result.then(() => {
+      this.deleteAction.emit(this.action);
+    }, () => { });
+  }
 
   public isGoTo(action: Action): boolean {
     return action instanceof GoTo;

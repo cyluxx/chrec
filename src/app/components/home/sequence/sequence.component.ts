@@ -28,6 +28,12 @@ export class SequenceComponent {
 
   constructor(private modalService: NgbModal, private replayService: ReplayService) { }
 
+  onDeleteAction(action: Action) {
+    this.sequence.actions = this.sequence.actions.filter(act => act !== action);
+    this.projectEmitter.emit(this.project);
+    this.currentAction = null;
+  }
+
   async onTestSequence(reRecordSequenceModalContent: any) {
     this.projectEmitter.emit(await this.replayService.testSequence(this.project, this.sequence, this.settings));
     this.replayService.setRecommendedLocators(this.project);
