@@ -2,7 +2,8 @@
   <ngb-tab *ngFor="let sequence of project.sequences">
     <ng-template ngbTabTitle>{{sequence.name}}</ng-template>
     <ng-template ngbTabContent>
-      <app-sequence [project]="project" [sequence]="sequence" [settings]="settings" (projectEmitter)="projectEmitter.emit($event)"
+      <app-sequence [project]="project" [sequence]="sequence" [settings]="settings"
+        (projectEmitter)="projectEmitter.emit($event)" (deleteSequence)="onDeleteSequence($event)"
         (reRecordSequence)="reRecordSequence.emit($event)">
       </app-sequence>
     </ng-template>

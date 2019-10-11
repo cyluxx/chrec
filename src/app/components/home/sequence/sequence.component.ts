@@ -19,6 +19,7 @@ export class SequenceComponent {
   @Input() settings: Settings;
 
   @Output() projectEmitter = new EventEmitter<Project>();
+  @Output() deleteSequence = new EventEmitter<Sequence>();
   @Output() reRecordSequence = new EventEmitter<Sequence>();
 
   currentAction: Action;
@@ -45,6 +46,12 @@ export class SequenceComponent {
   showReRecordModal(reRecordSequenceModalContent: any) {
     this.modalService.open(reRecordSequenceModalContent).result.then(() => {
       this.reRecordSequence.emit(this.errorSequence);
+    }, () => { });
+  }
+
+  showDeleteModal(deleteSequenceModalContent: any) {
+    this.modalService.open(deleteSequenceModalContent).result.then(() => {
+      this.deleteSequence.emit(this.sequence);
     }, () => { });
   }
 

@@ -47,8 +47,8 @@
     </div>
   </div>
   <div class="card-body">
-    <app-recorded-sequences *ngIf="!showTestResults" [project]="project" [settings]="settings"
-    (projectEmitter)="onProject($event)" (reRecordSequence)="reRecordSequence.emit($event)"></app-recorded-sequences>
+    <app-recorded-sequences *ngIf="!showTestResults" [project]="project" [settings]="settings" (projectEmitter)="onProject($event)"
+      (reRecordSequence)="reRecordSequence.emit($event)"></app-recorded-sequences>
     <app-test-results *ngIf="showTestResults" [project]="project"></app-test-results>
   </div>
 </div>

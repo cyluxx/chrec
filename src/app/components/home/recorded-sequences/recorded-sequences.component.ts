@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Project } from 'chrec-core/lib/model/project';
 import { Settings } from '../../../model/settings';
 import { Sequence } from 'chrec-core/lib/model/sequence';
@@ -17,6 +17,8 @@ export class RecordedSequencesComponent {
   @Output() reRecordSequence = new EventEmitter<Sequence>();
   @Output() recordSequence = new EventEmitter<Sequence>();
 
-  constructor() { }
-
+  onDeleteSequence(sequence: Sequence) {
+    this.project.sequences = this.project.sequences.filter(seq => seq !== sequence);
+    this.projectEmitter.emit(this.project);
+  }
 }
