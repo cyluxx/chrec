@@ -14,7 +14,7 @@
     <input [(ngModel)]="inputUrl" (keyup.enter)="onLoadUrl()" type="text" class="form-control">
   </div>
 </nav>
-<div class="row mt-1">
+<div class="row">
   <div class="col">
     <webview #webview src="https://www.github.com/" [attr.preload]="preloadScriptPath"></webview>
   </div>
